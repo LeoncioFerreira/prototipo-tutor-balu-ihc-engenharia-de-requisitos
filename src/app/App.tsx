@@ -43,9 +43,9 @@ export default function App() {
   const tela = new URLSearchParams(window.location.search).get("tela")?.toLowerCase();
   const [view,setView]=useState<View>("login"); const [tasks,setTasks]=useState(initialTasks);
   if (tela === "2") return <CreateAccountScreen />;
-  if (tela && figmaScreens[tela]) return <CatalogScreen numero={tela.toUpperCase()} {...figmaScreens[tela]} />;
+  if (tela && figmaScreens[tela]) return <CatalogScreen numero={tela.toUpperCase()} {...figmaScreens[tela]} onNavigate={(target) => { window.history.replaceState({}, "", "/"); setView(target); }} />;
   if(view === "login") return <LoginScreen onEnter={() => setView("home")}/>;
-  if(view === "home") return <FigmaHomeScreen medicineDone={tasks.find(task => task.id === "medicine")?.done ?? false} onCompleteMedicine={() => setTasks(current => current.map(task => task.id === "medicine" ? { ...task, done: !task.done } : task))} onNavigate={setView}/>;
+  if(view === "home") return <FigmaHomeScreen medicineDone={tasks.find(task => task.id === "medicine")?.done ?? false} walkDone={tasks.find(task => task.id === "walk")?.done ?? false} onCompleteMedicine={() => setTasks(current => current.map(task => task.id === "medicine" ? { ...task, done: !task.done } : task))} onCompleteWalk={() => setTasks(current => current.map(task => task.id === "walk" ? { ...task, done: !task.done } : task))} onNavigate={setView}/>;
   if(view === "pets") return <CatalogScreen numero="7" titulo="Meus Pets" imagem="/assets/figma/tela-07.png" onNavigate={setView} />;
   if(view === "community") return <CatalogScreen numero="15" titulo="Comunidades Temáticas" imagem="/assets/figma/tela-15.png" onNavigate={setView} />;
   if(view === "chat") return <CatalogScreen numero="14" titulo="Conversa com Balu" imagem="/assets/figma/tela-14.png" onNavigate={setView} />;

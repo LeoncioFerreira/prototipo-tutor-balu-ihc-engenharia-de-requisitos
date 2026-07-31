@@ -35,3 +35,12 @@ test("mantém a navegação inferior funcional nas telas fiéis ao figma", async
   await user.click(screen.getByRole("button", { name: "Início" }));
   expect(screen.getByRole("heading", { name: /olá, leôncio/i })).toBeInTheDocument();
 });
+
+test("mostra o frame concluído ao marcar um cuidado", async () => {
+  const user = userEvent.setup();
+  window.history.pushState({}, "", "/");
+  render(<App />);
+  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await user.click(screen.getByRole("checkbox", { name: /vermífugo chemital/i }));
+  expect(screen.getByAltText(/tela 5: home do tutor/i)).toHaveAttribute("src", "/assets/figma/tela-05a.png");
+});
