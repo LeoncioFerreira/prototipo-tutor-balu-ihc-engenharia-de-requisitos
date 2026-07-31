@@ -1,10 +1,1 @@
-import { InformationScreen } from "../../../components/ui/InformationScreen";
-export function HomeMedicineDoneScreen() {
-  return (
-    <InformationScreen
-      title="Cuidado concluído"
-      subtitle="Vermífugo registrado"
-      items={[{ title: "Vermífugo Chemital", description: "Concluído às 14:00" }]}
-    />
-  );
-}
+export { HomeTutorScreen as HomeMedicineDoneScreen } from "../tela-05-home-tutor/Screen";
