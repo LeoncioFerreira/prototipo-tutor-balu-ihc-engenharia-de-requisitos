@@ -1,4 +1,5 @@
-type Props = { numero: string; titulo: string; imagem?: string };
+type NavTarget = "home" | "pets" | "community" | "chat";
+type Props = { numero: string; titulo: string; imagem?: string; onNavigate?: (target: NavTarget) => void };
 
 type HomeProps = { onNavigate: (view: "pets" | "community" | "chat") => void; onCompleteMedicine: () => void; medicineDone: boolean };
 
@@ -8,10 +9,10 @@ export function FigmaHomeScreen({ onNavigate, onCompleteMedicine, medicineDone }
 }
 
 /** Frames estáticos do Figma que ainda não possuem fluxo interativo próprio. */
-export function CatalogScreen({ numero, titulo, imagem }: Props) {
+export function CatalogScreen({ numero, titulo, imagem, onNavigate }: Props) {
   return <main className="min-h-[100dvh] bg-[#202124] text-[#002045]"><section className="relative mx-auto min-h-[100dvh] w-full max-w-[393px] overflow-hidden bg-[#f7fafc]">
     {imagem ? <img src={imagem} alt={`Tela ${numero}: ${titulo}`} className="block h-auto w-full" /> : <div className="flex min-h-[100dvh] flex-col justify-between p-5 pt-11"><header><p className="text-xs font-bold text-[#4a9e8f]">TELA {numero}</p><h1 className="mt-2 text-2xl font-extrabold">{titulo}</h1></header><img src="/assets/figma/logo-balu.png" alt="Balu" className="mx-auto w-44" /><p className="rounded-2xl border border-[#dce6ef] bg-white p-4 text-sm text-[#6b8297]">Esta tela será conectada ao fluxo correspondente do Balu.</p></div>}
-    {imagem && <h1 className="sr-only">{titulo}</h1>}
+    {imagem && <><h1 className="sr-only">{titulo}</h1>{onNavigate && <nav aria-label="Navegação principal" className="absolute inset-x-0 bottom-0 h-[86px]"><button aria-label="Início" onClick={() => onNavigate("home")} className="absolute bottom-[21px] left-[5%] h-14 w-[18%]" /><button aria-label="Pets" onClick={() => onNavigate("pets")} className="absolute bottom-[21px] left-[23%] h-14 w-[18%]" /><button aria-label="Comunidade" onClick={() => onNavigate("community")} className="absolute bottom-[21px] left-[42%] h-14 w-[24%]" /><button aria-label="Chat" onClick={() => onNavigate("chat")} className="absolute bottom-[21px] right-[5%] h-14 w-[18%]" /></nav>}</>}
   </section></main>;
 }
 

@@ -46,8 +46,8 @@ export default function App() {
   if (tela && figmaScreens[tela]) return <CatalogScreen numero={tela.toUpperCase()} {...figmaScreens[tela]} />;
   if(view === "login") return <LoginScreen onEnter={() => setView("home")}/>;
   if(view === "home") return <FigmaHomeScreen medicineDone={tasks.find(task => task.id === "medicine")?.done ?? false} onCompleteMedicine={() => setTasks(current => current.map(task => task.id === "medicine" ? { ...task, done: !task.done } : task))} onNavigate={setView}/>;
-  if(view === "pets") return <CatalogScreen numero="7" titulo="Meus Pets" imagem="/assets/figma/tela-07.png" />;
-  if(view === "community") return <CatalogScreen numero="15" titulo="Comunidades Temáticas" imagem="/assets/figma/tela-15.png" />;
-  if(view === "chat") return <CatalogScreen numero="14" titulo="Conversa com Balu" imagem="/assets/figma/tela-14.png" />;
+  if(view === "pets") return <CatalogScreen numero="7" titulo="Meus Pets" imagem="/assets/figma/tela-07.png" onNavigate={setView} />;
+  if(view === "community") return <CatalogScreen numero="15" titulo="Comunidades Temáticas" imagem="/assets/figma/tela-15.png" onNavigate={setView} />;
+  if(view === "chat") return <CatalogScreen numero="14" titulo="Conversa com Balu" imagem="/assets/figma/tela-14.png" onNavigate={setView} />;
   return <DetailScreen view={view} navigate={setView}/>;
 }

@@ -24,3 +24,14 @@ test("abre uma tela numerada diretamente pela URL", () => {
   render(<App />);
   expect(screen.getByRole("heading", { name: /medicamentos do pet/i })).toBeInTheDocument();
 });
+
+test("mantém a navegação inferior funcional nas telas fiéis ao figma", async () => {
+  const user = userEvent.setup();
+  window.history.pushState({}, "", "/");
+  render(<App />);
+  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await user.click(screen.getByRole("button", { name: "Pets" }));
+  expect(screen.getByRole("heading", { name: /meus pets/i })).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Início" }));
+  expect(screen.getByRole("heading", { name: /olá, leôncio/i })).toBeInTheDocument();
+});
