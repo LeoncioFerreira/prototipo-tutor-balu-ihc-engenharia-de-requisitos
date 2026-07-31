@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowLeft, Bell, Bot, Check, ChevronRight, CircleHelp, Heart, Home, MessageCircle, PawPrint, Plus, Search, Send, Stethoscope, Users } from "lucide-react";
 import { LoginScreen } from "../features/acesso/tela-01-login/Screen";
+import { CatalogScreen, figmaScreens } from "../features/catalogo-telas/Screen";
 import { findChatbotReply } from "../features/comunicacao/tela-14-chatbot-balu/matcher";
 
 type View = "login" | "home" | "pets" | "community" | "chat" | "pet" | "club" | "profile" | "care" | "appointment";
@@ -37,4 +38,9 @@ function ChatScreen({ navigate }: { navigate: (view: View) => void }) { const [d
 
 function DetailScreen({ view, navigate }: { view: Extract<View,"pet"|"club"|"profile"|"care"|"appointment">; navigate:(v:View)=>void }) { const config={pet:["Perfil do Balu","Samoieda • 2 anos • 22 kg"],club:["Clube dos Caramelos","Comunidade de tutores e seus pets"],profile:["Perfil do tutor","Leôncio Ferreira"],care:["Cuidado compartilhado","Tutores vinculados ao Balu"],appointment:["Marcar consulta","Selecione a clínica e o melhor horário"]}[view]; return <Layout active="pets" navigate={navigate}><Back navigate={navigate} to={view==="club"?"community":"pets"}/><section className="mt-6 rounded-[18px] border border-[#e2e8f0] bg-white p-5 shadow-sm"><span className="grid h-14 w-14 place-items-center rounded-full bg-[#e6f7f4]"><Stethoscope/></span><h1 className="mt-4 text-xl font-extrabold">{config[0]}</h1><p className="mt-1 text-sm text-[#4a5568]">{config[1]}</p><div className="mt-6 space-y-3">{["Informações", "Saúde e vacinas", "Documentos", "Preferências"].map(item=><button key={item} className="flex w-full items-center justify-between rounded-xl border border-[#e2e8f0] p-4 text-left text-sm font-semibold">{item}<ChevronRight size={18}/></button>)}</div></section></Layout>; }
 
-export default function App() { const [view,setView]=useState<View>("login"); const [tasks,setTasks]=useState(initialTasks); if(view === "login") return <LoginScreen onEnter={() => setView("home")}/>; if(view === "home") return <HomeScreen navigate={setView} tasks={tasks} setTasks={setTasks}/>; if(view === "pets") return <PetsScreen navigate={setView}/>; if(view === "community") return <CommunityScreen navigate={setView}/>; if(view === "chat") return <ChatScreen navigate={setView}/>; return <DetailScreen view={view} navigate={setView}/>; }
+export default function App() {
+  const tela = new URLSearchParams(window.location.search).get("tela")?.toLowerCase();
+  const [view,setView]=useState<View>("login"); const [tasks,setTasks]=useState(initialTasks);
+  if (tela && figmaScreens[tela]) return <CatalogScreen numero={tela.toUpperCase()} {...figmaScreens[tela]} />;
+  if(view === "login") return <LoginScreen onEnter={() => setView("home")}/>; if(view === "home") return <HomeScreen navigate={setView} tasks={tasks} setTasks={setTasks}/>; if(view === "pets") return <PetsScreen navigate={setView}/>; if(view === "community") return <CommunityScreen navigate={setView}/>; if(view === "chat") return <ChatScreen navigate={setView}/>; return <DetailScreen view={view} navigate={setView}/>;
+}

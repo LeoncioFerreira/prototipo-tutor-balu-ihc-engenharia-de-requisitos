@@ -18,3 +18,9 @@ test("conclui uma tarefa e atualiza o XP", async () => {
   await user.click(screen.getByRole("checkbox", { name: /vermífugo chemital/i }));
   expect(screen.getByText(/nível 4/i)).toBeInTheDocument();
 });
+
+test("abre uma tela numerada diretamente pela URL", () => {
+  window.history.pushState({}, "", "/?tela=10");
+  render(<App />);
+  expect(screen.getByRole("heading", { name: /medicamentos do pet/i })).toBeInTheDocument();
+});
