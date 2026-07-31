@@ -3,10 +3,16 @@ import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import App from "./App";
 
+async function enterAsAdmin(user: ReturnType<typeof userEvent.setup>) {
+  await user.type(screen.getByLabelText(/e-mail/i), "admin");
+  await user.type(screen.getByLabelText(/^senha$/i), "123");
+  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+}
+
 test("entra no app e abre o chatbot pelo menu inferior", async () => {
   const user = userEvent.setup();
   render(<App />);
-  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await enterAsAdmin(user);
   await user.click(screen.getByRole("button", { name: /chat/i }));
   expect(screen.getByRole("heading", { name: /conversa com balu/i })).toBeInTheDocument();
 });
@@ -14,7 +20,7 @@ test("entra no app e abre o chatbot pelo menu inferior", async () => {
 test("conclui uma tarefa pela caixa de seleção", async () => {
   const user = userEvent.setup();
   render(<App />);
-  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await enterAsAdmin(user);
   await user.click(screen.getByRole("checkbox", { name: /vermífugo chemital/i }));
   expect(screen.getByRole("checkbox", { name: /vermífugo chemital/i })).toBeChecked();
 });
@@ -29,7 +35,7 @@ test("mantém a navegação inferior funcional nas telas fiéis ao figma", async
   const user = userEvent.setup();
   window.history.pushState({}, "", "/");
   render(<App />);
-  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await enterAsAdmin(user);
   await user.click(screen.getByRole("button", { name: "Pets" }));
   expect(screen.getByRole("heading", { name: /meus pets/i })).toBeInTheDocument();
   await user.click(screen.getByRole("button", { name: "Início" }));
@@ -40,7 +46,7 @@ test("abre o perfil do pet pelo frame 8 do figma", async () => {
   const user = userEvent.setup();
   window.history.pushState({}, "", "/");
   render(<App />);
-  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await enterAsAdmin(user);
   await user.click(screen.getByRole("button", { name: "Pets" }));
   await user.click(screen.getAllByRole("button", { name: /ver perfil/i })[0]);
   expect(screen.getByRole("heading", { name: /perfil do pet/i })).toBeInTheDocument();
@@ -51,7 +57,7 @@ test("marca um cuidado sem depender de uma imagem de tela", async () => {
   const user = userEvent.setup();
   window.history.pushState({}, "", "/");
   render(<App />);
-  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await enterAsAdmin(user);
   await user.click(screen.getByRole("checkbox", { name: /vermífugo chemital/i }));
   expect(screen.getByRole("checkbox", { name: /vermífugo chemital/i })).toBeChecked();
   expect(screen.getByText(/nível 4/i)).toBeInTheDocument();

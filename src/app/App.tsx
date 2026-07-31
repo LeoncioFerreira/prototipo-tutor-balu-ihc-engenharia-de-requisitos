@@ -16,6 +16,8 @@ import {
   Users,
 } from "lucide-react";
 import { LoginScreen } from "../features/acesso/tela-01-login/Screen";
+import { ForgotPasswordScreen } from "../features/acesso/tela-01a-recuperar-senha/Screen";
+import { ProviderUnavailableScreen } from "../features/acesso/tela-01b-provedor-nao-implementado/Screen";
 import { CreateAccountScreen } from "../features/acesso/tela-02-criar-conta/Screen";
 import { RegisterPetScreen } from "../features/acesso/tela-03-cadastrar-pet/Screen";
 import { ExperienceScreen } from "../features/acesso/tela-04-escolha-experiencia/Screen";
@@ -52,7 +54,9 @@ type View =
   | "club"
   | "profile"
   | "care"
-  | "appointment";
+  | "appointment"
+  | "forgot"
+  | "provider";
 type Task = {
   id: string;
   time: string;
@@ -548,6 +552,7 @@ export default function App() {
   const tela = new URLSearchParams(window.location.search).get("tela")?.toLowerCase();
   const [screen, setScreen] = useState(tela);
   const [view, setView] = useState<View>("login");
+  const [provider, setProvider] = useState<"Google" | "Apple">("Google");
   const [tasks, setTasks] = useState(initialTasks);
   const open = (next: View) => {
     window.history.replaceState({}, "", "/");
@@ -569,9 +574,20 @@ export default function App() {
     const NumberedScreen = numberedScreenComponents[screen];
     return <NumberedScreen />;
   }
+  if (view === "forgot") return <ForgotPasswordScreen onBack={() => setView("login")} />;
+  if (view === "provider")
+    return <ProviderUnavailableScreen provider={provider} onBack={() => setView("login")} />;
   if (view === "login")
     return (
-      <LoginScreen onEnter={() => setView("home")} onCreateAccount={() => setView("account")} />
+      <LoginScreen
+        onEnter={() => setView("home")}
+        onCreateAccount={() => setView("account")}
+        onForgotPassword={() => setView("forgot")}
+        onProvider={(next) => {
+          setProvider(next);
+          setView("provider");
+        }}
+      />
     );
   if (view === "account")
     return <CreateAccountScreen onEnter={() => openScreen("3")} onLogin={() => setView("login")} />;

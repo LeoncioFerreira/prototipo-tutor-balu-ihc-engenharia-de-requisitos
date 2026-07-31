@@ -1,4 +1,6 @@
 @use "../features/acesso/tela-01-login/Screen" as *;
+@use "../features/acesso/tela-01a-recuperar-senha/Screen" as *;
+@use "../features/acesso/tela-01b-provedor-nao-implementado/Screen" as *;
 @use "../features/acesso/tela-02-criar-conta/Screen" as *;
 @use "../features/acesso/tela-03-cadastrar-pet/Screen" as *;
 @use "../features/acesso/tela-04-escolha-experiencia/Screen" as *;
