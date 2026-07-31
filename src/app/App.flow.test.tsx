@@ -36,6 +36,17 @@ test("mantém a navegação inferior funcional nas telas fiéis ao figma", async
   expect(screen.getByRole("heading", { name: /olá, leôncio/i })).toBeInTheDocument();
 });
 
+test("abre o perfil do pet pelo frame 8 do figma", async () => {
+  const user = userEvent.setup();
+  window.history.pushState({}, "", "/");
+  render(<App />);
+  await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+  await user.click(screen.getByRole("button", { name: "Pets" }));
+  await user.click(screen.getAllByRole("button", { name: /ver perfil/i })[0]);
+  expect(screen.getByRole("heading", { name: /perfil do pet/i })).toBeInTheDocument();
+  expect(screen.getByText(/rotina do pet/i)).toBeInTheDocument();
+});
+
 test("marca um cuidado sem depender de uma imagem de tela", async () => {
   const user = userEvent.setup();
   window.history.pushState({}, "", "/");

@@ -305,7 +305,13 @@ function HomeScreen({
   );
 }
 
-function PetsScreen({ navigate }: { navigate: (view: View) => void }) {
+function PetsScreen({
+  navigate,
+  openScreen,
+}: {
+  navigate: (view: View) => void;
+  openScreen: (screen: string) => void;
+}) {
   return (
     <Layout active="pets" navigate={navigate}>
       <h1 className="text-xl font-extrabold">Meus pets</h1>
@@ -339,7 +345,7 @@ function PetsScreen({ navigate }: { navigate: (view: View) => void }) {
             </div>
             <div className="mt-4 flex gap-3">
               <button
-                onClick={() => navigate("pet")}
+                onClick={() => openScreen("8")}
                 className="rounded-full bg-[#183a78] px-3 py-2 text-[13px] font-semibold text-white"
               >
                 Ver perfil
@@ -580,7 +586,7 @@ export default function App() {
   if (view === "account")
     return <CreateAccountScreen onEnter={() => openScreen("3")} onLogin={() => setView("login")} />;
   if (view === "home") return <HomeScreen navigate={setView} tasks={tasks} setTasks={setTasks} />;
-  if (view === "pets") return <PetsScreen navigate={setView} />;
+  if (view === "pets") return <PetsScreen navigate={setView} openScreen={openScreen} />;
   if (view === "community") return <CommunityScreen navigate={setView} />;
   if (view === "chat") return <ChatScreen navigate={setView} />;
   return <DetailScreen view={view} navigate={setView} />;
