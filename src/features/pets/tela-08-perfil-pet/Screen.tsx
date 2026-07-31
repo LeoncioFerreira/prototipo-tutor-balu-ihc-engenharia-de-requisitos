@@ -20,7 +20,7 @@ const cards = [
     "Abrir carteira de saúde",
   ],
 ];
-export function PetProfileScreen() {
+export function PetProfileScreen({ onOpen }: { onOpen?: (screen: string) => void }) {
   return (
     <MobileShell>
       <PageHeader title="Perfil do Pet" onBack={() => history.back()} />
@@ -44,7 +44,7 @@ export function PetProfileScreen() {
         <button className="rounded-full border border-[#e2e8f0] px-3 py-2">Ver carteira</button>
       </nav>
       <div className="mt-4 space-y-4">
-        {cards.map(([title, text, status, action]) => (
+        {cards.map(([title, text, status, action], index) => (
           <article key={title} className="rounded-2xl border-[1.5px] border-[#e2e8f0] bg-white p-3">
             <div className="flex justify-between">
               <h3 className="font-bold">{title}</h3>
@@ -53,13 +53,19 @@ export function PetProfileScreen() {
               </span>
             </div>
             <p className="mt-2 text-xs text-[#4a5568]">{text}</p>
-            <button className="mt-3 rounded-full bg-[#002045] px-3 py-2 text-[11px] font-bold text-white">
+            <button
+              onClick={() => onOpen?.(["9", "10", "11"][index]!)}
+              className="mt-3 rounded-full bg-[#002045] px-3 py-2 text-[11px] font-bold text-white"
+            >
               {action}
             </button>
           </article>
         ))}
       </div>
-      <button className="mt-4 w-full rounded-full bg-[#002045] py-3 text-sm font-bold text-white">
+      <button
+        onClick={() => onOpen?.("12")}
+        className="mt-4 w-full rounded-full bg-[#002045] py-3 text-sm font-bold text-white"
+      >
         Gerenciar cuidadores
       </button>
     </MobileShell>

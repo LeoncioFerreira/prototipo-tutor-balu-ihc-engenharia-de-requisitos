@@ -565,6 +565,7 @@ export default function App() {
     return <RegisterPetScreen onBack={() => open("account")} onComplete={() => openScreen("4")} />;
   if (screen === "4" || screen === "4g" || screen === "4t")
     return <ExperienceScreen onBack={() => openScreen("3")} onComplete={() => open("home")} />;
+  if (screen === "8") return <PetProfileScreen onOpen={openScreen} />;
   if (screen && numberedScreenComponents[screen]) {
     const NumberedScreen = numberedScreenComponents[screen];
     return <NumberedScreen />;
