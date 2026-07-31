@@ -18,13 +18,13 @@ export function CatalogScreen({ numero, titulo, imagem, onNavigate }: Props) {
 }
 
 export const figmaScreens: Record<string, { titulo: string; imagem?: string }> = {
-  "2": { titulo: "Criar Conta" }, "3": { titulo: "Cadastrar Pet" }, "4": { titulo: "Escolha de Experiência", imagem: "/assets/figma/tela-04.png" },
+  "2": { titulo: "Criar Conta" }, "3": { titulo: "Cadastrar Pet", imagem: "/assets/figma/tela-03.png" }, "4": { titulo: "Escolha de Experiência", imagem: "/assets/figma/tela-04.png" },
   "4t": { titulo: "Experiência Tradicional Selecionada", imagem: "/assets/figma/tela-04.png" }, "4g": { titulo: "Experiência Gamificada Selecionada", imagem: "/assets/figma/tela-04g.png" },
   "5": { titulo: "Home do Tutor", imagem: "/assets/figma/tela-05-home.png" }, "5a": { titulo: "Home do Tutor — Vermífugo Concluído", imagem: "/assets/figma/tela-05a.png" }, "5b": { titulo: "Home do Tutor — Passeio Concluído", imagem: "/assets/figma/tela-05b.png" },
   "5t": { titulo: "Home Tradicional", imagem: "/assets/figma/tela-05t.png" }, "5ta": { titulo: "Home Tradicional — Vermífugo Concluído", imagem: "/assets/figma/tela-05ta.png" }, "5tb": { titulo: "Home Tradicional — Passeio Concluído", imagem: "/assets/figma/tela-05tb.png" },
-  "6": { titulo: "Perfil do Tutor", imagem: "/assets/figma/tela-06.png" }, "6a": { titulo: "Notificações" }, "6b": { titulo: "Solicitação de Vínculo com Clínica" },
+  "6": { titulo: "Perfil do Tutor", imagem: "/assets/figma/tela-06.png" }, "6a": { titulo: "Notificações", imagem: "/assets/figma/tela-06a.png" }, "6b": { titulo: "Solicitação de Vínculo com Clínica", imagem: "/assets/figma/tela-06b.png" },
   "7": { titulo: "Meus Pets", imagem: "/assets/figma/tela-07.png" }, "7a": { titulo: "Adicionar Pet", imagem: "/assets/figma/tela-07a.png" }, "8": { titulo: "Perfil do Pet", imagem: "/assets/figma/tela-08.png" },
-  "9": { titulo: "Ver rotina", imagem: "/assets/figma/tela-09.png" }, "10": { titulo: "Medicamentos do Pet", imagem: "/assets/figma/tela-10.png" }, "11": { titulo: "Ver carteira" },
+  "9": { titulo: "Ver rotina", imagem: "/assets/figma/tela-09.png" }, "10": { titulo: "Medicamentos do Pet", imagem: "/assets/figma/tela-10.png" }, "11": { titulo: "Ver carteira", imagem: "/assets/figma/tela-11.png" },
   "12": { titulo: "Cuidado Compartilhado", imagem: "/assets/figma/tela-12.png" }, "13": { titulo: "Adicionar Tutor", imagem: "/assets/figma/tela-13.png" },
-  "14": { titulo: "Chatbot Balu", imagem: "/assets/figma/tela-14.png" }, "15": { titulo: "Comunidades Temáticas", imagem: "/assets/figma/tela-15.png" }, "16": { titulo: "Clube dos Caramelos" },
+  "14": { titulo: "Chatbot Balu", imagem: "/assets/figma/tela-14.png" }, "15": { titulo: "Comunidades Temáticas", imagem: "/assets/figma/tela-15.png" }, "16": { titulo: "Clube dos Caramelos", imagem: "/assets/figma/tela-16.png" },
 };
