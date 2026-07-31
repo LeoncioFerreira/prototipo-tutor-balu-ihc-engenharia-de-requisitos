@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function CommunitiesScreen() { return <CatalogScreen numero="15" titulo="Comunidades Temáticas" imagem="/assets/figma/tela-15.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function CommunitiesScreen() { return <InformationScreen title="Comunidades temáticas" subtitle="Encontre outros tutores" items={[{ title: "Clube dos Caramelos", description: "2,4 mil membros" }, { title: "Gateiros unidos", description: "1,8 mil membros" }]} button="Explorar comunidades" />; }

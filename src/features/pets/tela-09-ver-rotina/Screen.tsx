@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function RoutineScreen() { return <CatalogScreen numero="9" titulo="Ver rotina" imagem="/assets/figma/tela-09.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function RoutineScreen() { return <InformationScreen title="Rotina" subtitle="Cuidados do Balu" items={[{ title: "08:00 • Alimentação", description: "Concluído" }, { title: "14:00 • Vermífugo Chemital", description: "Pendente" }, { title: "18:00 • Passeio diário", description: "Pendente" }]} />; }

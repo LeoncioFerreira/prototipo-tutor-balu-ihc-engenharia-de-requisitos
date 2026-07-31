@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function AddPetScreen() { return <CatalogScreen numero="7A" titulo="Adicionar Pet" imagem="/assets/figma/tela-07a.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function AddPetScreen() { return <InformationScreen title="Adicionar pet" subtitle="Cadastre mais um companheiro" items={[{ title: "Dados básicos", description: "Nome, espécie e raça" }]} button="Cadastrar pet" />; }

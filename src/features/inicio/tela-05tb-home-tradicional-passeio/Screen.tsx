@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function TraditionalHomeWalkScreen() { return <CatalogScreen numero="5TB" titulo="Home Tradicional — Passeio Concluído" imagem="/assets/figma/tela-05tb.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function TraditionalHomeWalkScreen() { return <InformationScreen title="Rotina atualizada" subtitle="Passeio concluído" items={[{ title: "Passeio diário", description: "Concluído" }]} />; }

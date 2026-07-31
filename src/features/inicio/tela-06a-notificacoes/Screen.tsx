@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function NotificationsScreen() { return <CatalogScreen numero="6A" titulo="Notificações" imagem="/assets/figma/tela-06a.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function NotificationsScreen() { return <InformationScreen title="Notificações" subtitle="Lembretes do Balu" items={[{ title: "Vermífugo Chemital", description: "Hoje às 14:00" }, { title: "Vacina anual", description: "Em 12 de agosto" }]} />; }

@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function HomeMedicineDoneScreen() { return <CatalogScreen numero="5A" titulo="Home do Tutor — Vermífugo Concluído" imagem="/assets/figma/tela-05a.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function HomeMedicineDoneScreen() { return <InformationScreen title="Cuidado concluído" subtitle="Vermífugo registrado" items={[{ title: "Vermífugo Chemital", description: "Concluído às 14:00" }]} />; }

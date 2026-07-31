@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function CaramelClubScreen() { return <CatalogScreen numero="16" titulo="Clube dos Caramelos" imagem="/assets/figma/tela-16.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function CaramelClubScreen() { return <InformationScreen title="Clube dos Caramelos" subtitle="Uma comunidade para trocar experiências" items={[{ title: "Publicações", description: "Confira as conversas do clube" }, { title: "Membros", description: "2,4 mil tutores" }]} button="Entrar no clube" />; }

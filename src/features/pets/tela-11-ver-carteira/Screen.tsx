@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function WalletScreen() { return <CatalogScreen numero="11" titulo="Ver carteira" imagem="/assets/figma/tela-11.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function WalletScreen() { return <InformationScreen title="Carteira do pet" subtitle="Vacinas e documentos do Balu" items={[{ title: "Vacina antirrábica", description: "Em dia" }, { title: "Carteira de vacinação", description: "Atualizada" }]} />; }

@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function ClinicLinkScreen() { return <CatalogScreen numero="6B" titulo="Solicitação de Vínculo com Clínica" imagem="/assets/figma/tela-06b.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function ClinicLinkScreen() { return <InformationScreen title="Vínculo com clínica" subtitle="Conecte o Balu à clínica veterinária" items={[{ title: "Clínica Vet Mais", description: "Aguardando aprovação" }]} button="Enviar solicitação" />; }

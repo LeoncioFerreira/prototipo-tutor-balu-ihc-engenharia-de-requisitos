@@ -1,2 +1,2 @@
-import { CatalogScreen } from "../../catalogo-telas/Screen";
-export function TutorProfileScreen() { return <CatalogScreen numero="6" titulo="Perfil do Tutor" imagem="/assets/figma/tela-06.png" />; }
+import { InformationScreen } from "../../../components/ui/InformationScreen";
+export function TutorProfileScreen() { return <InformationScreen title="Perfil do tutor" subtitle="Leôncio Ferreira" items={[{ title: "Dados pessoais", description: "E-mail e telefone" }, { title: "Preferências", description: "Experiência gamificada" }]} />; }

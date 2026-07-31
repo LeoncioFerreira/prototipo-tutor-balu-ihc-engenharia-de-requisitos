@@ -1,8 +1,30 @@
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import { ArrowLeft, Bell, Bot, Check, ChevronRight, CircleHelp, Heart, Home, MessageCircle, PawPrint, Plus, Search, Send, Stethoscope, Users } from "lucide-react";
 import { LoginScreen } from "../features/acesso/tela-01-login/Screen";
 import { CreateAccountScreen } from "../features/acesso/tela-02-criar-conta/Screen";
-import { CatalogScreen, FigmaHomeScreen, figmaScreens } from "../features/catalogo-telas/Screen";
+import { RegisterPetScreen } from "../features/acesso/tela-03-cadastrar-pet/Screen";
+import { ExperienceScreen } from "../features/acesso/tela-04-escolha-experiencia/Screen";
+import { InformationScreen } from "../components/ui/InformationScreen";
+import { HomeTutorScreen } from "../features/inicio/tela-05-home-tutor/Screen";
+import { HomeMedicineDoneScreen } from "../features/inicio/tela-05a-home-vermifugo-concluido/Screen";
+import { HomeWalkDoneScreen } from "../features/inicio/tela-05b-home-passeio-concluido/Screen";
+import { TraditionalHomeScreen } from "../features/inicio/tela-05t-home-tradicional/Screen";
+import { TraditionalHomeMedicineScreen } from "../features/inicio/tela-05ta-home-tradicional-vermifugo/Screen";
+import { TraditionalHomeWalkScreen } from "../features/inicio/tela-05tb-home-tradicional-passeio/Screen";
+import { TutorProfileScreen } from "../features/inicio/tela-06-perfil-tutor/Screen";
+import { NotificationsScreen } from "../features/inicio/tela-06a-notificacoes/Screen";
+import { ClinicLinkScreen } from "../features/pets/tela-06b-vinculo-clinica/Screen";
+import { MyPetsScreen } from "../features/pets/tela-07-meus-pets/Screen";
+import { AddPetScreen } from "../features/pets/tela-07a-adicionar-pet/Screen";
+import { PetProfileScreen } from "../features/pets/tela-08-perfil-pet/Screen";
+import { RoutineScreen } from "../features/pets/tela-09-ver-rotina/Screen";
+import { MedicinesScreen } from "../features/pets/tela-10-ver-remedios/Screen";
+import { WalletScreen } from "../features/pets/tela-11-ver-carteira/Screen";
+import { SharedCareScreen } from "../features/pets/tela-12-cuidado-compartilhado/Screen";
+import { AddTutorScreen } from "../features/pets/tela-13-adicionar-tutor/Screen";
+import { ChatbotBaluScreen } from "../features/comunicacao/tela-14-chatbot-balu/Screen";
+import { CommunitiesScreen } from "../features/comunidade/tela-15-comunidades-tematicas/Screen";
+import { CaramelClubScreen } from "../features/comunidade/tela-16-clube-caramelos/Screen";
 import { findChatbotReply } from "../features/comunicacao/tela-14-chatbot-balu/matcher";
 
 type View = "login" | "account" | "home" | "pets" | "community" | "chat" | "pet" | "club" | "profile" | "care" | "appointment";
@@ -41,14 +63,52 @@ function DetailScreen({ view, navigate }: { view: Extract<View,"pet"|"club"|"pro
 
 export default function App() {
   const tela = new URLSearchParams(window.location.search).get("tela")?.toLowerCase();
+  const [screen, setScreen] = useState(tela);
   const [view,setView]=useState<View>("login"); const [tasks,setTasks]=useState(initialTasks);
-  if (tela === "2") return <CreateAccountScreen onEnter={() => setView("home")} />;
-  if (tela && figmaScreens[tela]) return <CatalogScreen numero={tela.toUpperCase()} {...figmaScreens[tela]} onNavigate={(target) => { window.history.replaceState({}, "", "/"); setView(target); }} />;
+  const open = (next: View) => { window.history.replaceState({}, "", "/"); setScreen(undefined); setView(next); };
+  const openScreen = (next: string) => { window.history.replaceState({}, "", `/?tela=${next}`); setScreen(next); };
+  if (screen === "2") return <CreateAccountScreen onEnter={() => openScreen("3")} onLogin={() => open("login")} />;
+  if (screen === "3") return <RegisterPetScreen onBack={() => open("account")} onComplete={() => openScreen("4")} />;
+  if (screen === "4" || screen === "4g" || screen === "4t") return <ExperienceScreen onBack={() => openScreen("3")} onComplete={() => open("home")} />;
+  if (screen && numberedScreenComponents[screen]) { const NumberedScreen = numberedScreenComponents[screen]; return <NumberedScreen />; }
+  if (screen && numberedScreens[screen]) { const item = numberedScreens[screen]; return <InformationScreen {...item} onBack={() => open(item.back)} onAction={() => open(item.action ?? item.back)} />; }
   if(view === "login") return <LoginScreen onEnter={() => setView("home")} onCreateAccount={() => setView("account")} />;
-  if(view === "account") return <CreateAccountScreen onEnter={() => setView("home")} />;
-  if(view === "home") return <FigmaHomeScreen medicineDone={tasks.find(task => task.id === "medicine")?.done ?? false} walkDone={tasks.find(task => task.id === "walk")?.done ?? false} onCompleteMedicine={() => setTasks(current => current.map(task => task.id === "medicine" ? { ...task, done: !task.done } : task))} onCompleteWalk={() => setTasks(current => current.map(task => task.id === "walk" ? { ...task, done: !task.done } : task))} onNavigate={setView}/>;
-  if(view === "pets") return <CatalogScreen numero="7" titulo="Meus Pets" imagem="/assets/figma/tela-07.png" onNavigate={setView} />;
-  if(view === "community") return <CatalogScreen numero="15" titulo="Comunidades Temáticas" imagem="/assets/figma/tela-15.png" onNavigate={setView} />;
-  if(view === "chat") return <CatalogScreen numero="14" titulo="Conversa com Balu" imagem="/assets/figma/tela-14.png" onNavigate={setView} />;
+  if(view === "account") return <CreateAccountScreen onEnter={() => openScreen("3")} onLogin={() => setView("login")} />;
+  if(view === "home") return <HomeScreen navigate={setView} tasks={tasks} setTasks={setTasks}/>;
+  if(view === "pets") return <PetsScreen navigate={setView} />;
+  if(view === "community") return <CommunityScreen navigate={setView} />;
+  if(view === "chat") return <ChatScreen navigate={setView} />;
   return <DetailScreen view={view} navigate={setView}/>;
 }
+
+const numberedScreenComponents: Record<string, ComponentType> = {
+  "5": HomeTutorScreen, "5a": HomeMedicineDoneScreen, "5b": HomeWalkDoneScreen,
+  "5t": TraditionalHomeScreen, "5ta": TraditionalHomeMedicineScreen, "5tb": TraditionalHomeWalkScreen,
+  "6": TutorProfileScreen, "6a": NotificationsScreen, "6b": ClinicLinkScreen,
+  "7": MyPetsScreen, "7a": AddPetScreen, "8": PetProfileScreen, "9": RoutineScreen,
+  "10": MedicinesScreen, "11": WalletScreen, "12": SharedCareScreen, "13": AddTutorScreen,
+  "14": ChatbotBaluScreen, "15": CommunitiesScreen, "16": CaramelClubScreen,
+};
+
+const numberedScreens: Record<string, { title: string; subtitle: string; items: { title: string; description?: string }[]; button?: string; back: View; action?: View }> = {
+  "5": { title: "Início", subtitle: "Rotina do Balu", items: [{ title: "Rotina de hoje", description: "3 cuidados programados" }, { title: "Nível 3", description: "Continue cuidando para ganhar XP" }], back: "home" },
+  "5a": { title: "Cuidado concluído", subtitle: "Vermífugo registrado", items: [{ title: "Vermífugo Chemital", description: "Concluído às 14:00" }], back: "home" },
+  "5b": { title: "Cuidado concluído", subtitle: "Passeio registrado", items: [{ title: "Passeio Diário", description: "Meta diária concluída" }], back: "home" },
+  "5t": { title: "Início", subtitle: "Experiência tradicional", items: [{ title: "Rotina de hoje", description: "Cuidado e bem-estar do Balu" }], back: "home" },
+  "5ta": { title: "Rotina atualizada", subtitle: "Vermífugo concluído", items: [{ title: "Vermífugo Chemital", description: "Concluído" }], back: "home" },
+  "5tb": { title: "Rotina atualizada", subtitle: "Passeio concluído", items: [{ title: "Passeio Diário", description: "Concluído" }], back: "home" },
+  "6": { title: "Perfil do tutor", subtitle: "Leôncio Ferreira", items: [{ title: "Dados pessoais", description: "E-mail e telefone" }, { title: "Preferências", description: "Experiência gamificada" }], back: "home" },
+  "6a": { title: "Notificações", subtitle: "Acompanhe os lembretes do Balu", items: [{ title: "Vermífugo Chemital", description: "Hoje às 14:00" }, { title: "Vacina anual", description: "Em 12 de agosto" }], back: "home" },
+  "6b": { title: "Vínculo com clínica", subtitle: "Conecte o Balu à clínica veterinária", items: [{ title: "Clínica Vet Mais", description: "Aguardando aprovação" }], button: "Enviar solicitação", back: "pets" },
+  "7": { title: "Meus pets", subtitle: "Escolha um pet para ver os cuidados", items: [{ title: "Balu", description: "Samoieda • 2 anos" }, { title: "Pipoca", description: "SRD • 4 anos" }, { title: "Pretinha", description: "SRD • 3 anos" }], button: "Adicionar pet", back: "pets", action: "pets" },
+  "7a": { title: "Adicionar pet", subtitle: "Cadastre mais um companheiro", items: [{ title: "Dados básicos", description: "Nome, espécie e raça" }], button: "Cadastrar pet", back: "pets" },
+  "8": { title: "Perfil do pet", subtitle: "Balu • Samoieda", items: [{ title: "Rotina", description: "Alimentação, passeios e cuidados" }, { title: "Medicamentos", description: "1 medicamento ativo" }, { title: "Carteira", description: "Vacinas e documentos" }], back: "pets" },
+  "9": { title: "Rotina", subtitle: "Cuidados do Balu", items: [{ title: "08:00 • Alimentação", description: "Concluído" }, { title: "14:00 • Vermífugo Chemital", description: "Pendente" }, { title: "18:00 • Passeio diário", description: "Pendente" }], back: "pets" },
+  "10": { title: "Medicamentos do pet", subtitle: "Histórico e próximos horários", items: [{ title: "Vermífugo Chemital", description: "Hoje às 14:00" }, { title: "Adicionar medicamento", description: "Registre um novo cuidado" }], back: "pets" },
+  "11": { title: "Carteira do pet", subtitle: "Vacinas e documentos do Balu", items: [{ title: "Vacina antirrábica", description: "Em dia" }, { title: "Carteira de vacinação", description: "Atualizada" }], back: "pets" },
+  "12": { title: "Cuidado compartilhado", subtitle: "Pessoas que cuidam do Balu", items: [{ title: "Leôncio", description: "Tutor principal" }, { title: "Adicionar tutor", description: "Compartilhe os cuidados" }], button: "Convidar tutor", back: "pets" },
+  "13": { title: "Adicionar tutor", subtitle: "Convide alguém para cuidar junto", items: [{ title: "E-mail do tutor", description: "O convite será enviado por e-mail" }], button: "Enviar convite", back: "pets" },
+  "14": { title: "Conversa com Balu", subtitle: "Assistente virtual", items: [{ title: "Dicas de saúde", description: "Pergunte sobre a rotina do seu pet" }], button: "Ir para o chat", back: "chat", action: "chat" },
+  "15": { title: "Comunidades temáticas", subtitle: "Encontre outros tutores", items: [{ title: "Clube dos Caramelos", description: "2,4 mil membros" }, { title: "Gateiros unidos", description: "1,8 mil membros" }], button: "Explorar comunidades", back: "community" },
+  "16": { title: "Clube dos Caramelos", subtitle: "Uma comunidade para trocar experiências", items: [{ title: "Publicações", description: "Confira as conversas do clube" }, { title: "Membros", description: "2,4 mil tutores" }], button: "Entrar no clube", back: "community" },
+};
