@@ -11,11 +11,10 @@ test("entra no app e abre o chatbot pelo menu inferior", async () => {
   expect(screen.getByRole("heading", { name: /converse com balu/i })).toBeInTheDocument();
 });
 
-test("mostra ícones Lucide na navegação inferior", async () => {
+test("navega para Comunidades pelo hotspot da barra original", async () => {
   const user = userEvent.setup();
   render(<App />);
   await user.click(screen.getByRole("button", { name: /^entrar$/i }));
-  for (const label of ["Início", "Pets", "Comunidade", "Chat"]) {
-    expect(screen.getAllByRole("button", { name: label }).some((button) => button.querySelector("svg"))).toBe(true);
-  }
+  await user.click(screen.getAllByRole("button", { name: "Comunidade" })[0]);
+  expect(screen.getByRole("img", { name: /tela community do balu/i }).getAttribute("src")).toContain("tela-15.png");
 });
