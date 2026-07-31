@@ -5,7 +5,7 @@ import { CreateAccountScreen } from "../features/acesso/tela-02-criar-conta/Scre
 import { CatalogScreen, FigmaHomeScreen, figmaScreens } from "../features/catalogo-telas/Screen";
 import { findChatbotReply } from "../features/comunicacao/tela-14-chatbot-balu/matcher";
 
-type View = "login" | "home" | "pets" | "community" | "chat" | "pet" | "club" | "profile" | "care" | "appointment";
+type View = "login" | "account" | "home" | "pets" | "community" | "chat" | "pet" | "club" | "profile" | "care" | "appointment";
 type Task = { id: string; time: string; title: string; description: string; done: boolean; xp: number };
 
 const pets = [{ name: "Balu", initial: "B", details: "Samoieda • 2 anos • 22 kg", badges: ["Carteira atualizada", "Cuidado compartilhado"] }, { name: "Pipoca", initial: "P", details: "SRD • 4 anos • 12 kg", badges: ["Próxima vacina em agosto", "1 tutor vinculado"] }, { name: "Pretinha", initial: "P", details: "SRD • 3 anos • 9 kg", badges: ["Carteira atualizada"] }];
@@ -42,9 +42,10 @@ function DetailScreen({ view, navigate }: { view: Extract<View,"pet"|"club"|"pro
 export default function App() {
   const tela = new URLSearchParams(window.location.search).get("tela")?.toLowerCase();
   const [view,setView]=useState<View>("login"); const [tasks,setTasks]=useState(initialTasks);
-  if (tela === "2") return <CreateAccountScreen />;
+  if (tela === "2") return <CreateAccountScreen onEnter={() => setView("home")} />;
   if (tela && figmaScreens[tela]) return <CatalogScreen numero={tela.toUpperCase()} {...figmaScreens[tela]} onNavigate={(target) => { window.history.replaceState({}, "", "/"); setView(target); }} />;
-  if(view === "login") return <LoginScreen onEnter={() => setView("home")}/>;
+  if(view === "login") return <LoginScreen onEnter={() => setView("home")} onCreateAccount={() => setView("account")} />;
+  if(view === "account") return <CreateAccountScreen onEnter={() => setView("home")} />;
   if(view === "home") return <FigmaHomeScreen medicineDone={tasks.find(task => task.id === "medicine")?.done ?? false} walkDone={tasks.find(task => task.id === "walk")?.done ?? false} onCompleteMedicine={() => setTasks(current => current.map(task => task.id === "medicine" ? { ...task, done: !task.done } : task))} onCompleteWalk={() => setTasks(current => current.map(task => task.id === "walk" ? { ...task, done: !task.done } : task))} onNavigate={setView}/>;
   if(view === "pets") return <CatalogScreen numero="7" titulo="Meus Pets" imagem="/assets/figma/tela-07.png" onNavigate={setView} />;
   if(view === "community") return <CatalogScreen numero="15" titulo="Comunidades Temáticas" imagem="/assets/figma/tela-15.png" onNavigate={setView} />;

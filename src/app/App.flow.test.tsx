@@ -44,3 +44,11 @@ test("mostra o frame concluído ao marcar um cuidado", async () => {
   await user.click(screen.getByRole("checkbox", { name: /vermífugo chemital/i }));
   expect(screen.getByAltText(/tela 5: home do tutor/i)).toHaveAttribute("src", "/assets/figma/tela-05a.png");
 });
+
+test("avança do login para criação de conta", async () => {
+  const user = userEvent.setup();
+  window.history.pushState({}, "", "/");
+  render(<App />);
+  await user.click(screen.getByRole("button", { name: /criar conta/i }));
+  expect(screen.getByRole("heading", { name: /criar conta/i })).toBeInTheDocument();
+});
