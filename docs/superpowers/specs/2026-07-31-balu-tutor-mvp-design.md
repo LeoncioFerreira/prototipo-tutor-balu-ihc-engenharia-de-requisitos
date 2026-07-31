@@ -67,6 +67,10 @@ A referência é a captura integral das telas de Tutor no Figma em 31 de julho d
 
 Serão criados tokens de cor, tipografia, raio, sombra e espaçamento a partir do Figma. Cada tela será revisada contra a captura; imagens e ícones exclusivos serão exportados como assets, sem redesenho manual.
 
+### Navegação sobre frames exportados
+
+Para o MVP, os frames exportados do Figma são a camada visual definitiva, incluindo a barra inferior. Cada tela recebe hotspots transparentes sobre os itens já desenhados para navegar sem alterar a aparência. Não haverá uma segunda barra em React nem ícones Lucide sobrepostos. A aba Comunidade abre o frame de Comunidades; Cuidado Compartilhado pertence ao fluxo de Pets.
+
 ## Falhas e acessibilidade
 
 Campos obrigatórios terão erro visível. Botões terão estados de foco e rótulos acessíveis. A interface preservará contraste, tamanho mínimo de toque e fluxo por teclado. Estados não suportados pelo MVP terão mensagem clara em vez de simular integração real.
