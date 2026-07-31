@@ -1,5 +1,12 @@
 type Props = { numero: string; titulo: string; imagem?: string };
 
+type HomeProps = { onNavigate: (view: "pets" | "community" | "chat") => void; onCompleteMedicine: () => void; medicineDone: boolean };
+
+/** Frame 18:2. A imagem exportada conserva os vetores e a geometria originais do Figma. */
+export function FigmaHomeScreen({ onNavigate, onCompleteMedicine, medicineDone }: HomeProps) {
+  return <main className="min-h-[100dvh] bg-[#202124]"><section className="relative mx-auto min-h-[100dvh] w-full max-w-[393px] overflow-hidden"><img src="/assets/figma/tela-05-home.png" alt="Tela 5: Home do Tutor" className="block h-auto w-full" /><h1 className="sr-only">Olá, Leôncio!</h1><h2 className="sr-only">Nível {medicineDone ? 4 : 3}</h2><input aria-label="Vermífugo Chemital" type="checkbox" checked={medicineDone} onChange={onCompleteMedicine} className="absolute left-[calc(50%+115px)] top-[418px] h-8 w-8 cursor-pointer opacity-0" /><button aria-label="Pets" onClick={() => onNavigate("pets")} className="absolute bottom-[21px] left-[23%] h-14 w-[18%]" /><button aria-label="Comunidade" onClick={() => onNavigate("community")} className="absolute bottom-[21px] left-[42%] h-14 w-[24%]" /><button aria-label="Chat" onClick={() => onNavigate("chat")} className="absolute bottom-[21px] right-[5%] h-14 w-[18%]" /></section></main>;
+}
+
 /** Frames estáticos do Figma que ainda não possuem fluxo interativo próprio. */
 export function CatalogScreen({ numero, titulo, imagem }: Props) {
   return <main className="min-h-[100dvh] bg-[#202124] text-[#002045]"><section className="relative mx-auto min-h-[100dvh] w-full max-w-[393px] overflow-hidden bg-[#f7fafc]">

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, Bell, Bot, Check, ChevronRight, CircleHelp, Heart, Home, MessageCircle, PawPrint, Plus, Search, Send, Stethoscope, Users } from "lucide-react";
 import { LoginScreen } from "../features/acesso/tela-01-login/Screen";
 import { CreateAccountScreen } from "../features/acesso/tela-02-criar-conta/Screen";
-import { CatalogScreen, figmaScreens } from "../features/catalogo-telas/Screen";
+import { CatalogScreen, FigmaHomeScreen, figmaScreens } from "../features/catalogo-telas/Screen";
 import { findChatbotReply } from "../features/comunicacao/tela-14-chatbot-balu/matcher";
 
 type View = "login" | "home" | "pets" | "community" | "chat" | "pet" | "club" | "profile" | "care" | "appointment";
@@ -44,5 +44,10 @@ export default function App() {
   const [view,setView]=useState<View>("login"); const [tasks,setTasks]=useState(initialTasks);
   if (tela === "2") return <CreateAccountScreen />;
   if (tela && figmaScreens[tela]) return <CatalogScreen numero={tela.toUpperCase()} {...figmaScreens[tela]} />;
-  if(view === "login") return <LoginScreen onEnter={() => setView("home")}/>; if(view === "home") return <HomeScreen navigate={setView} tasks={tasks} setTasks={setTasks}/>; if(view === "pets") return <PetsScreen navigate={setView}/>; if(view === "community") return <CommunityScreen navigate={setView}/>; if(view === "chat") return <ChatScreen navigate={setView}/>; return <DetailScreen view={view} navigate={setView}/>;
+  if(view === "login") return <LoginScreen onEnter={() => setView("home")}/>;
+  if(view === "home") return <FigmaHomeScreen medicineDone={tasks.find(task => task.id === "medicine")?.done ?? false} onCompleteMedicine={() => setTasks(current => current.map(task => task.id === "medicine" ? { ...task, done: !task.done } : task))} onNavigate={setView}/>;
+  if(view === "pets") return <CatalogScreen numero="7" titulo="Meus Pets" imagem="/assets/figma/tela-07.png" />;
+  if(view === "community") return <CatalogScreen numero="15" titulo="Comunidades Temáticas" imagem="/assets/figma/tela-15.png" />;
+  if(view === "chat") return <CatalogScreen numero="14" titulo="Conversa com Balu" imagem="/assets/figma/tela-14.png" />;
+  return <DetailScreen view={view} navigate={setView}/>;
 }
