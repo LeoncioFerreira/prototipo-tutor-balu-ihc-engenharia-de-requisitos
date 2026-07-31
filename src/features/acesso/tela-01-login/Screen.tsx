@@ -4,10 +4,17 @@ type Props = {
   onEnter: () => void;
   onCreateAccount: () => void;
   onForgotPassword: () => void;
-  onProvider: (provider: "Google" | "Apple") => void;
+  onGoogleUnavailable: () => void;
+  onProvider: (provider: "Apple") => void;
 };
 
-export function LoginScreen({ onEnter, onCreateAccount, onForgotPassword, onProvider }: Props) {
+export function LoginScreen({
+  onEnter,
+  onCreateAccount,
+  onForgotPassword,
+  onGoogleUnavailable,
+  onProvider,
+}: Props) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -88,7 +95,7 @@ export function LoginScreen({ onEnter, onCreateAccount, onForgotPassword, onProv
         </div>
         <button
           type="button"
-          onClick={() => onProvider("Google")}
+          onClick={onGoogleUnavailable}
           className="mb-3 flex h-14 w-full items-center rounded-[18px] border-[1.5px] border-[#b2f5ea] pl-6 text-[16px] font-semibold shadow-[0_4px_12px_rgba(24,58,120,.08)]"
         >
           <b className="mr-4 text-[#4285f4]">G</b>Continuar com Google

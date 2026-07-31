@@ -583,6 +583,7 @@ export default function App() {
         onEnter={() => setView("home")}
         onCreateAccount={() => setView("account")}
         onForgotPassword={() => setView("forgot")}
+        onGoogleUnavailable={() => window.alert("Login com Google ainda não está implementado.")}
         onProvider={(next) => {
           setProvider(next);
           setView("provider");
