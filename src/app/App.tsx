@@ -1,5 +1,5 @@
 import { useState, type ComponentType } from "react";
-import { ArrowLeft, Bell, Bot, Check, ChevronRight, CircleHelp, Heart, Home, MessageCircle, PawPrint, Plus, Search, Send, Stethoscope, Users } from "lucide-react";
+import { ArrowLeft, Bell, Bot, ChevronRight, CircleHelp, Heart, Home, MessageCircle, PawPrint, Plus, Search, Send, Stethoscope, Users } from "lucide-react";
 import { LoginScreen } from "../features/acesso/tela-01-login/Screen";
 import { CreateAccountScreen } from "../features/acesso/tela-02-criar-conta/Screen";
 import { RegisterPetScreen } from "../features/acesso/tela-03-cadastrar-pet/Screen";
