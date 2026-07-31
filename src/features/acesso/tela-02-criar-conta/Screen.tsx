@@ -1,4 +1,94 @@
-export function CreateAccountScreen({ onEnter, onLogin }: { onEnter: () => void; onLogin?: () => void }) {
-  const fields = [["Nome", "Seu nome completo", "text"], ["E-mail", "voce@email.com", "email"], ["Senha", "Crie uma senha", "password"], ["Confirmar senha", "Digite novamente", "password"]] as const;
-  return <main className="min-h-[100dvh] bg-[#202124]"><section className="mx-auto min-h-[100dvh] w-full max-w-[393px] bg-white px-5 py-7 text-[#183a78]"><header><h1 className="text-[24px] font-extrabold">Criar conta</h1><p className="mt-1 w-[265px] text-sm font-medium text-[#4a5568]">Crie seu acesso para depois cadastrar seu pet</p></header><div className="flex h-28 justify-center"><img src="/assets/figma/logo-balu.png" alt="Balu" className="h-28 w-[149px] object-contain" /></div><form onSubmit={(event) => { event.preventDefault(); onEnter(); }} className="space-y-2"><strong className="block text-sm">Cadastro</strong>{fields.map(([label, placeholder, type]) => <label key={label} className="block text-xs font-semibold text-[#4a5568]">{label}<input required type={type} placeholder={placeholder} className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal" /></label>)}<button type="submit" className="mt-3 h-14 w-full rounded-[28px] bg-[#183a78] text-base font-extrabold text-white">Criar conta</button></form><p className="mt-4 text-sm text-[#4a5568]">Já tem conta? <button type="button" onClick={onLogin} className="font-semibold text-[#183a78]">Entrar</button></p><div className="my-4 flex items-center gap-4 text-xs font-extrabold text-[#4a5568]"><i className="h-px flex-1 bg-[#dfe5ec]" />OU<i className="h-px flex-1 bg-[#dfe5ec]" /></div><button type="button" onClick={onEnter} className="mb-3 flex h-14 w-full items-center rounded-[18px] border border-[#b2f5ea] pl-6 text-base font-semibold"><b className="mr-4 text-[#4285f4]">G</b>Continuar com Google</button><button type="button" onClick={onEnter} className="flex h-14 w-full items-center rounded-[18px] border border-[#b2f5ea] pl-6 text-base font-semibold">●<span className="ml-4">Continuar com Apple</span></button></section></main>;
+export function CreateAccountScreen({
+  onEnter,
+  onLogin,
+}: {
+  onEnter: () => void;
+  onLogin?: () => void;
+}) {
+  const fields = [
+    ["Nome", "Seu nome completo", "text"],
+    ["E-mail", "voce@email.com", "email"],
+    ["Senha", "Crie uma senha", "password"],
+    ["Confirmar senha", "Digite novamente", "password"],
+  ] as const;
+  return (
+    <main className="min-h-[100dvh] bg-[#202124]">
+      <section className="mx-auto min-h-[100dvh] w-full max-w-[393px] bg-white px-5 py-7 text-[#183a78]">
+        <header>
+          <h1 className="text-[24px] font-extrabold">Criar conta</h1>
+          <p className="mt-1 w-[265px] text-sm font-medium text-[#4a5568]">
+            Crie seu acesso para depois cadastrar seu pet
+          </p>
+        </header>
+        <div className="flex h-28 justify-center">
+          <img
+            src="/assets/figma/logo-balu.png"
+            alt="Balu"
+            className="h-28 w-[149px] object-contain"
+          />
+        </div>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            onEnter();
+          }}
+          className="space-y-2"
+        >
+          <strong className="block text-sm">Cadastro</strong>
+          {fields.map(([label, placeholder, type]) => (
+            <label
+              key={label}
+              className="block text-xs font-semibold text-[#4a5568]"
+            >
+              {label}
+              <input
+                required
+                type={type}
+                placeholder={placeholder}
+                className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal"
+              />
+            </label>
+          ))}
+          <button
+            type="submit"
+            className="mt-3 h-14 w-full rounded-[28px] bg-[#183a78] text-base font-extrabold text-white"
+          >
+            Criar conta
+          </button>
+        </form>
+        <p
+          className="mt-4 text-
+    sm text-[#4a5568]"
+        >
+          Já tem conta?{" "}
+          <button
+            type="button"
+            onClick={onLogin}
+            className="font-semibold text-[#183a78]"
+          >
+            Entrar
+          </button>
+        </p>
+        <div className="my-4 flex items-center gap-4 text-xs font-extrabold text-[#4a5568]">
+          <i className="h-px flex-1 bg-[#dfe5ec]" />
+          OU
+          <i className="h-px flex-1 bg-[#dfe5ec]" />
+        </div>
+        <button
+          type="button"
+          onClick={onEnter}
+          className="mb-3 flex h-14 w-full items-center rounded-[18px] border border-[#b2f5ea] pl-6 text-base font-semibold"
+        >
+          <b className="mr-4 text-[#4285f4]">G</b>Continuar com Google
+        </button>
+        <button
+          type="button"
+          onClick={onEnter}
+          className="flex h-14 w-full items-center rounded-[18px] border border-[#b2f5ea] pl-6 text-base font-semibold"
+        >
+          ●<span className="ml-4">Continuar com Apple</span>
+        </button>
+      </section>
+    </main>
+  );
 }

@@ -1,0 +1,27 @@
+:root {
+  --screen-background: #f7fafc;
+  --screen-surface: #ffffff;
+  --screen-text: #002045;
+  --screen-muted: #6b8297;
+  --screen-border: #dce6ef;
+  --screen-accent: #35ba8d;
+}
+
+.balu-screen {
+  min-height: 100dvh;
+  color: var(--screen-text);
+  background: var(--screen-background);
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--screen-accent) 55%, transparent);
+    outline-offset: 2px;
+  }
+}
