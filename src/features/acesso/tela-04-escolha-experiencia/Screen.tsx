@@ -10,7 +10,7 @@ export function ExperienceScreen({
   onComplete?: (choice: "traditional" | "gamified") => void;
   onBack?: () => void;
 }) {
-  const [choice, setChoice] = useState<"traditional" | "gamified">("gamified");
+  const [choice, setChoice] = useState<"traditional" | "gamified" | null>(null);
   const options = [
     {
       id: "gamified" as const,
@@ -35,6 +35,7 @@ export function ExperienceScreen({
           <button
             key={option.id}
             type="button"
+            aria-pressed={choice === option.id}
             onClick={() => setChoice(option.id)}
             className={`relative w-full rounded-3xl border-2 p-5 text-left ${choice === option.id ? "border-[#35ba8d] bg-[#e6fffa]" : "border-[#dce6ef] bg-white"}`}
           >
@@ -52,7 +53,7 @@ export function ExperienceScreen({
         ))}
       </div>
       <div className="mt-7">
-        <PrimaryButton onClick={() => onComplete?.(choice)}>Continuar</PrimaryButton>
+        <PrimaryButton onClick={() => choice && onComplete?.(choice)}>Continuar</PrimaryButton>
       </div>
     </MobileShell>
   );
