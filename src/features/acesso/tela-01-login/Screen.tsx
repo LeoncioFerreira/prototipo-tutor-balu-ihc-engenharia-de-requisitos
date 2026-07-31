@@ -1,7 +1,7 @@
 type Props = { onEnter: () => void };
 
 export function LoginScreen({ onEnter }: Props) {
-  return <main className="min-h-[100dvh] bg-[#202124]"><section className="mx-auto min-h-[100dvh] w-full max-w-[393px] bg-white px-5 py-10 text-[#002045]">
+  return <main className="h-[100dvh] overflow-hidden bg-[#202124]"><section className="mx-auto h-full w-full max-w-[393px] overflow-y-auto bg-white px-5 py-10 text-[#002045]">
     <header className="space-y-1"><h1 className="text-[24px] font-extrabold leading-none">Entrar no Balu</h1><p className="w-[260px] text-[14px] font-medium text-[#4a5568]">Acompanhe a saúde do seu pet com segurança</p></header>
     <div className="flex h-[157px] items-center justify-center"><img className="h-[157px] w-[210px] object-contain" src="/assets/figma/logo-balu.png" alt="Balu" /></div>
     <form className="space-y-3" onSubmit={(event) => { event.preventDefault(); onEnter(); }}>
