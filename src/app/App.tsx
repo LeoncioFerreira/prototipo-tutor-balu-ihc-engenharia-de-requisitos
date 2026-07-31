@@ -16,7 +16,7 @@ function HomeScreen({ navigate }: { navigate: (view: View) => void }) {
 
 function ExactHomeScreen({ navigate }: { navigate: (view: View) => void }) {
   const source = "/assets/figma/tela-05-home.png";
-  return <main className="h-[100dvh] overflow-hidden bg-[#202020] text-[#183a78]"><div className="relative mx-auto h-[100dvh] w-full max-w-[393px] overflow-hidden bg-[#f7fafc]"><img src={source} alt="Tela inicial do tutor Balu" className="block h-auto w-full" /><button aria-label="Notificações" onClick={() => navigate("chat")} className="absolute right-[20px] top-[44px] h-10 w-10" /></div><FrameHotspots navigate={navigate} source={source} /></main>;
+  return <FigmaCanvas source={source} alt="Tela inicial do tutor Balu" navigate={navigate} />;
 }
 
 const frameByView: Record<Exclude<View, "login" | "home" | "chat">, string> = {
@@ -24,14 +24,17 @@ const frameByView: Record<Exclude<View, "login" | "home" | "chat">, string> = {
   community: "/assets/figma/tela-15.png",
 };
 
-function FrameHotspots({ navigate, source }: { navigate: (view: View) => void; source: string }) {
-  return <div className="fixed bottom-5 left-1/2 z-10 h-[66px] w-[353px] max-w-[calc(100vw-40px)] -translate-x-1/2" aria-label="Navegação inferior"><div aria-hidden="true" className="h-full w-full rounded-[22px]" style={{ backgroundImage: `url(${source})`, backgroundPosition: "-20px -766px", backgroundRepeat: "no-repeat", backgroundSize: "393px 852px" }} />{([['home','Início','left-0 w-[70px]'],['pets','Pets','left-[80px] w-[70px]'],['community','Comunidade','left-[160px] w-[94px]'],['chat','Chat','right-0 w-[70px]']] as const).map(([view,label,position]) => <button key={view} aria-label={label} onClick={() => navigate(view)} className={`absolute inset-y-0 ${position}`} />)}</div>;
+function FrameHotspots({ navigate }: { navigate: (view: View) => void }) {
+  return <div className="absolute inset-x-[5.1%] bottom-[2.35%] h-[7.75%]" aria-label="Navegação inferior">{([['home','Início','left-0 w-[19.8%]'],['pets','Pets','left-[22.5%] w-[19.8%]'],['community','Comunidade','left-[45.2%] w-[26.6%]'],['chat','Chat','right-0 w-[19.8%]']] as const).map(([view,label,position]) => <button key={view} aria-label={label} onClick={() => navigate(view)} className={`absolute inset-y-0 ${position}`} />)}</div>;
+}
+
+function FigmaCanvas({ source, alt, navigate }: { source: string; alt: string; navigate: (view: View) => void }) {
+  return <main className="grid h-[100dvh] w-screen place-items-center overflow-hidden bg-[#202020]"><div className="relative aspect-[393/852] h-[100dvh] max-w-full"><img src={source} alt={alt} className="block h-full w-full" /><FrameHotspots navigate={navigate} /></div></main>;
 }
 
 function ExactFrame({ view, navigate }: { view: Exclude<View, "login" | "home" | "chat">; navigate: (view: View) => void }) {
-  const scrollable = view === "pets" || view === "community";
   const source = frameByView[view];
-  return <main className="h-[100dvh] bg-[#202020]"><div className={`relative mx-auto h-[100dvh] w-full max-w-[393px] bg-[#f7fafc] ${scrollable ? "overflow-y-auto" : "overflow-hidden"}`}><img src={source} alt={`Tela ${view} do Balu`} className={`block h-auto w-full ${scrollable ? "[clip-path:inset(0_0_86px_0)]" : ""}`} /></div><FrameHotspots navigate={navigate} source={source} /></main>;
+  return <FigmaCanvas source={source} alt={`Tela ${view} do Balu`} navigate={navigate} />;
 }
 
 function ChatScreen({ navigate }: { navigate: (view: View) => void }) { const [messages,setMessages]=useState<{from:"bot"|"user";text:string}[]>([{from:"bot",text:"Oi! Sou o Balu, seu assistente virtual. Qual pet você quer ajudar agora?"}]); const [draft,setDraft]=useState(""); const send=()=>{ if(!draft.trim())return; const question=draft; setMessages((items)=>[...items,{from:"user",text:question},{from:"bot",text:findChatbotReply(question).text}]); setDraft("");}; return <main className="min-h-screen bg-[#f8fafc] px-5 pb-28 pt-10 text-[#183a78]"><header className="flex items-center gap-3"><button onClick={()=>navigate("home")}>←</button><img src="/assets/figma/logo-balu.png" className="h-9 w-9 rounded-full object-cover" alt="Balu"/><div><h1 className="font-extrabold">Converse com Balu</h1><small className="text-[#27a471]">● Online agora</small></div></header><div className="mt-6 space-y-3">{messages.map((message,index)=><p key={index} className={`max-w-[80%] rounded-2xl p-3 text-sm ${message.from==="user"?"ml-auto bg-[#183a78] text-white":"bg-white text-[#4a5568]"}`}>{message.text}</p>)}</div><div className="fixed bottom-24 left-1/2 flex w-[calc(100%-40px)] max-w-[353px] -translate-x-1/2 rounded-2xl bg-white p-2 shadow-lg"><input aria-label="Mensagem" value={draft} onChange={(e)=>setDraft(e.target.value)} onKeyDown={(e)=>e.key==="Enter"&&send()} placeholder="Escreva sua mensagem..." className="min-w-0 flex-1 px-3 outline-none"/><button aria-label="Enviar" onClick={send} className="rounded-xl bg-[#b2f5ea] px-3 font-bold">↑</button></div><Navigation active="chat" navigate={navigate}/></main>; }
