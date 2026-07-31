@@ -6,13 +6,11 @@ import { PageHeader, PrimaryButton } from "../../../components/ui/ScreenPrimitiv
 export function ExperienceScreen({
   onComplete,
   onBack,
-  selectedChoice,
 }: {
   onComplete?: (choice: "traditional" | "gamified") => void;
   onBack?: () => void;
-  selectedChoice?: "traditional" | "gamified";
 }) {
-  const [choice, setChoice] = useState<"traditional" | "gamified" | null>(selectedChoice ?? null);
+  const [choice, setChoice] = useState<"traditional" | "gamified" | null>(null);
   const options = [
     {
       id: "gamified" as const,
@@ -38,7 +36,7 @@ export function ExperienceScreen({
             key={option.id}
             type="button"
             aria-pressed={choice === option.id}
-            onClick={() => !selectedChoice && setChoice(option.id)}
+            onClick={() => setChoice(option.id)}
             className={`relative w-full rounded-3xl border-2 p-5 text-left ${choice === option.id ? "border-[#35ba8d] bg-[#e6fffa]" : "border-[#dce6ef] bg-white"}`}
           >
             <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-white text-2xl">

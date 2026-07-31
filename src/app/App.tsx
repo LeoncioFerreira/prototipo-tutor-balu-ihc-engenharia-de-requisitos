@@ -21,8 +21,6 @@ import { ProviderUnavailableScreen } from "../features/acesso/tela-01b-provedor-
 import { CreateAccountScreen } from "../features/acesso/tela-02-criar-conta/Screen";
 import { RegisterPetScreen } from "../features/acesso/tela-03-cadastrar-pet/Screen";
 import { ExperienceScreen } from "../features/acesso/tela-04-escolha-experiencia/Screen";
-import { GamifiedExperienceScreen } from "../features/acesso/tela-04g-experiencia-gamificada/Screen";
-import { TraditionalExperienceScreen } from "../features/acesso/tela-04t-experiencia-tradicional/Screen";
 import { HomeTutorScreen } from "../features/inicio/tela-05-home-tutor/Screen";
 import { HomeMedicineDoneScreen } from "../features/inicio/tela-05a-home-vermifugo-concluido/Screen";
 import { HomeWalkDoneScreen } from "../features/inicio/tela-05b-home-passeio-concluido/Screen";
@@ -569,15 +567,13 @@ export default function App() {
     return <CreateAccountScreen onEnter={() => openScreen("3")} onLogin={() => open("login")} />;
   if (screen === "3")
     return <RegisterPetScreen onBack={() => open("account")} onComplete={() => openScreen("4")} />;
-  if (screen === "4")
+  if (screen === "4" || screen === "4g" || screen === "4t")
     return (
       <ExperienceScreen
         onBack={() => openScreen("3")}
-        onComplete={(choice) => openScreen(choice === "traditional" ? "4t" : "4g")}
+        onComplete={(choice) => (choice === "traditional" ? openScreen("5t") : open("home"))}
       />
     );
-  if (screen === "4g") return <GamifiedExperienceScreen onComplete={() => open("home")} />;
-  if (screen === "4t") return <TraditionalExperienceScreen onComplete={() => openScreen("5t")} />;
   if (screen === "8") return <PetProfileScreen onOpen={openScreen} />;
   if (screen && numberedScreenComponents[screen]) {
     const NumberedScreen = numberedScreenComponents[screen];
