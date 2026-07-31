@@ -36,10 +36,7 @@ export function CreateAccountScreen({
         >
           <strong className="block text-sm">Cadastro</strong>
           {fields.map(([label, placeholder, type]) => (
-            <label
-              key={label}
-              className="block text-xs font-semibold text-[#4a5568]"
-            >
+            <label key={label} className="block text-xs font-semibold text-[#4a5568]">
               {label}
               <input
                 required
@@ -61,11 +58,7 @@ export function CreateAccountScreen({
     sm text-[#4a5568]"
         >
           Já tem conta?{" "}
-          <button
-            type="button"
-            onClick={onLogin}
-            className="font-semibold text-[#183a78]"
-          >
+          <button type="button" onClick={onLogin} className="font-semibold text-[#183a78]">
             Entrar
           </button>
         </p>
