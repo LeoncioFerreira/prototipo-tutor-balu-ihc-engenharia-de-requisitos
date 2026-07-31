@@ -7,7 +7,6 @@ export function RegisterPetScreen({
   onBack?: () => void;
 }) {
   const [name, setName] = useState("");
-  const [addLater, setAddLater] = useState(false);
   return (
     <main className="min-h-[100dvh] bg-[#202124]">
       <form
@@ -79,14 +78,6 @@ export function RegisterPetScreen({
                 className="rounded-full bg-[#183a78] px-3.5 py-2 text-[13px] font-semibold text-white"
               >
                 Convidar tutor
-              </button>
-              <button
-                type="button"
-                aria-pressed={addLater}
-                onClick={() => setAddLater((current) => !current)}
-                className={`rounded-full border px-3.5 py-2 text-[13px] font-semibold ${addLater ? "border-[#183a78] bg-[#183a78] text-white" : "border-[#c2cad9] bg-white text-[#4a5568]"}`}
-              >
-                Adicionar depois
               </button>
               <button
                 type="button"
