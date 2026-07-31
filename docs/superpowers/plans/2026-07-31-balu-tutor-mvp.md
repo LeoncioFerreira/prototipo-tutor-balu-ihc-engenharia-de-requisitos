@@ -20,7 +20,16 @@ src/
   data/chatbot-responses.json intenções e mensagens seguras do Balu
   features/chatbot/matcher.ts normalização e seleção de intenção
   features/chatbot/matcher.test.ts
-  features/screens.tsx        telas e fluxos do Tutor
+  features/acesso/tela-01-login/        Tela 1 do Figma, teste e estilos locais
+  features/acesso/tela-02-criar-conta/  Tela 2 do Figma, teste e estilos locais
+  features/acesso/tela-03-cadastrar-pet/ Tela 3 do Figma, teste e estilos locais
+  features/acesso/tela-04-escolha-experiencia/ Tela 4 e suas variantes
+  features/inicio/tela-05-home-tutor/    Tela 5, rotina e seus estados
+  features/pets/telas/                   telas de pet extraídas do Figma MCP
+  features/saude/telas/                  telas de saúde extraídas do Figma MCP
+  features/comunicacao/tela-14-chatbot-balu/ Tela 14, dados e teste locais
+  features/comunicacao/telas/            telas de comunidade extraídas do Figma MCP
+  features/perfil/telas/                 telas de notificação e perfil extraídas do Figma MCP
   styles/index.css            Tailwind e tokens Balu
   test/setup.ts               configuração dos testes
 README.md                     execução, limites do MVP e origem do design
@@ -35,7 +44,7 @@ requisitos/README.md          índice dos requisitos usados na disciplina
 
 - [ ] **Step 1: Obter estrutura de cada frame pelo MCP**
 
-Use `figma_get_metadata` para o nó `0:1`; para cada frame retornado, chame `figma_get_design_context` com o `nodeId` correspondente e `skillNames: "figma-design-to-code"`.
+Use `figma_get_metadata` para o nó `0:1`; para cada frame retornado, chame `figma_get_design_context` com o `nodeId` correspondente e `skillNames: "figma-design-to-code"`. Registre o nome exibido no Figma e crie a pasta no formato `features/<funcionalidade>/tela-<número>-<slug>/`; o número é sempre o número escrito no nome do frame Figma.
 
 - [ ] **Step 2: Exportar imagens necessárias pelo MCP**
 
@@ -49,7 +58,7 @@ Registre em `design-reference/README.md` a URL do Figma, IDs dos frames, dimens�
 
 ```bash
 git add design-reference public/assets/figma
-git commit -m "chore: add Figma design reference"
+git commit -m "chore: adiciona referência de design do Figma"
 ```
 
 ### Task 2: Inicializar o projeto e os testes
@@ -90,7 +99,7 @@ Expected: PASS.
 
 ```bash
 git add package.json vite.config.ts tsconfig.json index.html src
-git commit -m "chore: scaffold Balu tutor application"
+git commit -m "chore: adiciona estrutura inicial do Balu Tutor"
 ```
 
 ### Task 3: Implementar o domínio seguro do chatbot em JSON
@@ -138,7 +147,7 @@ Expected: PASS (3 tests).
 
 ```bash
 git add src/data/chatbot-responses.json src/features/chatbot
-git commit -m "feat: add JSON-powered Balu chatbot"
+git commit -m "feat: adiciona chatbot Balu com respostas em JSON"
 ```
 
 ### Task 4: Criar tokens e componentes visuais fiéis ao Figma
@@ -182,7 +191,7 @@ Expected: PASS (2 tests).
 
 ```bash
 git add src/components src/styles/index.css
-git commit -m "feat: add Balu mobile design system"
+git commit -m "feat: adiciona sistema visual mobile do Balu"
 ```
 
 ### Task 5: Criar entrada, onboarding e shell de navegação
@@ -224,7 +233,7 @@ Expected: PASS.
 
 ```bash
 git add src/app src/features/screens.tsx src/data/demo-data.json
-git commit -m "feat: add tutor onboarding and home"
+git commit -m "feat: implementa acesso e início do tutor"
 ```
 
 ### Task 6: Implementar pets, rotina e saúde
@@ -264,7 +273,7 @@ Expected: PASS.
 
 ```bash
 git add src/features/screens.tsx src/features/pet-flow.test.tsx
-git commit -m "feat: add pet care and health flows"
+git commit -m "feat: implementa fluxos de pets e saúde"
 ```
 
 ### Task 7: Implementar notificações, chat, comunidade e perfil
@@ -305,7 +314,7 @@ Expected: PASS.
 
 ```bash
 git add src/features/screens.tsx src/features/community-chat.test.tsx
-git commit -m "feat: add tutor communication flows"
+git commit -m "feat: implementa fluxos de comunicação do tutor"
 ```
 
 ### Task 8: Validar fidelidade, documentar e publicar no GitHub
@@ -333,7 +342,7 @@ O README deve conter pré-requisitos, `npm install`, `npm run dev`, `npm test`, 
 
 ```bash
 git add README.md requisitos design-reference
-git commit -m "docs: add MVP setup and requirements"
+git commit -m "docs: adiciona instruções e requisitos do MVP"
 ```
 
 - [ ] **Step 5: Criar e enviar o repositório GitHub**

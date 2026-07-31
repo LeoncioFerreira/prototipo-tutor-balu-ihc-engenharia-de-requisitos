@@ -24,13 +24,30 @@ Não será adotada uma biblioteca de componentes com aparência pronta, como sha
 
 ```text
 src/
-  app/             rotas, shell e providers
-  components/      Button, Card, BottomNav, PetHeader, StatusTag, TaskItem e ChatBubble
-  features/        auth, home, pets, health, notifications, chatbot, community e profile
-  data/            conteúdo demonstrativo e chatbot-responses.json
-  lib/             correspondência de intenção e utilitários
-  styles/          tokens e estilos globais
+  app/                                      rotas, shell e estado compartilhado
+  components/                               Button, Card, BottomNav, PetHeader, StatusTag, TaskItem e ChatBubble
+  features/
+    acesso/
+      tela-01-login/                        componente, teste e estilos da Tela 1 do Figma
+      tela-02-criar-conta/
+      tela-03-cadastrar-pet/
+      tela-04-escolha-experiencia/
+    inicio/
+      tela-05-home-tutor/
+    pets/
+      telas/                                 uma pasta por frame de pet, numerada pelo Figma
+    saude/
+      telas/                                 uma pasta por frame de saúde, numerada pelo Figma
+    comunicacao/
+      tela-14-chatbot-balu/
+      telas/                                 uma pasta por frame de comunidade, numerada pelo Figma
+    perfil/
+      telas/                                 uma pasta por frame de perfil, numerada pelo Figma
+  data/                                     conteúdo demonstrativo e chatbot-responses.json
+  styles/                                   tokens e estilos globais
 ```
+
+O número e o nome de cada pasta de tela serão confirmados na extração do frame correspondente pelo Figma MCP. Estados alternativos usam uma subpasta do número da tela principal, por exemplo `tela-04-escolha-experiencia/tradicional-selecionada/`; isso impede que uma variação seja confundida com uma nova tela.
 
 ## Navegação e estado
 
