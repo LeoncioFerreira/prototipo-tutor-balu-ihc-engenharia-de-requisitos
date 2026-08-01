@@ -49,8 +49,9 @@ import {
   ErrorFeedbackProvider,
   useErrorFeedback,
 } from "../components/ui/error-feedback/ErrorFeedback";
+import { pathForScreen, pathForView, screenForPath, viewForPath, type AppView } from "./routes";
 
-type View = "login" | "account" | "home" | "pets" | "community" | "chat" | "forgot";
+type View = AppView;
 
 export default function App() {
   return (
@@ -62,9 +63,9 @@ export default function App() {
 
 function AppContent() {
   const { showModal } = useErrorFeedback();
-  const queryScreen = new URLSearchParams(window.location.search).get("tela")?.toLowerCase();
-  const [screen, setScreen] = useState(queryScreen);
-  const [view, setView] = useState<View>("login");
+  const routeScreen = screenForPath(window.location.pathname);
+  const [screen, setScreen] = useState<string | undefined>(routeScreen);
+  const [view, setView] = useState<View>(() => viewForPath(window.location.pathname));
   const [medicineDetailReturn, setMedicineDetailReturn] = useState("10c");
   const [experience, setExperience] = useState<ExperienceMode>(() => {
     const savedExperience = localStorage.getItem("balu-experience");
@@ -72,12 +73,14 @@ function AppContent() {
   });
 
   const openView = (next: View) => {
-    window.history.replaceState({}, "", "/");
+    window.history.replaceState({}, "", pathForView(next));
     setScreen(undefined);
     setView(next);
   };
   const openScreen = (next: string) => {
-    window.history.replaceState({}, "", `/?tela=${next}`);
+    const path = pathForScreen(next);
+    if (!path) return;
+    window.history.replaceState({}, "", path);
     setScreen(next);
   };
   const saveExperience = (nextExperience: ExperienceMode) => {
