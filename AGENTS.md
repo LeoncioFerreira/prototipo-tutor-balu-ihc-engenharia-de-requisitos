@@ -50,7 +50,7 @@ O projeto é um protótipo mobile do Balu para tutores de pets.
 - Vitest, Testing Library e jsdom;
 - Lucide React para ícones quando já houver um ícone adequado;
 - fonte global `Plus Jakarta Sans`;
-- navegação prototipada em `src/app/App.tsx`, usando estado e o parâmetro `?tela=`.
+- navegação prototipada em `src/app/App.tsx`, usando estado e as rotas funcionais de `src/app/routes.ts`.
 
 Comandos principais:
 
@@ -105,14 +105,14 @@ O mapa abaixo descreve o que existe no código. Ele não autoriza criar funciona
 
 | Identificador | Pasta                                | Responsabilidade e acesso atual                                                                                                             |
 | ------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1             | `tela-01-login`                      | Entrada por e-mail e senha; abre recuperação de senha e criação de conta. É a tela inicial, sem `?tela=1`.                                  |
+| 1             | `tela-01-login`                      | Entrada por e-mail e senha; abre recuperação de senha e criação de conta. A rota pública é `/login`.                                        |
 | 1a            | `tela-01a-recuperar-senha`           | Solicitação de recuperação de senha. Aberta pelo estado interno `forgot`, não por parâmetro numerado.                                       |
 | 1b            | `tela-01b-provedor-nao-implementado` | Componente visual para provedor social indisponível. Existe no código, mas não está ligado ao roteamento atual; o login usa o modal global. |
-| 2             | `tela-02-criar-conta`                | Criação da conta do tutor e etapa 1 do onboarding. Acesso por `?tela=2` ou pelo estado interno `account`.                                   |
+| 2             | `tela-02-criar-conta`                | Criação da conta do tutor e etapa 1 do onboarding. A rota pública é `/onboarding/criar-conta`.                                              |
 | 3             | `tela-03-cadastrar-pet`              | Cadastro inicial do pet, escolha de cuidado compartilhado e etapa 2 do onboarding.                                                          |
 | 4             | `tela-04-escolha-experiencia`        | Escolha entre experiência tradicional e gamificada; etapa 3 do onboarding.                                                                  |
 | 4t            | `tela-04t-experiencia-tradicional`   | Confirmação da experiência tradicional antes de abrir a home tradicional.                                                                   |
-| 4g            | `tela-04g-experiencia-gamificada`    | Tela de experiência gamificada existente e acessível diretamente por `?tela=4g`; não faz parte do avanço padrão após a escolha.             |
+| 4g            | `tela-04g-experiencia-gamificada`    | Tela de experiência gamificada acessível por `/onboarding/experiencia-gamificada`; não faz parte do avanço padrão após a escolha.           |
 
 ### Início, perfil e configurações
 
@@ -172,7 +172,7 @@ Ao alterar rotas ou criar uma tela autorizada, atualize esta tabela no mesmo tra
 - `src/features/inicio/HomeFrame.tsx` compartilha a composição das homes.
 - Os destinos principais são `home`, `pets`, `community` e `chat`.
 - Não use links ou rotas presumidas: confira `src/app/App.tsx` e os callbacks reais da tela.
-- Preserve o retorno correto de telas internas, inclusive quando abertas diretamente por `?tela=`.
+- Preserve o retorno correto de telas internas, inclusive quando abertas diretamente por uma rota funcional.
 
 ## 7. Feedback de erro obrigatório
 
