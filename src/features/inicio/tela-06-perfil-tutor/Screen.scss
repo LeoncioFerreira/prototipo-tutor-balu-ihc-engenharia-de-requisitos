@@ -1,1 +1,237 @@
-@use "../../../styles/screen";
+.tutor-profile-screen {
+  color: #002045;
+
+  header {
+    position: relative;
+    display: grid;
+    height: 30px;
+    grid-template-columns: 18px 1fr 36px;
+    align-items: center;
+    gap: 14px;
+
+    button {
+      width: 18px;
+      height: 30px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #002045;
+      font: inherit;
+      font-size: 24px;
+      line-height: 30px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 25px;
+    }
+
+    .tutor-profile-screen__header-settings {
+      position: absolute;
+      top: -6px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+
+      img {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+
+  &__identity {
+    display: flex;
+    height: 170px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 22px;
+    padding-top: 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 18px;
+    background: white;
+
+    > span {
+      display: grid;
+      width: 80px;
+      height: 80px;
+      flex: 0 0 80px;
+      place-items: center;
+      border: 1px solid #b2f5ea;
+      border-radius: 50%;
+      background: #e6fffa;
+      color: #002045;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 35px;
+    }
+
+    h2 {
+      margin: 8px 0 0;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 23px;
+    }
+
+    > div {
+      position: relative;
+      left: 11px;
+      display: flex;
+      gap: 2px;
+      margin-top: 9px;
+
+      small {
+        display: grid;
+        height: 24px;
+        place-items: center;
+        border-radius: 12px;
+        background: #f2f4f5;
+        color: #4a5568;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 14px;
+
+        &:nth-child(1) {
+          width: 96px;
+        }
+
+        &:nth-child(2) {
+          width: 74px;
+        }
+
+        &:nth-child(3) {
+          width: 100px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  &__account,
+  &__next {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 18px;
+    background: white;
+    padding: 13px 14px;
+
+    strong {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 18px;
+    }
+
+    p {
+      margin: 0;
+      color: #4a5668;
+      font-weight: 500;
+    }
+  }
+
+  &__account,
+  &__next {
+    margin-top: 12px;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        display: grid;
+        height: 22px;
+        place-items: center;
+        border-radius: 11px;
+        background: #e6f7f4;
+        color: #48bb78;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 13px;
+      }
+    }
+  }
+
+  &__account {
+    position: relative;
+    height: 126px;
+    margin-top: 20px;
+
+    > div span {
+      width: 62px;
+    }
+
+    > p {
+      font-size: 11px;
+      line-height: 15px;
+
+      &:first-of-type {
+        margin-top: 6px;
+      }
+
+      &:nth-of-type(2) {
+        width: 300px;
+        margin-top: 4px;
+        line-height: 14px;
+      }
+    }
+
+    > small {
+      position: absolute;
+      top: 83px;
+      right: 13px;
+      display: grid;
+      width: 114px;
+      height: 20px;
+      place-items: center;
+      margin: 0;
+      border-radius: 10px;
+      background: #e6f7f4;
+      color: #24b09c;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 11px;
+    }
+  }
+
+  &__next {
+    height: 112px;
+
+    > div span {
+      width: 66px;
+      background: #fff4dd;
+      color: #dd8b22;
+    }
+
+    > p {
+      width: 310px;
+      margin-top: 6px;
+      color: #dd8b22;
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+
+  &__settings {
+    display: flex;
+    width: 100%;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 17px;
+    margin-top: 10px;
+    border: 2px solid #002045;
+    border-radius: 24px;
+    background: white;
+    color: #002045;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

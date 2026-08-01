@@ -1,44 +1,66 @@
+import { ArrowLeft } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
-import { PageHeader } from "../../../components/ui/ScreenPrimitives";
-export function WalletScreen() {
+
+export function WalletScreen({
+  onBack,
+  onOpen,
+}: {
+  onBack: () => void;
+  onOpen?: (screen: string) => void;
+}) {
   return (
-    <MobileShell>
-      <PageHeader title="Carteira do Pet" onBack={() => history.back()} />
-      <section className="rounded-[18px] border-[1.5px] border-[#e2e8f0] bg-white p-4 text-center">
-        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-[#e6fffa] text-4xl">
-          🐾
-        </div>
-        <h2 className="mt-2 text-lg font-bold">Balu</h2>
-        <p className="text-xs text-[#4a5568]">Samoieda • 2 anos • 22 kg</p>
-      </section>
-      <nav className="mt-5 flex gap-2 overflow-auto">
-        <button className="rounded-full border border-[#b2f5ea] bg-[#e6f7f4] px-4 py-2 text-xs font-bold">
-          Vacinas
+    <MobileShell active="pets" onNavigate={() => undefined}>
+      <div className="wallet-screen" data-figma-node="236:85">
+        <header className="figma-pet-header">
+          <button aria-label="Voltar" onClick={onBack}>
+            <ArrowLeft size={20} />
+          </button>
+          <h1>Carteira do Pet</h1>
+        </header>
+        <section className="wallet-pet-card">
+          <img src="/assets/figma/pets/pet-avatar.svg" alt="" />
+          <h2>Balu</h2>
+          <div className="pet-facts">
+            <span>Samoieda</span>
+            <span>2 anos</span>
+            <span>22 kg</span>
+          </div>
+        </section>
+        <nav className="destination-tabs">
+          <button onClick={() => onOpen?.("8")}>Visão geral</button>
+          <button onClick={() => onOpen?.("9")}>Ver rotina</button>
+          <button onClick={() => onOpen?.("10")}>Ver remédios</button>
+          <button className="active" onClick={() => onOpen?.("11")}>
+            Ver carteira
+          </button>
+        </nav>
+        <nav className="wallet-tabs">
+          <button className="active">Vacinas</button>
+          <button>Consultas</button>
+          <button>Exames</button>
+          <button>Docs</button>
+        </nav>
+        <article className="wallet-record">
+          <div>
+            <h3>Antirrábica</h3>
+            <span className="orange">Registrada</span>
+          </div>
+          <p className="orange-text">Aplicada em 12/06/2026</p>
+          <p>Próximo reforço em 2027.</p>
+        </article>
+        <article className="wallet-record">
+          <div>
+            <h3>V10 múltipla</h3>
+            <span>Agendada</span>
+          </div>
+          <p>Próxima dose em 25/07/2026</p>
+          <p>Reforço anual acompanhado no app.</p>
+        </article>
+        <button className="gov-action">
+          <img src="/assets/figma/pets/wallet-icon.svg" alt="" />
+          Abrir Carteira Pet do gov
         </button>
-        <button className="rounded-full border px-4 py-2 text-xs">Consultas</button>
-        <button className="rounded-full border px-4 py-2 text-xs">Exames</button>
-        <button className="rounded-full border px-4 py-2 text-xs">Docs</button>
-      </nav>
-      <article className="mt-5 rounded-2xl border-[1.5px] border-[#e2e8f0] bg-white p-4">
-        <div className="flex justify-between">
-          <h3 className="font-bold">Carteira sincronizada</h3>
-          <span className="rounded-full bg-[#dcfce7] px-3 py-1 text-[10px] font-bold text-[#48bb78]">
-            No app
-          </span>
-        </div>
-        <p className="mt-2 text-xs text-[#4a5568]">
-          Vacinas e registros recentes do Balu em um só lugar.
-        </p>
-        <span className="mt-3 inline-block rounded-full bg-[#e6f7f4] px-3 py-1 text-[10px] font-bold text-[#24b09c]">
-          Vacinação em dia
-        </span>
-      </article>
-      <article className="mt-3 rounded-2xl border-[1.5px] border-[#e2e8f0] bg-white p-4">
-        <b>Vacina antirrábica</b>
-        <p className="mt-2 text-xs text-[#4a5568]">
-          Aplicada em 12/08/2025 • Próxima dose em agosto.
-        </p>
-      </article>
+      </div>
     </MobileShell>
   );
 }

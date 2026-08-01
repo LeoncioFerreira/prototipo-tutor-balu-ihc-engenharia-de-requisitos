@@ -1,0 +1,88 @@
+@use "../../../styles/screen";
+
+.pet-add-form-screen {
+  min-height: 100dvh;
+  padding: 44px 20px 32px;
+  background: #fff;
+  color: #183a78;
+
+  header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  header button {
+    margin-top: 3px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 800;
+  }
+  header p {
+    margin: 2px 0 0;
+    color: #4a5568;
+    font-size: 13px;
+  }
+  form {
+    display: grid;
+    gap: 17px;
+    margin-top: 34px;
+  }
+  label {
+    display: grid;
+    gap: 7px;
+    color: #4a5568;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  input,
+  select,
+  textarea {
+    width: 100%;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 15px;
+    background: #fff;
+    padding: 13px 14px;
+    color: #183a78;
+    font: inherit;
+    font-weight: 500;
+    outline: none;
+  }
+  input,
+  select {
+    height: 48px;
+  }
+  textarea {
+    resize: none;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #2dd4bf;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .required-note {
+    margin: -9px 0 0;
+    color: #dc2626;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .required-mark {
+    color: #dc2626;
+  }
+  .save-addition {
+    height: 54px;
+    margin-top: 9px;
+    border-radius: 27px;
+    background: #183a78;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+  }
+}

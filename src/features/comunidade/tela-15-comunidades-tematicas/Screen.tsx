@@ -1,36 +1,83 @@
-import { MobileShell } from "../../../components/ui/MobileShell";
-export function CommunitiesScreen() {
+import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
+
+export function CommunitiesScreen({
+  onNavigate = () => undefined,
+  onOpenClub,
+}: {
+  onNavigate?: (destination: MainDestination) => void;
+  onOpenClub?: () => void;
+}) {
   return (
-    <MobileShell>
-      <h1 className="text-xl font-extrabold">Comunidades</h1>
-      <p className="mt-1 text-sm text-[#6b8297]">Encontre tutores e troque experiências.</p>
-      <input
-        className="mt-5 h-11 w-full rounded-full border border-[#dce6ef] bg-white px-4 text-sm"
-        placeholder="Buscar comunidades"
-      />
-      <h2 className="mt-6 text-base font-bold">Comunidades em destaque</h2>
-      <div className="mt-3 space-y-4">
-        {[
-          ["Clube dos Caramelos", "2,4 mil membros", "Dicas, rotina e cuidado com caramelos"],
-          ["Gateiros unidos", "1,8 mil membros", "Histórias e cuidados para gatos"],
-        ].map(([title, members, text]) => (
-          <article key={title} className="rounded-[18px] border border-[#e2e8f0] bg-white p-4">
-            <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-[#e6fffa] text-xl">
-                🐾
-              </span>
-              <div>
-                <b>{title}</b>
-                <p className="text-xs text-[#6b8297]">{members}</p>
-              </div>
+    <MobileShell active="community" onNavigate={onNavigate}>
+      <div className="communities-screen" data-figma-node="122:8">
+        <h1>Comunidades</h1>
+        <div className="communities-screen__breed-heading">
+          <h2>Minhas raças</h2>
+          <button type="button">Ver tudo</button>
+        </div>
+        <div className="communities-screen__breeds">
+          <Breed asset="breed-caramelo.svg" label="Caramelo" />
+          <Breed asset="breed-mutt.svg" label="Vira-lata" />
+          <Breed asset="breed-cat.svg" label="Gateiros" />
+          <Breed label="Adicionar" add />
+        </div>
+
+        <label className="communities-screen__search">
+          <img src="/assets/figma/community/search.svg" alt="" />
+          <input placeholder="Buscar na comunidade..." aria-label="Buscar na comunidade" />
+        </label>
+
+        <article className="communities-screen__club-card">
+          <div className="communities-screen__club-title">
+            <img
+              className="communities-screen__club-logo"
+              src="/assets/figma/community/breed-caramelo.svg"
+              alt="Logo do Clube dos Caramelos"
+            />
+            <div>
+              <h2>Clube dos Caramelos</h2>
+              <p>2,4 mil membros</p>
             </div>
-            <p className="mt-3 text-sm text-[#4a5568]">{text}</p>
-            <button className="mt-4 rounded-full bg-[#002045] px-4 py-2 text-xs font-bold text-white">
-              Entrar no clube
-            </button>
-          </article>
-        ))}
+          </div>
+          <div className="communities-screen__hero-copy">
+            <div>
+              <h3>Uma comunidade para trocar dicas, rotina e cuidado com caramelos</h3>
+              <small>Post em destaque</small>
+            </div>
+            <img src="/assets/figma/community/club-hero.svg" alt="" />
+          </div>
+          <div className="communities-screen__author">
+            <b>SR</b>
+            <span>
+              <strong>Salomão Rodrigues</strong>
+              <small>Há 2 horas</small>
+            </span>
+            <i>Tutor do Balu</i>
+          </div>
+          <p className="communities-screen__post">
+            O Balu soltou muito pelo essa semana e a escova de banho ajudou demais. Quem tem pet com
+            pelagem parecida usa escovação diária ou dia sim, dia não?
+          </p>
+          <div className="communities-screen__metrics">
+            <span>♡ 12 curtidas</span>
+            <span>◌ 4 comentários</span>
+          </div>
+          <button className="communities-screen__join" onClick={onOpenClub} type="button">
+            Entrar no clube
+          </button>
+        </article>
       </div>
     </MobileShell>
+  );
+}
+
+function Breed({ asset, label, add = false }: { asset?: string; label: string; add?: boolean }) {
+  return (
+    <button type="button">
+      <span className="communities-screen__breed-icon">
+        {add ? "+" : <img src={`/assets/figma/community/${asset}`} alt="" />}
+      </span>
+      <small>{label}</small>
+    </button>
   );
 }

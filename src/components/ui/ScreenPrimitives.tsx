@@ -7,7 +7,7 @@ export function BackButton({ onClick, label = "Voltar" }: { onClick: () => void;
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="grid h-10 w-10 place-items-center rounded-full border border-[#dce6ef] bg-white text-[#002045]"
+      className="grid h-[30px] w-5 place-items-center bg-transparent text-[#183a78]"
     >
       <ArrowLeft size={20} />
     </button>
@@ -28,7 +28,7 @@ export function PageHeader({
       {onBack && <BackButton onClick={onBack} />}
       <div>
         <h1 className="text-[22px] font-extrabold tracking-[-.04em]">{title}</h1>
-        {subtitle && <p className="mt-1 text-[13px] text-[#6b8297]">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-[13px] text-[#4a5568]">{subtitle}</p>}
       </div>
     </header>
   );
@@ -50,22 +50,22 @@ export function Row({
       <span className="min-w-0 flex-1">
         <b className="block text-[14px]">{title}</b>
         {description && (
-          <small className="mt-0.5 block text-[12px] text-[#6b8297]">{description}</small>
+          <small className="mt-0.5 block text-[12px] text-[#4a5568]">{description}</small>
         )}
       </span>
-      {trailing ?? <ChevronRight size={19} className="text-[#6b8297]" />}
+      {trailing ?? <ChevronRight size={19} className="text-[#4a5568]" />}
     </>
   );
   return onClick ? (
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-2xl border border-[#dce6ef] bg-white p-4 text-left"
+      className="flex w-full items-center gap-3 rounded-2xl border border-[#e2e8f0] bg-white p-4 text-left"
     >
       {content}
     </button>
   ) : (
-    <div className="flex w-full items-center gap-3 rounded-2xl border border-[#dce6ef] bg-white p-4">
+    <div className="flex w-full items-center gap-3 rounded-2xl border border-[#e2e8f0] bg-white p-4">
       {content}
     </div>
   );
@@ -84,7 +84,7 @@ export function PrimaryButton({
     <button
       type={type}
       onClick={onClick}
-      className="h-13 min-h-[52px] w-full rounded-[26px] bg-[#002045] px-5 text-[15px] font-extrabold text-white shadow-[0_4px_12px_rgba(0,32,69,.16)]"
+      className="h-13 min-h-[52px] w-full rounded-[26px] bg-[#183a78] px-5 text-[15px] font-extrabold text-white shadow-[0_4px_12px_rgba(24,58,120,.16)]"
     >
       {children}
     </button>

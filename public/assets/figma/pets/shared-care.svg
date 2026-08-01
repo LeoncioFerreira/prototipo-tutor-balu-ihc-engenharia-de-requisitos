@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Shared Care Icon Wrap">
+<rect x="0.5" y="0.5" width="35" height="35" rx="17.5" fill="white"/>
+<rect x="0.5" y="0.5" width="35" height="35" rx="17.5" stroke="#B2F5EA"/>
+<circle id="Shared Care Icon" cx="13" cy="14" r="5" fill="#183A78"/>
+<circle id="Shared Care Icon_2" cx="23" cy="14" r="5" fill="#183A78"/>
+<rect id="Shared Care Icon_3" x="8" y="20" width="10" height="6" rx="3" fill="#183A78"/>
+<rect id="Shared Care Icon_4" x="18" y="20" width="10" height="6" rx="3" fill="#183A78"/>
+</g>
+</svg>

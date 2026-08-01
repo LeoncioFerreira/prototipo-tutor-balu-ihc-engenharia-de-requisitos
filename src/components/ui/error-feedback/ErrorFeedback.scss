@@ -1,0 +1,135 @@
+.error-feedback {
+  &__toast {
+    position: fixed;
+    z-index: 1000;
+    top: 20px;
+    left: 50%;
+    display: grid;
+    width: calc(100% - 40px);
+    max-width: 353px;
+    min-height: 68px;
+    transform: translateX(-50%);
+    grid-template-columns: 36px 1fr 28px;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #f5c2c7;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(24, 58, 120, 0.18);
+    padding: 12px 10px 12px 14px;
+    color: #183a78;
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 18px;
+    }
+
+    button {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      color: #4a5568;
+      font-size: 24px;
+      line-height: 1;
+    }
+  }
+
+  &__symbol,
+  &__modal-symbol {
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff0f1;
+    color: #c53030;
+    font-weight: 800;
+  }
+
+  &__symbol {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  &__backdrop {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    left: 50%;
+    display: grid;
+    width: 100%;
+    max-width: 393px;
+    transform: translateX(-50%);
+    place-items: center;
+    background: rgba(17, 34, 63, 0.54);
+    padding: 20px;
+  }
+
+  &__dialog {
+    width: 100%;
+    border: 1px solid #dce4ef;
+    border-radius: 22px;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 18px 45px rgba(17, 34, 63, 0.24);
+    padding: 24px;
+    color: #183a78;
+    text-align: center;
+
+    h2 {
+      margin: 14px 0 6px;
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 24px;
+    }
+
+    p {
+      margin: 0 0 22px;
+      color: #4a5568;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  &__modal-symbol {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+    font-size: 22px;
+  }
+
+  &__dialog &__message--single-line {
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  &__actions {
+    display: grid;
+    gap: 10px;
+  }
+
+  &__confirm,
+  &__dismiss {
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  &__confirm {
+    border: 0;
+    background: #183a78;
+    color: #fff;
+  }
+
+  &__dismiss {
+    border: 1.5px solid #b2f5ea;
+    background: #fff;
+    color: #183a78;
+  }
+}

@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Send Area" clip-path="url(#clip0_0_9)">
+<circle id="Send Button Bg" cx="16" cy="16" r="16" fill="#B2F5EA"/>
+<rect id="Arrow Stem" x="14.7" y="12.5" width="2.6" height="10" rx="1.3" fill="#002045"/>
+<path id="Arrow Head" d="M16 7L20.3301 13H11.6699L16 7Z" fill="#002045"/>
+</g>
+<defs>
+<clipPath id="clip0_0_9">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+</defs>
+</svg>

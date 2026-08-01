@@ -1,17 +1,53 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-500.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-600.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-700.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-800.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   font-family: "Plus Jakarta Sans", Arial, sans-serif;
-  color: #17324d;
+  color: #183a78;
   background: #f7fafc;
-  --balu-navy: #002045;
+  --balu-navy: #183a78;
   --balu-mint: #b2f5ea;
   --balu-mint-soft: #e6fffa;
   --balu-canvas: #f7fafc;
-  --balu-text: #17324d;
-  --balu-text-secondary: #6b8297;
-  --balu-border: #dce6ef;
-  --balu-muted: #edf2f7;
+  --balu-text: #183a78;
+  --balu-text-secondary: #4a5568;
+  --balu-border: #e2e8f0;
+  --balu-muted: #f2f4f5;
   --balu-danger: #e53e3e;
 }
 * {
@@ -21,44 +57,10 @@ body {
   margin: 0;
 }
 
-/* Mapeamento dos valores provisórios para os tokens oficiais do Balu. */
-.bg-\[\#183a78\] {
-  background-color: var(--balu-navy);
+.balu-mobile-shell {
+  scrollbar-width: none;
 }
-.text-\[\#183a78\] {
-  color: var(--balu-navy);
-}
-.text-\[\#002045\] {
-  color: var(--balu-navy);
-}
-.bg-\[\#e2e8f0\] {
-  background-color: var(--balu-border);
-}
-.border-\[\#e2e8f0\] {
-  border-color: var(--balu-border);
-}
-.border-\[\#c2cad9\] {
-  border-color: var(--balu-border);
-}
-.text-\[\#4a5568\] {
-  color: var(--balu-text-secondary);
-}
-.bg-\[\#f2f4f5\] {
-  background-color: var(--balu-muted);
-}
-.bg-\[\#24b09c\],
-.peer:checked ~ .peer-checked\:bg-\[\#24b09c\] {
-  background-color: #4a9e8f;
-}
-.border-\[\#74dfd2\] {
-  border-color: var(--balu-mint);
-}
-.bg-\[\#c53030\] {
-  background-color: var(--balu-danger);
-}
-.text-\[\#c53030\] {
-  color: var(--balu-danger);
-}
-.border-\[\#fed7d7\] {
-  border-color: #ffe4dc;
+
+.balu-mobile-shell::-webkit-scrollbar {
+  display: none;
 }

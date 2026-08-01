@@ -1,1 +1,224 @@
-@use "../../../styles/screen";
+.communities-screen {
+  color: #183a78;
+
+  > h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 25px;
+  }
+
+  &__breed-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+
+    h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    button {
+      border: 0;
+      background: transparent;
+      color: #24b09c;
+      font-size: 10px;
+      font-weight: 700;
+    }
+  }
+
+  &__breeds {
+    display: flex;
+    height: 74px;
+    gap: 18px;
+    margin-top: 10px;
+
+    button {
+      display: flex;
+      width: 52px;
+      height: 66px;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      border: 0;
+      background: transparent;
+      color: #4a5568;
+    }
+
+    .communities-screen__breed-icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      flex: 0 0 48px;
+      place-items: center;
+      border: 1px solid #e2e8f0;
+      border-radius: 50%;
+      background: white;
+      font-size: 24px;
+
+      img {
+        display: block;
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+      }
+    }
+
+    small {
+      font-size: 8px;
+    }
+  }
+
+  &__search {
+    display: flex;
+    height: 44px;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    background: white;
+    padding: 0 16px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+
+    input {
+      flex: 1;
+      border: 0;
+      outline: 0;
+      font-size: 11px;
+    }
+  }
+
+  &__club-card {
+    position: relative;
+    min-height: 435px;
+    margin-top: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: white;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(24, 58, 120, 0.06);
+  }
+
+  &__club-title,
+  &__author {
+    display: flex;
+    align-items: center;
+  }
+
+  &__club-title {
+    gap: 10px;
+
+    .communities-screen__club-logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #b2f5ea;
+      object-fit: contain;
+    }
+
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    p {
+      color: #4a5568;
+      font-size: 9px;
+    }
+  }
+
+  &__hero-copy {
+    display: grid;
+    grid-template-columns: 1fr 112px;
+    gap: 10px;
+    margin-top: 16px;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 22px;
+    }
+
+    small {
+      color: #24b09c;
+      font-size: 9px;
+    }
+
+    img {
+      width: 112px;
+      height: 112px;
+    }
+  }
+
+  &__author {
+    gap: 8px;
+    margin-top: 14px;
+
+    > b {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 50%;
+      background: #e6f7f4;
+      font-size: 10px;
+    }
+
+    > span {
+      display: flex;
+      flex-direction: column;
+      font-size: 9px;
+    }
+
+    i {
+      margin-left: auto;
+      border-radius: 8px;
+      background: #e6fffa;
+      padding: 3px 6px;
+      font-size: 7px;
+      font-style: normal;
+    }
+  }
+
+  &__post {
+    margin: 10px 0 0;
+    color: #4a5568;
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  &__metrics {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    color: #4a5568;
+    font-size: 9px;
+  }
+
+  &__join {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    height: 38px;
+    border: 0;
+    border-radius: 19px;
+    background: #183a78;
+    padding: 0 18px;
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+  }
+}

@@ -1,1 +1,5 @@
-export { HomeTutorScreen as TraditionalHomeMedicineScreen } from "../tela-05-home-tutor/Screen";
+import { HomeFrame } from "../HomeFrame";
+
+export function TraditionalHomeMedicineScreen() {
+  return <HomeFrame variant="5ta" />;
+}

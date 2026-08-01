@@ -1,1 +1,153 @@
 @use "../../../styles/screen";
+.shared-care-screen {
+  color: #002045;
+
+  .figma-pet-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 30px;
+    margin: 0 0 26px;
+  }
+
+  .figma-pet-header button {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    margin-right: -12px;
+    margin-left: -12px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    background: transparent;
+  }
+
+  .figma-pet-header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+  }
+
+  .caregivers,
+  .activity-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .caregivers {
+    display: flex;
+    justify-content: space-between;
+    margin: 14px 0 0;
+  }
+
+  .caregivers > li,
+  .caregivers button {
+    width: 74px;
+    border: 0;
+    background: transparent;
+    text-align: center;
+  }
+
+  .caregivers span {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    margin: auto;
+    place-items: center;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 50%;
+    background: #e6f7f4;
+    font-weight: 700;
+  }
+
+  .caregivers .primary {
+    border: 1.5px solid #24b09c;
+    background: #b2f5ea;
+  }
+
+  .caregivers button span {
+    border-style: dashed;
+    border-color: #e2e8f0;
+    background: #fff;
+  }
+
+  .caregivers b {
+    display: block;
+    margin-top: 8px;
+    font-size: 11px;
+  }
+
+  .history-section {
+    margin-top: 48px;
+  }
+
+  .activity-list {
+    display: grid;
+    gap: 16px;
+    margin: 12px 0 0;
+  }
+
+  .activity-list article {
+    display: flex;
+    min-height: 78px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 16px;
+    background: #fff;
+  }
+
+  .activity-list article > span {
+    display: grid;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 50%;
+    background: #f7fafc;
+    color: #183a78;
+  }
+
+  .activity-list article > span img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .activity-list article > span .activity-list__pill-icon {
+    width: 15px;
+    height: 9px;
+    transform: rotate(-35deg);
+  }
+
+  .activity-list article > div {
+    min-width: 0;
+  }
+
+  .activity-list__description {
+    margin: 0;
+    color: #002045;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 15px;
+  }
+
+  .activity-list__description b {
+    font: inherit;
+  }
+
+  .activity-list__time {
+    margin: 2px 0 0;
+    color: #4a5568;
+    font-size: 11px;
+    line-height: 14px;
+  }
+}

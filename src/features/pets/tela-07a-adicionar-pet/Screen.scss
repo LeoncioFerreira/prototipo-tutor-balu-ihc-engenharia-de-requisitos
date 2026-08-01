@@ -1,1 +1,17 @@
 @use "../../../styles/screen";
+.add-pet-screen {
+  color: #183a78;
+  input {
+    background: #fff;
+    border-color: #c4c6cf;
+  }
+  .required-note {
+    margin: 4px 0 0;
+    color: #dc2626;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .required-mark {
+    color: #dc2626;
+  }
+}

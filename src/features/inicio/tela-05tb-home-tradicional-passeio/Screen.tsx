@@ -1,1 +1,5 @@
-export { HomeTutorScreen as TraditionalHomeWalkScreen } from "../tela-05-home-tutor/Screen";
+import { HomeFrame } from "../HomeFrame";
+
+export function TraditionalHomeWalkScreen() {
+  return <HomeFrame variant="5tb" />;
+}

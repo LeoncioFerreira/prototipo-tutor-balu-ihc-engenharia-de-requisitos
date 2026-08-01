@@ -1,40 +1,57 @@
+import { ArrowLeft, Copy } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
-import { PageHeader, PrimaryButton } from "../../../components/ui/ScreenPrimitives";
-export function AddTutorScreen() {
+const controlFont = { fontFamily: '"Plus Jakarta Sans", Arial, sans-serif' };
+export function AddTutorScreen({ onBack }: { onBack: () => void }) {
   return (
-    <MobileShell>
-      <PageHeader
-        title="Adicionar tutor"
-        subtitle="Convide alguém para acompanhar os cuidados do Balu."
-        onBack={() => history.back()}
-      />
-      <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-[#e6fffa] text-4xl">
-        👤
-      </div>
-      <form className="mt-7 space-y-4">
-        <label className="block text-xs font-semibold text-[#4a5568]">
-          Nome do tutor
-          <input
-            placeholder="Ex: Paulo Silva"
-            className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal"
-          />
-        </label>
-        <label className="block text-xs font-semibold text-[#4a5568]">
-          E-mail do tutor
-          <input
-            type="email"
-            placeholder="tutor@email.com"
-            className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal"
-          />
-        </label>
-        <section className="rounded-[18px] border border-[#b2f5ea] bg-[#e6fffa] p-4">
-          <b className="text-sm">O que o tutor poderá fazer?</b>
-          <p className="mt-2 text-xs text-[#4a5568]">
-            Ver a rotina, receber lembretes e registrar cuidados do pet.
-          </p>
+    <MobileShell active="pets" onNavigate={() => undefined}>
+      <div className="invite-tutor-screen">
+        <header className="invite-tutor-screen__header">
+          <button
+            className="invite-tutor-screen__back"
+            type="button"
+            aria-label="Voltar"
+            onClick={onBack}
+            style={controlFont}
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <h1>Convidar tutor</h1>
+        </header>
+        <h2 className="invite-tutor-screen__subtitle">Convide outro cuidador com um código</h2>
+        <div className="invite-code">
+          <p>Compartilhe este código com outro cuidador para entrar na família do pet.</p>
+          <b>BALU-4821</b>
+          <button type="button" style={controlFont}>
+            <Copy size={16} />
+            Copiar código
+          </button>
+        </div>
+        <a
+          className="whatsapp"
+          href="https://wa.me/?text=Convite%20Balu%20para%20acompanhar%20o%20pet"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img src="/assets/figma/pets/whatsapp.svg" alt="" />
+          Enviar no WhatsApp
+        </a>
+        <section className="permissions">
+          <h2>Permissões do convite</h2>
+          <ul>
+            <li>Ver rotina e histórico do pet</li>
+            <li>Confirmar tarefas do dia</li>
+            <li>Ver carteira, vacinas e medicamentos</li>
+            <li className="warning">Não poderá remover o tutor principal</li>
+          </ul>
         </section>
-        <PrimaryButton type="submit">Enviar convite</PrimaryButton>
-      </form>
+        <section className="safe-code">
+          <h2>Código seguro para convite</h2>
+          <p>Compartilhe o código apenas com quem fará parte do cuidado compartilhado.</p>
+        </section>
+        <p className="invite-tutor-screen__note">
+          O tutor convidado poderá acompanhar o pet e confirmar tarefas.
+        </p>
+      </div>
     </MobileShell>
   );
 }

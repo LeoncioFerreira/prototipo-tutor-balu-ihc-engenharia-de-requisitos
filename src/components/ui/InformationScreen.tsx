@@ -22,7 +22,7 @@ export function InformationScreen({
   return (
     <MobileShell>
       <PageHeader title={title} subtitle={subtitle} onBack={onBack} />
-      <div className="mb-5 grid h-20 w-20 place-items-center rounded-full bg-[#e6fffa] text-[#002045]">
+      <div className="mb-5 grid h-20 w-20 place-items-center rounded-full bg-[#e6fffa] text-[#183a78]">
         <PawPrint size={35} />
       </div>
       <div className="space-y-3">

@@ -1,4 +1,16 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
+import { OnboardingProgress } from "../../../components/ui/OnboardingProgress";
+
+const initialFields = {
+  name: "",
+  breed: "",
+  sex: "",
+  age: "",
+};
+
+type FieldName = keyof typeof initialFields;
+type SharedCareChoice = "invite" | "later" | "code";
 
 export function RegisterPetScreen({
   onComplete,
@@ -6,95 +18,154 @@ export function RegisterPetScreen({
   onComplete?: () => void;
   onBack?: () => void;
 }) {
-  const [name, setName] = useState("");
+  const { showToast } = useErrorFeedback();
+  const [fields, setFields] = useState(initialFields);
+  const [sharedCareChoice, setSharedCareChoice] = useState<SharedCareChoice | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const inviteButtonRef = useRef<HTMLButtonElement>(null);
+
+  const updateField = (field: FieldName, value: string) => {
+    setFields((current) => ({ ...current, [field]: value }));
+  };
+
   return (
-    <main className="min-h-[100dvh] bg-[#202124]">
+    <main className="register-pet-screen">
       <form
+        ref={formRef}
+        className="register-pet-screen__canvas"
+        data-figma-node="177:2"
+        noValidate
         onSubmit={(event) => {
           event.preventDefault();
+
+          const hasEmptyField = Object.values(fields).some((value) => !value.trim());
+          if (hasEmptyField) {
+            showToast("Preencha os campos obrigatórios para continuar.");
+            formRef.current?.querySelector<HTMLInputElement>("input:invalid")?.focus();
+            return;
+          }
+
+          if (!sharedCareChoice) {
+            showToast("Selecione uma opção no cuidado compartilhado.");
+            inviteButtonRef.current?.focus();
+            return;
+          }
+
           onComplete?.();
         }}
-        className="mx-auto flex min-h-[100dvh] w-full max-w-[393px] flex-col gap-3 bg-white px-5 py-7 text-[#183a78]"
       >
+        <OnboardingProgress currentStep={2} label="Cadastrar seu pet" />
         <header>
-          <h1 className="text-[24px] font-extrabold">Cadastrar pet</h1>
-          <p className="mt-1 w-[290px] text-[14px] font-medium text-[#4a5568]">
-            Agora vamos registrar as informações iniciais do seu pet
-          </p>
+          <h1>Cadastrar pet</h1>
+          <p>Agora vamos registrar as informações iniciais do seu pet</p>
         </header>
-        <div className="flex h-24 items-center justify-center">
-          <img src="/assets/figma/logo-balu.png" alt="Balu" className="h-24 w-32 object-contain" />
+        <div className="register-pet-screen__logo">
+          <img src="/assets/figma/logo-balu.png" alt="Balu" />
         </div>
-        <section className="space-y-2">
-          <h2 className="text-sm font-extrabold">Dados do pet</h2>
-          <label className="block text-xs font-semibold text-[#4a5568]">
-            Nome do pet
-            <input
-              required
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Ex: Balu"
-              className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal"
-            />
-          </label>
-          <label className="block text-xs font-semibold text-[#4a5568]">
-            Raça
-            <input
-              placeholder="Ex: Samoieda"
-              className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal"
-            />
-          </label>
-          <label className="block text-xs font-semibold text-[#4a5568]">
-            Sexo
-            <input
-              placeholder="Macho ou fêmea"
-              className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal"
-            />
-          </label>
-          <label className="block text-xs font-semibold text-[#4a5568]">
-            Idade
-            <input
-              placeholder="Ex: 2 anos"
-              className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-sm font-normal"
-            />
-          </label>
+        <section className="register-pet-screen__fields">
+          <h2>Dados do pet</h2>
+          <p className="required-note">* indica campo obrigatório</p>
+          <Field
+            label="Nome do pet"
+            placeholder="Ex: Balu"
+            value={fields.name}
+            onChange={(value) => updateField("name", value)}
+          />
+          <Field
+            label="Raça"
+            placeholder="Ex: Samoieda"
+            value={fields.breed}
+            onChange={(value) => updateField("breed", value)}
+          />
+          <Field
+            label="Sexo"
+            placeholder="Macho ou fêmea"
+            value={fields.sex}
+            onChange={(value) => updateField("sex", value)}
+          />
+          <Field
+            label="Idade"
+            placeholder="Ex: 2 anos"
+            value={fields.age}
+            onChange={(value) => updateField("age", value)}
+          />
         </section>
-        <section className="space-y-2">
-          <h2 className="text-[15px] font-extrabold">Cuidado compartilhado</h2>
-          <div className="rounded-[18px] border border-[#b2f5ea] bg-[#e6fffa] px-3 py-2.5">
-            <div className="flex gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-white">👥</span>
+        <section className="register-pet-screen__shared">
+          <h2>Cuidado compartilhado</h2>
+          <div>
+            <div className="register-pet-screen__shared-intro">
+              <img src="/assets/figma/access/shared-care.svg" alt="" />
               <div>
-                <b className="text-sm">Vincular outros tutores</b>
-                <p className="mt-1 text-[13px] leading-[18px] text-[#4a5568]">
+                <strong>Vincular outros tutores</strong>
+                <p>
                   Convide outra pessoa responsável para acompanhar lembretes, rotinas e histórico do
                   pet.
                 </p>
               </div>
             </div>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div
+              className="register-pet-screen__shared-actions"
+              role="group"
+              aria-label="Ações de cuidado compartilhado"
+            >
               <button
+                ref={inviteButtonRef}
                 type="button"
-                className="rounded-full bg-[#183a78] px-3.5 py-2 text-[13px] font-semibold text-white"
+                className={`is-primary ${sharedCareChoice === "invite" ? "is-selected" : ""}`}
+                aria-pressed={sharedCareChoice === "invite"}
+                onClick={() => setSharedCareChoice("invite")}
               >
                 Convidar tutor
               </button>
               <button
                 type="button"
-                className="w-full rounded-full border border-[#c2cad9] bg-white px-3.5 py-2 text-left text-[13px] font-semibold text-[#4a5568]"
+                className={sharedCareChoice === "later" ? "is-selected" : ""}
+                aria-pressed={sharedCareChoice === "later"}
+                onClick={() => setSharedCareChoice("later")}
               >
-                Entrar com código da família
+                Adicionar depois
               </button>
             </div>
+            <button
+              type="button"
+              className={`is-code ${sharedCareChoice === "code" ? "is-selected" : ""}`}
+              aria-pressed={sharedCareChoice === "code"}
+              onClick={() => setSharedCareChoice("code")}
+            >
+              Entrar com código da família
+            </button>
           </div>
         </section>
-        <button
-          type="submit"
-          className="mt-auto h-14 w-full rounded-[28px] bg-[#183a78] text-base font-extrabold text-white shadow-[0_4px_20px_rgba(26,54,93,.08)]"
-        >
+        <button className="register-pet-screen__submit" type="submit">
           Continuar
         </button>
       </form>
     </main>
+  );
+}
+
+function Field({
+  label,
+  placeholder,
+  value,
+  onChange,
+}: {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label>
+      <span className="field-label">
+        {label} <span className="required-mark">*</span>
+      </span>
+      <input
+        required
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+      />
+    </label>
   );
 }

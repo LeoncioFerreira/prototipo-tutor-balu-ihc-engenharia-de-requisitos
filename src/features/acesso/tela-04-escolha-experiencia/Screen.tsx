@@ -1,60 +1,75 @@
 import { useState } from "react";
-import { Check } from "lucide-react";
-import { MobileShell } from "../../../components/ui/MobileShell";
-import { PageHeader, PrimaryButton } from "../../../components/ui/ScreenPrimitives";
+import { OnboardingProgress } from "../../../components/ui/OnboardingProgress";
+
+type Choice = "traditional" | "gamified";
 
 export function ExperienceScreen({
   onComplete,
-  onBack,
+  initialChoice,
+  figmaNode = "177:57",
 }: {
-  onComplete?: (choice: "traditional" | "gamified") => void;
+  onComplete?: (choice: Choice) => void;
   onBack?: () => void;
+  initialChoice?: Choice;
+  figmaNode?: string;
 }) {
-  const [choice, setChoice] = useState<"traditional" | "gamified" | null>(null);
-  const options = [
-    {
-      id: "gamified" as const,
-      title: "Experiência gamificada",
-      text: "Ganhe XP, suba de nível e transforme a rotina em conquistas.",
-    },
-    {
-      id: "traditional" as const,
-      title: "Experiência tradicional",
-      text: "Acompanhe a rotina do seu pet de forma simples e direta.",
-    },
-  ];
+  const [choice, setChoice] = useState<Choice | undefined>(initialChoice);
+
   return (
-    <MobileShell>
-      <PageHeader
-        title="Como você quer acompanhar?"
-        subtitle="Você pode mudar essa escolha quando quiser."
-        onBack={onBack}
-      />
-      <div className="space-y-4">
-        {options.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            aria-pressed={choice === option.id}
-            onClick={() => setChoice(option.id)}
-            className={`relative w-full rounded-3xl border-2 p-5 text-left ${choice === option.id ? "border-[#35ba8d] bg-[#e6fffa]" : "border-[#dce6ef] bg-white"}`}
-          >
-            <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-white text-2xl">
-              {option.id === "gamified" ? "🏆" : "✓"}
-            </span>
-            <b className="block text-[16px]">{option.title}</b>
-            <small className="mt-2 block leading-5 text-[#6b8297]">{option.text}</small>
-            {choice === option.id && (
-              <span className="absolute right-4 top-4 grid h-6 w-6 place-items-center rounded-full bg-[#35ba8d] text-white">
-                <Check size={16} />
+    <main className="experience-screen">
+      <section
+        className="experience-screen__canvas"
+        data-experience={choice}
+        data-figma-node={figmaNode}
+      >
+        <OnboardingProgress currentStep={3} label="Escolher experiência" />
+        <header>
+          <h1>Escolha sua experiência</h1>
+          <p>Defina como você quer acompanhar a rotina e a saúde do seu pet</p>
+        </header>
+
+        <div className="experience-screen__logo">
+          <img src="/assets/figma/logo-balu.png" alt="Balu" />
+        </div>
+
+        <section className="experience-screen__options">
+          <h2>Como você quer usar o Balu?</h2>
+          <div>
+            <button
+              type="button"
+              className={choice === "traditional" ? "is-selected" : ""}
+              aria-pressed={choice === "traditional"}
+              onClick={() => setChoice("traditional")}
+            >
+              <strong>Tradicional</strong>
+              <p>Acompanhamento direto com listas, alertas e histórico organizado.</p>
+            </button>
+            <button
+              type="button"
+              className={choice === "gamified" ? "is-selected" : ""}
+              aria-pressed={choice === "gamified"}
+              onClick={() => setChoice("gamified")}
+            >
+              <span>
+                <strong>Gamificada</strong>
+                <b>XP</b>
               </span>
-            )}
-          </button>
-        ))}
-      </div>
-      <div className="mt-7">
-        <PrimaryButton onClick={() => choice && onComplete?.(choice)}>Continuar</PrimaryButton>
-      </div>
-    </MobileShell>
+              <p>Ganhe pontos, acompanhe níveis e transforme a rotina em progresso.</p>
+            </button>
+          </div>
+        </section>
+
+        <p className="experience-screen__helper">
+          Você poderá revisar essa escolha depois nas configurações.
+        </p>
+        <button
+          className="experience-screen__submit"
+          type="button"
+          onClick={() => choice && onComplete?.(choice)}
+        >
+          Começar jornada
+        </button>
+      </section>
+    </main>
   );
 }

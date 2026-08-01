@@ -1,1 +1,5 @@
-export { HomeTutorScreen as HomeWalkDoneScreen } from "../tela-05-home-tutor/Screen";
+import { HomeFrame } from "../HomeFrame";
+
+export function HomeWalkDoneScreen() {
+  return <HomeFrame variant="5b" />;
+}

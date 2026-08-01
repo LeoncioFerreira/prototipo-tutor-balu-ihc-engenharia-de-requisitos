@@ -1,0 +1,150 @@
+.account-settings-screen {
+  color: #183a78;
+
+  header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    > button {
+      width: 18px;
+      height: 30px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #183a78;
+      font-size: 24px;
+      line-height: 30px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 27px;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: #4a5568;
+      font-size: 12px;
+      line-height: 17px;
+    }
+  }
+
+  &__profile {
+    display: flex;
+    height: 86px;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: white;
+    padding: 14px;
+
+    > span {
+      display: grid;
+      width: 56px;
+      height: 56px;
+      place-items: center;
+      border-radius: 50%;
+      background: #b2f5ea;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    strong {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 3px 0 0;
+      color: #4a5568;
+      font-size: 12px;
+    }
+  }
+
+  &__preferences {
+    margin-top: 28px;
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    > button {
+      display: grid;
+      width: 100%;
+      height: 82px;
+      grid-template-columns: 42px 1fr 18px;
+      align-items: center;
+      gap: 12px;
+      border: 1.5px solid #b2f5ea;
+      border-radius: 18px;
+      background: white;
+      padding: 12px 14px;
+      color: #183a78;
+      text-align: left;
+
+      > span:nth-child(2) {
+        display: grid;
+        gap: 5px;
+      }
+
+      strong {
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      small {
+        color: #24a995;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      b {
+        color: #4a5568;
+        font-size: 26px;
+        font-weight: 400;
+      }
+    }
+  }
+
+  &__preference-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 50%;
+    background: #e6fffa;
+    color: #24a995;
+    font-size: 20px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__note {
+    margin-top: 20px;
+    border-radius: 16px;
+    background: #e6fffa;
+    padding: 16px;
+
+    strong {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 5px 0 0;
+      color: #4a5568;
+      font-size: 12px;
+      line-height: 17px;
+    }
+  }
+}

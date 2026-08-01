@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame">
+<rect width="80" height="80" rx="40" fill="#E6F7F4"/>
+<path id="Ellipse" d="M40 25C50.5951 25 59 32.7077 59 42C59 51.2923 50.5951 59 40 59C29.4049 59 21 51.2923 21 42C21 32.7077 29.4049 25 40 25Z" fill="white" stroke="#002045" stroke-width="2"/>
+<circle id="Ellipse_2" cx="24" cy="24" r="5" fill="white" stroke="#002045" stroke-width="2"/>
+<circle id="Ellipse_3" cx="56" cy="24" r="5" fill="white" stroke="#002045" stroke-width="2"/>
+<circle id="Ellipse_4" cx="33" cy="39" r="2" fill="#002045"/>
+<circle id="Ellipse_5" cx="47" cy="39" r="2" fill="#002045"/>
+<ellipse id="Ellipse_6" cx="40" cy="47.5" rx="3.5" ry="2.5" fill="#002045"/>
+</g>
+</svg>

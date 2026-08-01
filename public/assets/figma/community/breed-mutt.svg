@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame">
+<rect x="0.75" y="0.75" width="50.5" height="50.5" rx="25.25" stroke="#E2E8F0" stroke-width="1.5"/>
+<circle id="Ellipse" cx="26" cy="26" r="26" fill="#E8FBF7"/>
+<rect id="Rectangle" x="12.5379" y="15.1535" width="7.2" height="15.2" rx="3.6" transform="rotate(20 12.5379 15.1535)" fill="white" stroke="#183B78" stroke-width="1.8"/>
+<rect id="Rectangle_2" x="32.1535" y="14.5379" width="7.2" height="15.2" rx="3.6" transform="rotate(-20 32.1535 14.5379)" fill="white" stroke="#183B78" stroke-width="1.8"/>
+<path id="Ellipse_2" d="M26 16C32.7462 16 38 20.8127 38 26.5C38 32.1873 32.7462 37 26 37C19.2538 37 14 32.1873 14 26.5C14 20.8127 19.2538 16 26 16Z" fill="white" stroke="#183B78" stroke-width="2"/>
+<path id="Ellipse_3" d="M30.5 16.9004C32.9054 16.9004 35.0996 19.2604 35.0996 22.5C35.0996 25.7396 32.9054 28.0996 30.5 28.0996C28.0946 28.0996 25.9004 25.7396 25.9004 22.5C25.9004 19.2604 28.0946 16.9004 30.5 16.9004Z" fill="#F6B25C" stroke="#183B78" stroke-width="1.8"/>
+<circle id="Ellipse_4" cx="20.4" cy="24.6" r="1.6" fill="#183B78"/>
+<circle id="Ellipse_5" cx="31.6" cy="24.6" r="1.6" fill="#183B78"/>
+<path id="Ellipse_6" d="M26.4998 28.7002C27.0097 28.7002 27.4413 28.8448 27.7264 29.043C28.0137 29.2428 28.1002 29.4509 28.1004 29.5996C28.1004 29.7483 28.0139 29.9562 27.7264 30.1562C27.4413 30.3545 27.0099 30.5 26.4998 30.5C25.9898 30.5 25.5583 30.3545 25.2732 30.1562C24.986 29.9563 24.9002 29.7483 24.9002 29.5996C24.9003 29.4509 24.9859 29.2428 25.2732 29.043C25.5583 28.8447 25.9899 28.7002 26.4998 28.7002Z" fill="#FFDCC4" stroke="#183B78" stroke-width="1.4"/>
+</g>
+</svg>

@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { findChatbotReply } from "./matcher";
+import { findChatbotReply } from "../../features/comunicacao/tela-14-chatbot-balu/matcher";
 
 test("retorna resposta para uma pergunta sobre vacina", () => {
   expect(findChatbotReply("qual vacina o Balu precisa?").kind).toBe("answer");

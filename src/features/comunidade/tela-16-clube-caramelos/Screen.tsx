@@ -1,34 +1,64 @@
-import { MobileShell } from "../../../components/ui/MobileShell";
-import { PageHeader } from "../../../components/ui/ScreenPrimitives";
-export function CaramelClubScreen() {
+import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
+
+export function CaramelClubScreen({
+  onBack,
+  onNavigate = () => undefined,
+}: {
+  onBack: () => void;
+  onNavigate?: (destination: MainDestination) => void;
+}) {
   return (
-    <MobileShell>
-      <PageHeader
-        title="Clube dos Caramelos"
-        subtitle="2,4 mil membros"
-        onBack={() => history.back()}
-      />
-      <section className="rounded-[18px] border border-[#b2f5ea] bg-[#e6fffa] p-4">
-        <b>Comunidade para tutores de caramelos</b>
-        <p className="mt-2 text-sm text-[#4a5568]">Compartilhe dicas, rotina e experiências.</p>
-      </section>
-      <h2 className="mt-6 font-bold">Publicações recentes</h2>
-      <article className="mt-3 rounded-[18px] border border-[#e2e8f0] bg-white p-4">
-        <b>Salomão Rodrigues</b>
-        <p className="mt-2 text-sm text-[#4a5568]">
-          O Balu soltou muito pelo essa semana. Quem tem uma dica de escovação?
-        </p>
-        <div className="mt-3 text-xs text-[#6b8297]">♡ 12 curtidas · 4 comentários</div>
-      </article>
-      <article className="mt-3 rounded-[18px] border border-[#e2e8f0] bg-white p-4">
-        <b>Marina Alves</b>
-        <p className="mt-2 text-sm text-[#4a5568]">
-          Qual ração vocês têm usado para os caramelos mais ativos?
-        </p>
-      </article>
-      <button className="mt-5 w-full rounded-full bg-[#002045] py-3 text-sm font-bold text-white">
-        Criar publicação
-      </button>
+    <MobileShell active="community" onNavigate={onNavigate}>
+      <div className="caramel-club-screen" data-figma-node="116:2">
+        <header>
+          <button type="button" aria-label="Voltar" onClick={onBack}>
+            ←
+          </button>
+          <h1>Clube dos Caramelos</h1>
+        </header>
+        <label className="caramel-club-screen__search">
+          <img src="/assets/figma/community/search.svg" alt="" />
+          <input aria-label="Buscar na comunidade" placeholder="Buscar na comunidade..." />
+        </label>
+        <div className="caramel-club-screen__tags">
+          <button className="is-active" type="button">
+            #Caramelos
+          </button>
+          <button type="button">#Escovação</button>
+          <button type="button">#Passeios</button>
+        </div>
+        <article>
+          <div className="caramel-club-screen__author">
+            <span>SR</span>
+            <div>
+              <strong>Salomão Rodrigues</strong>
+              <small>Há 2 horas</small>
+            </div>
+            <b>Tutor do Balu</b>
+          </div>
+          <p>
+            O Balu soltou muito pelo essa semana e a escova de banho ajudou demais. Quem tem pet com
+            pelagem parecida usa escovação diária ou dia sim, dia não?
+          </p>
+          <div className="caramel-club-screen__picture">
+            <img src="/assets/figma/community/club-hero.svg" alt="Escovação do Balu" />
+            <small>Escovação do Balu</small>
+          </div>
+          <div className="caramel-club-screen__metrics">
+            <span>12 curtidas</span>
+            <span>◌ 4 comentários</span>
+          </div>
+        </article>
+        <aside>
+          <b>!</b>
+          <p>
+            Compartilhe rotinas, dicas e experiências com responsabilidade e respeito à comunidade.
+          </p>
+        </aside>
+        <button className="caramel-club-screen__add" type="button" aria-label="Criar publicação">
+          +
+        </button>
+      </div>
     </MobileShell>
   );
 }

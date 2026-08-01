@@ -1,47 +1,96 @@
+import { ArrowLeft, Plus } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
-import { PageHeader } from "../../../components/ui/ScreenPrimitives";
-export function SharedCareScreen() {
-  const people = [
-    ["L", "Leôncio"],
-    ["P", "Paulo"],
-    ["A", "André"],
-  ];
+const controlFont = { fontFamily: '"Plus Jakarta Sans", Arial, sans-serif' };
+const people = [
+  ["L", "Leôncio"],
+  ["P", "Paulo"],
+  ["A", "André"],
+] as const;
+const activities = [
+  {
+    asset: "activity-pill.svg",
+    actor: "Paulo",
+    action: "Deu Vermífugo Chemital",
+    time: "Hoje às 14:05",
+  },
+  {
+    asset: "activity-walk.svg",
+    actor: "Leôncio",
+    action: "Realizou Passeio Diário (20 min)",
+    time: "Hoje às 18:30",
+  },
+  {
+    asset: "activity-sync.svg",
+    actor: "Sistema",
+    action: "Clínica sincronizou vacina V10 Múltipla",
+    time: "Hoje às 10:00",
+  },
+];
+export function SharedCareScreen({
+  onBack,
+  onInvite,
+}: {
+  onBack: () => void;
+  onInvite: () => void;
+}) {
   return (
-    <MobileShell>
-      <PageHeader title="Cuidado Compartilhado" onBack={() => history.back()} />
-      <h2 className="text-sm font-bold">Cuidadores de Balu</h2>
-      <div className="mt-4 flex justify-between">
-        {people.map(([initial, name]) => (
-          <div key={name} className="w-[74px] text-center">
-            <span className="mx-auto grid h-[52px] w-[52px] place-items-center rounded-full border border-[#b2f5ea] bg-[#e6fffa] font-bold">
-              {initial}
-            </span>
-            <b className="mt-2 block text-[11px]">{name}</b>
-          </div>
-        ))}
-        <button className="w-[74px] text-center">
-          <span className="mx-auto grid h-[52px] w-[52px] place-items-center rounded-full border border-dashed text-xl">
-            +
-          </span>
-          <b className="mt-2 block text-[11px] text-[#4a5568]">Convidar</b>
-        </button>
+    <MobileShell active="pets" onNavigate={() => undefined}>
+      <div className="shared-care-screen">
+        <header className="figma-pet-header">
+          <button type="button" aria-label="Voltar" onClick={onBack} style={controlFont}>
+            <ArrowLeft size={20} />
+          </button>
+          <h1>Cuidado Compartilhado</h1>
+        </header>
+        <section className="caregivers-section">
+          <h2>Cuidadores de Balu</h2>
+          <ul className="caregivers">
+            {people.map(([initial, name], index) => (
+              <li key={name}>
+                <span className={index === 0 ? "primary" : ""}>{initial}</span>
+                <b>{name}</b>
+              </li>
+            ))}
+            <li>
+              <button
+                type="button"
+                aria-label="Convidar tutor"
+                onClick={onInvite}
+                style={controlFont}
+              >
+                <span>
+                  <Plus size={22} />
+                </span>
+                <b>Convidar</b>
+              </button>
+            </li>
+          </ul>
+        </section>
+        <section className="history-section">
+          <h2>Histórico de Atividades</h2>
+          <ul className="activity-list">
+            {activities.map(({ asset, actor, action, time }) => (
+              <li key={`${actor}-${action}`}>
+                <article>
+                  <span>
+                    <img
+                      className={asset === "activity-pill.svg" ? "activity-list__pill-icon" : ""}
+                      src={`/assets/figma/pets/${asset}`}
+                      alt=""
+                    />
+                  </span>
+                  <div>
+                    <p className="activity-list__description">
+                      <b>{actor}</b> <span aria-hidden="true">•</span> {action}
+                    </p>
+                    <p className="activity-list__time">{time}</p>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
-      <h2 className="mt-8 text-sm font-bold">Histórico de Atividades</h2>
-      <div className="mt-3 space-y-3">
-        {[
-          ["Paulo • Deu Vermífugo Chemital", "Hoje às 14:05"],
-          ["Leôncio • Confirmou a alimentação", "Hoje às 08:12"],
-          ["André • Registrou passeio diário", "Ontem às 18:25"],
-        ].map(([title, time]) => (
-          <article key={title} className="rounded-2xl border-[1.5px] border-[#e2e8f0] bg-white p-4">
-            <b className="text-xs">{title}</b>
-            <p className="mt-1 text-[11px] text-[#4a5568]">{time}</p>
-          </article>
-        ))}
-      </div>
-      <button className="mt-5 w-full rounded-full bg-[#002045] py-3 text-sm font-bold text-white">
-        Convidar tutor
-      </button>
     </MobileShell>
   );
 }

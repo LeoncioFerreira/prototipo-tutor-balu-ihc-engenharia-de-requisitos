@@ -1,0 +1,126 @@
+@use "../../../styles/screen";
+
+.routine-history-details-screen {
+  color: #002045;
+
+  > header {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    gap: 12px;
+
+    button {
+      display: grid;
+      width: 20px;
+      height: 30px;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: #002045;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 25px;
+    }
+  }
+
+  &__summary {
+    margin-top: 24px;
+    border: 1.5px solid #b2f5ea;
+    border-radius: 16px;
+    background: #f7fffd;
+    padding: 14px;
+
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    strong {
+      font-size: 15px;
+    }
+
+    span {
+      border-radius: 11px;
+      background: #dcfce7;
+      padding: 5px 13px;
+      color: #48bb78;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 8px 0 0;
+      color: #4a5568;
+      font-size: 12px;
+    }
+  }
+
+  &__periods {
+    display: grid;
+    gap: 13px;
+    margin-top: 20px;
+
+    section h2 {
+      margin: 0 0 7px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    article {
+      position: relative;
+      display: grid;
+      min-height: 112px;
+      grid-template-columns: 48px 1fr;
+      gap: 10px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      background: #fff;
+      padding: 13px 12px;
+    }
+
+    time {
+      color: #183a78;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    article strong {
+      display: block;
+      padding-right: 52px;
+      font-size: 13px;
+      line-height: 17px;
+    }
+
+    article p {
+      margin: 6px 0 0;
+      color: #4a5568;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 15px;
+    }
+
+    article small {
+      display: block;
+      margin-top: 5px;
+      color: #718096;
+      font-size: 10px;
+    }
+
+    article > span {
+      position: absolute;
+      top: 11px;
+      right: 11px;
+      border-radius: 11px;
+      background: #dcfce7;
+      padding: 5px 12px;
+      color: #48bb78;
+      font-size: 9px;
+      font-weight: 700;
+    }
+  }
+}

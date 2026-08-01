@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Add Routine Icon" clip-path="url(#clip0_0_4)">
+<circle id="Add Routine Circle" cx="14" cy="14" r="14" fill="#E6F7F4"/>
+<rect id="Plus Vertical" x="12.5" y="7" width="3" height="14" rx="1.5" fill="#002045"/>
+<rect id="Plus Horizontal" x="7" y="12.5" width="14" height="3" rx="1.5" fill="#002045"/>
+</g>
+<defs>
+<clipPath id="clip0_0_4">
+<rect width="28" height="28" fill="white"/>
+</clipPath>
+</defs>
+</svg>
