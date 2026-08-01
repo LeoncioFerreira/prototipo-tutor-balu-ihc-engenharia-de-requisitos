@@ -2,6 +2,17 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import App from "../../app/App";
+import { pathForScreen } from "../../app/routes";
+
+function goToScreen(screen: string) {
+  const path = pathForScreen(screen);
+  if (!path) throw new Error("Rota não mapeada: " + screen);
+  window.history.pushState({}, "", path);
+}
+
+function expectCurrentScreen(screen: string) {
+  expect(window.location.pathname).toBe(pathForScreen(screen));
+}
 
 async function enterAsAdmin(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByLabelText(/e-mail/i), "admin");
@@ -19,7 +30,7 @@ test("entra no app e abre o chatbot pelo menu inferior", async () => {
 
 test("inicia o chat limpo e responde às mensagens enviadas", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=14");
+  goToScreen("14");
   render(<App />);
 
   expect(screen.getByText(/olá! sou o balu/i)).toBeInTheDocument();
@@ -33,7 +44,7 @@ test("inicia o chat limpo e responde às mensagens enviadas", async () => {
 });
 
 test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () => {
-  window.history.pushState({}, "", "/?tela=14");
+  goToScreen("14");
   render(<App />);
 
   const controls = screen.getByRole("region", { name: "Controles da conversa" });
@@ -46,7 +57,7 @@ test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () 
 
 test("envia com Enter e cria nova linha com Control Enter", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=14");
+  goToScreen("14");
   render(<App />);
   const input = screen.getByLabelText("Mensagem");
 
@@ -133,7 +144,7 @@ test("abre as notificações ao clicar no sino da home", async () => {
   await user.click(screen.getByRole("button", { name: /notificações/i }));
 
   expect(screen.getByRole("heading", { name: /notificações/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=6a");
+  expectCurrentScreen("6a");
   window.history.pushState({}, "", "/");
 });
 
@@ -146,7 +157,7 @@ test("abre a tela de adicionar pet pelo seletor da home", async () => {
   await user.click(screen.getByRole("button", { name: /^adicionar$/i }));
 
   expect(screen.getByRole("heading", { name: /adicionar pet/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=7a");
+  expectCurrentScreen("7a");
 });
 
 test("abre o perfil do tutor ao clicar no avatar e volta para a home", async () => {
@@ -162,7 +173,7 @@ test("abre o perfil do tutor ao clicar no avatar e volta para a home", async () 
   expect(
     screen.queryByText("Abra o perfil, carteira e histórico de cada pet."),
   ).not.toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=6");
+  expectCurrentScreen("6");
 
   await user.click(screen.getByRole("button", { name: "Voltar" }));
   expect(screen.getByRole("heading", { name: /olá, leôncio/i })).toBeInTheDocument();
@@ -181,13 +192,13 @@ test("abre as configurações da conta pelo perfil e mostra a experiência atual
   expect(screen.getByRole("heading", { name: /configurações da conta/i })).toBeInTheDocument();
   expect(screen.getByText("Gamificada")).toBeInTheDocument();
   expect(screen.getByRole("button", { name: /alterar experiência/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=6c");
+  expectCurrentScreen("6c");
 });
 
 test("abre o seletor com a experiência atual marcada e volta para as configurações", async () => {
   const user = userEvent.setup();
   localStorage.clear();
-  window.history.pushState({}, "", "/?tela=6c");
+  goToScreen("6c");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: /alterar experiência/i }));
@@ -200,7 +211,7 @@ test("abre o seletor com a experiência atual marcada e volta para as configura�
   expect(screen.getByRole("button", { name: /salvar alteração/i })).toHaveClass(
     "experience-settings-screen__save",
   );
-  expect(window.location.search).toBe("?tela=6d");
+  expectCurrentScreen("6d");
 
   await user.click(screen.getByRole("button", { name: "Voltar" }));
   expect(screen.getByRole("heading", { name: /configurações da conta/i })).toBeInTheDocument();
@@ -209,7 +220,7 @@ test("abre o seletor com a experiência atual marcada e volta para as configura�
 test("salva a experiência tradicional, abre sua home e mantém a preferência", async () => {
   const user = userEvent.setup();
   localStorage.clear();
-  window.history.pushState({}, "", "/?tela=6d");
+  goToScreen("6d");
   const firstRender = render(<App />);
 
   await user.click(screen.getByRole("button", { name: /tradicional/i }));
@@ -217,7 +228,7 @@ test("salva a experiência tradicional, abre sua home e mantém a preferência",
 
   expect(localStorage.getItem("balu-experience")).toBe("traditional");
   expect(screen.getByText(/vermífugo às 14:00/i)).toBeInTheDocument();
-  expect(window.location.search).toBe("");
+  expect(window.location.pathname).toBe("/inicio");
 
   firstRender.unmount();
   window.history.pushState({}, "", "/");
@@ -229,7 +240,7 @@ test("salva a experiência tradicional, abre sua home e mantém a preferência",
 test("troca da experiência tradicional para a gamificada", async () => {
   const user = userEvent.setup();
   localStorage.setItem("balu-experience", "traditional");
-  window.history.pushState({}, "", "/?tela=6d");
+  goToScreen("6d");
   render(<App />);
 
   expect(screen.getByRole("button", { name: /tradicional/i })).toHaveAttribute(
@@ -245,25 +256,25 @@ test("troca da experiência tradicional para a gamificada", async () => {
 
 test("abre a solicitação de vínculo pela notificação da Unipet", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=6a");
+  goToScreen("6a");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: /abrir solicitação de vínculo da unipet/i }));
 
   expect(screen.getByRole("heading", { name: /unipet deseja vincular/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=6b");
+  expectCurrentScreen("6b");
   window.history.pushState({}, "", "/");
 });
 
 test("volta da solicitação de vínculo para as notificações", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=6b");
+  goToScreen("6b");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: "Voltar" }));
 
   expect(screen.getByRole("heading", { name: /notificações/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=6a");
+  expectCurrentScreen("6a");
   window.history.pushState({}, "", "/");
 });
 
@@ -276,14 +287,14 @@ test("conclui uma tarefa pela caixa de seleção", async () => {
 });
 
 test("abre uma tela numerada diretamente pela URL", () => {
-  window.history.pushState({}, "", "/?tela=10");
+  goToScreen("10");
   render(<App />);
   expect(screen.getByRole("heading", { name: /medicamentos do pet/i })).toBeInTheDocument();
 });
 
 test("abre o Clube dos Caramelos pelo botão Entrar no clube", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=15");
+  goToScreen("15");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: "Entrar no clube" }));
@@ -292,7 +303,7 @@ test("abre o Clube dos Caramelos pelo botão Entrar no clube", async () => {
 });
 
 test("exibe apenas o Balu na lista de pets", () => {
-  window.history.pushState({}, "", "/?tela=7");
+  goToScreen("7");
   render(<App />);
 
   expect(screen.getByText("Balu")).toBeInTheDocument();
@@ -304,7 +315,7 @@ test("exibe apenas o Balu na lista de pets", () => {
 });
 
 test("exibe o formulário de adicionar pet sem marcador emoji", () => {
-  window.history.pushState({}, "", "/?tela=7a");
+  goToScreen("7a");
   render(<App />);
 
   expect(screen.getByRole("heading", { name: /adicionar pet/i })).toBeInTheDocument();
@@ -315,7 +326,7 @@ test("exibe o formulário de adicionar pet sem marcador emoji", () => {
 });
 
 test("mantém as ações de cuidado compartilhado juntas no cadastro do pet", () => {
-  window.history.pushState({}, "", "/?tela=3");
+  goToScreen("3");
   render(<App />);
 
   const actions = screen.getByRole("group", { name: /ações de cuidado compartilhado/i });
@@ -324,7 +335,7 @@ test("mantém as ações de cuidado compartilhado juntas no cadastro do pet", ()
 });
 
 test("cadastro do pet identifica todos os campos obrigatórios", () => {
-  window.history.pushState({}, "", "/?tela=3");
+  goToScreen("3");
   render(<App />);
 
   expect(screen.getByText("* indica campo obrigatório")).toBeInTheDocument();
@@ -337,7 +348,7 @@ test("cadastro do pet identifica todos os campos obrigatórios", () => {
 
 test("cadastro do pet mostra o erro global quando os dados estão vazios", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=3");
+  goToScreen("3");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: /continuar/i }));
@@ -350,7 +361,7 @@ test("cadastro do pet mostra o erro global quando os dados estão vazios", async
 
 test("cadastro do pet exige uma escolha de cuidado compartilhado", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=3");
+  goToScreen("3");
   render(<App />);
 
   await user.type(screen.getByLabelText(/nome do pet/i), "Balu");
@@ -362,12 +373,12 @@ test("cadastro do pet exige uma escolha de cuidado compartilhado", async () => {
   expect(screen.getByRole("alert")).toHaveTextContent(
     "Selecione uma opção no cuidado compartilhado.",
   );
-  expect(window.location.search).toBe("?tela=3");
+  expectCurrentScreen("3");
 });
 
 test("cadastro do pet permite selecionar adicionar depois e continuar", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=3");
+  goToScreen("3");
   render(<App />);
 
   const addLater = screen.getByRole("button", { name: /adicionar depois/i });
@@ -381,12 +392,12 @@ test("cadastro do pet permite selecionar adicionar depois e continuar", async ()
   await user.click(screen.getByRole("button", { name: /continuar/i }));
 
   expect(screen.getByRole("heading", { name: /escolha sua experiência/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=4");
+  expectCurrentScreen("4");
 });
 
 test("cadastro do pet mantém apenas uma opção de cuidado compartilhado selecionada", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=3");
+  goToScreen("3");
   render(<App />);
 
   const invite = screen.getByRole("button", { name: /convidar tutor/i });
@@ -406,7 +417,7 @@ test("cadastro do pet mantém apenas uma opção de cuidado compartilhado seleci
 });
 
 test("exibe o perfil do pet com os atalhos do frame 8 sem marcador emoji", () => {
-  window.history.pushState({}, "", "/?tela=8");
+  goToScreen("8");
   render(<App />);
 
   expect(screen.getByRole("heading", { name: /perfil do pet/i })).toBeInTheDocument();
@@ -418,7 +429,7 @@ test("exibe o perfil do pet com os atalhos do frame 8 sem marcador emoji", () =>
 
 test("mantém as telas restantes de pets livres de placeholders emoji", () => {
   for (const tela of ["9", "10", "11", "13"]) {
-    window.history.pushState({}, "", `/?tela=${tela}`);
+    goToScreen(tela);
     const { unmount } = render(<App />);
     expect(screen.queryByText("🐾")).not.toBeInTheDocument();
     expect(screen.queryByText("👤")).not.toBeInTheDocument();
@@ -444,7 +455,7 @@ test("separa informações diferentes em linhas próprias dentro das caixas", as
   ] as const;
 
   for (const [route, main, secondary] of checks) {
-    window.history.pushState({}, "", `/?tela=${route}`);
+    goToScreen(route);
     const rendered = render(<App />);
     expect(screen.getAllByText(main).length).toBeGreaterThan(0);
     expect(screen.getByText(secondary)).toBeInTheDocument();
@@ -456,14 +467,14 @@ test("abre as telas de adicionar rotina e remédio pelos botões", async () => {
   const user = userEvent.setup();
 
   for (const route of ["9", "9a", "9b", "9c"]) {
-    window.history.pushState({}, "", `/?tela=${route}`);
+    goToScreen(route);
     const routine = render(<App />);
     await user.click(screen.getByRole("button", { name: "Cadastrar nova rotina" }));
     expect(screen.getByRole("heading", { name: "Adicionar rotina" })).toBeInTheDocument();
     routine.unmount();
   }
 
-  window.history.pushState({}, "", "/?tela=10");
+  goToScreen("10");
   render(<App />);
   await user.click(screen.getByRole("button", { name: "Adicionar remédio" }));
   expect(screen.getByRole("heading", { name: "Adicionar remédio" })).toBeInTheDocument();
@@ -471,7 +482,7 @@ test("abre as telas de adicionar rotina e remédio pelos botões", async () => {
 
 test("mostra o aviso de campos obrigatórios no início das telas de adicionar", () => {
   for (const route of ["7a", "9e", "10h"]) {
-    window.history.pushState({}, "", `/?tela=${route}`);
+    goToScreen(route);
     const rendered = render(<App />);
     const notice = screen.getByText("* indica campo obrigatório");
     expect(notice).toHaveClass("required-note");
@@ -490,7 +501,7 @@ test("reproduz os conteúdos-chave dos frames restantes de pets", () => {
   ] as const;
 
   for (const [tela, content] of expectations) {
-    window.history.pushState({}, "", `/?tela=${tela}`);
+    goToScreen(tela);
     const { unmount } = render(<App />);
     expect(screen.getByText(content)).toBeInTheDocument();
     unmount();
@@ -499,7 +510,7 @@ test("reproduz os conteúdos-chave dos frames restantes de pets", () => {
 
 test("mantém a navegação inferior nos frames de pets que a exibem", () => {
   for (const tela of ["9", "10", "11", "12"]) {
-    window.history.pushState({}, "", `/?tela=${tela}`);
+    goToScreen(tela);
     const { unmount } = render(<App />);
     expect(screen.getByRole("button", { name: "Pets" })).toBeInTheDocument();
     unmount();
@@ -508,13 +519,13 @@ test("mantém a navegação inferior nos frames de pets que a exibem", () => {
 
 test("navega pela barra inferior ao abrir diretamente uma tela numerada", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=10");
+  goToScreen("10");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: "Início" }));
 
   expect(screen.getByRole("heading", { name: /olá, leôncio/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("");
+  expect(window.location.pathname).toBe("/inicio");
 });
 
 test("as setas voltam para a tela interna correta mesmo em URLs diretas", async () => {
@@ -537,7 +548,7 @@ test("as setas voltam para a tela interna correta mesmo em URLs diretas", async 
   ] as const;
 
   for (const [tela, destinationHeading] of returns) {
-    window.history.pushState({}, "", `/?tela=${tela}`);
+    goToScreen(tela);
     const rendered = render(<App />);
 
     await user.click(screen.getByRole("button", { name: "Voltar" }));
@@ -548,12 +559,12 @@ test("as setas voltam para a tela interna correta mesmo em URLs diretas", async 
 });
 
 test("exibe os registros exatos dos frames de remédios e carteira", () => {
-  window.history.pushState({}, "", "/?tela=10");
+  goToScreen("10");
   const medicines = render(<App />);
   expect(screen.getByText(/08:00 • ômega 3/i)).toBeInTheDocument();
   medicines.unmount();
 
-  window.history.pushState({}, "", "/?tela=11");
+  goToScreen("11");
   render(<App />);
   expect(screen.getByText(/v10 múltipla/i)).toBeInTheDocument();
   expect(screen.queryByText(/carteira sincronizada/i)).not.toBeInTheDocument();
@@ -562,19 +573,19 @@ test("exibe os registros exatos dos frames de remédios e carteira", () => {
 
 test("navega pelas telas 10A, 10B e 10C e conclui medicamentos pelas caixas", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=10");
+  goToScreen("10");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: "Próximos" }));
-  expect(window.location.search).toBe("?tela=10a");
+  expectCurrentScreen("10a");
   expect(screen.getByText(/amanhã • 08:00/i)).toBeInTheDocument();
 
   await user.click(screen.getByRole("button", { name: "Hoje" }));
-  expect(window.location.search).toBe("?tela=10b");
+  expectCurrentScreen("10b");
   expect(screen.getByText(/hoje • 08:00/i)).toBeInTheDocument();
 
   await user.click(screen.getByRole("button", { name: "Histórico" }));
-  expect(window.location.search).toBe("?tela=10c");
+  expectCurrentScreen("10c");
   expect(screen.getByText(/12 de julho • 08:00/i)).toBeInTheDocument();
   expect(screen.getByText("Ômega 3")).toBeInTheDocument();
   expect(screen.getAllByText("Confirmado por Leôncio")).toHaveLength(3);
@@ -586,19 +597,19 @@ test("navega pelas telas 10A, 10B e 10C e conclui medicamentos pelas caixas", as
   ] as const;
   for (let index = 0; index < detailRoutes.length; index += 1) {
     await user.click(screen.getAllByRole("button", { name: "Ver detalhes" })[index]);
-    expect(window.location.search).toBe(`?tela=${detailRoutes[index][0]}`);
+    expectCurrentScreen(detailRoutes[index][0]);
     expect(screen.getByRole("heading", { name: /detalhes do medicamento/i })).toBeInTheDocument();
     expect(screen.getByText(detailRoutes[index][1])).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Voltar" }));
-    expect(window.location.search).toBe("?tela=10c");
+    expectCurrentScreen("10c");
   }
 
   await user.click(screen.getByRole("button", { name: "Agora" }));
-  expect(window.location.search).toBe("?tela=10");
+  expectCurrentScreen("10");
   await user.click(screen.getAllByRole("button", { name: "Ver detalhes" })[0]);
-  expect(window.location.search).toBe("?tela=10f");
+  expectCurrentScreen("10f");
   await user.click(screen.getByRole("button", { name: "Voltar" }));
-  expect(window.location.search).toBe("?tela=10");
+  expectCurrentScreen("10");
   await user.click(screen.getByRole("checkbox", { name: /confirmar 14:00 • vermífugo chemital/i }));
   expect(screen.getAllByText("Concluído")).toHaveLength(2);
 });
@@ -627,7 +638,7 @@ test("abre o perfil do pet pelo frame 8 do figma", async () => {
 
 test("navega entre visão geral, rotina, remédios e carteira pelas abas do pet", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=8");
+  goToScreen("8");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: "Ver rotina" }));
@@ -641,29 +652,29 @@ test("navega entre visão geral, rotina, remédios e carteira pelas abas do pet"
 
   await user.click(screen.getByRole("button", { name: "Visão geral" }));
   expect(screen.getByRole("heading", { name: /perfil do pet/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=8");
+  expectCurrentScreen("8");
 });
 
 test("navega pelas telas numeradas 9, 9A, 9B e 9C da rotina", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=9");
+  goToScreen("9");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: "Semanal" }));
-  expect(window.location.search).toBe("?tela=9a");
+  expectCurrentScreen("9a");
   expect(screen.getByText("Segunda-feira")).toBeInTheDocument();
 
   await user.click(screen.getByRole("button", { name: "Banho" }));
-  expect(window.location.search).toBe("?tela=9b");
+  expectCurrentScreen("9b");
   expect(screen.getByText("Próximo banho")).toBeInTheDocument();
 
   await user.click(screen.getByRole("button", { name: "Histórico" }));
-  expect(window.location.search).toBe("?tela=9c");
+  expectCurrentScreen("9c");
   expect(screen.getByText("Ontem")).toBeInTheDocument();
   const detailButtons = screen.getAllByRole("button", { name: "Ver detalhes" });
   expect(detailButtons).toHaveLength(3);
   await user.click(detailButtons[0]);
-  expect(window.location.search).toBe("?tela=9d");
+  expectCurrentScreen("9d");
   expect(screen.getByRole("heading", { name: "Manhã" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Tarde" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Noite" })).toBeInTheDocument();
@@ -672,10 +683,10 @@ test("navega pelas telas numeradas 9, 9A, 9B e 9C da rotina", async () => {
   expect(screen.getByText("18:00")).toBeInTheDocument();
 
   await user.click(screen.getByRole("button", { name: "Voltar" }));
-  expect(window.location.search).toBe("?tela=9c");
+  expectCurrentScreen("9c");
 
   await user.click(screen.getByRole("button", { name: "Hoje" }));
-  expect(window.location.search).toBe("?tela=9");
+  expectCurrentScreen("9");
   expect(screen.getByText("08:00 • Alimentação")).toBeInTheDocument();
 });
 
@@ -744,7 +755,7 @@ test("mostra o progresso correto nas três etapas do onboarding", () => {
   ] as const;
 
   for (const [route, label, value, percentage] of steps) {
-    window.history.pushState({}, "", `/?tela=${route}`);
+    goToScreen(route);
     const rendered = render(<App />);
     const progress = screen.getByRole("progressbar", { name: label });
     expect(progress).toHaveAttribute("aria-valuemin", "1");
@@ -774,7 +785,7 @@ test("renderiza estados distintos das homes exatamente como o protótipo", () =>
   ] as const;
 
   for (const [tela, content] of states) {
-    window.history.pushState({}, "", `/?tela=${tela}`);
+    goToScreen(tela);
     const { unmount } = render(<App />);
     expect(screen.getByText(content)).toBeInTheDocument();
     unmount();
@@ -795,37 +806,37 @@ test("não usa emojis como substitutos dos assets do figma na home", async () =>
 });
 
 test("mantém as seleções tradicional e gamificada em frames diferentes", () => {
-  window.history.pushState({}, "", "/?tela=4t");
+  goToScreen("4t");
   const traditional = render(<App />);
   expect(document.querySelector('[data-experience="traditional"]')).toBeInTheDocument();
   traditional.unmount();
 
-  window.history.pushState({}, "", "/?tela=4g");
+  goToScreen("4g");
   render(<App />);
   expect(document.querySelector('[data-experience="gamified"]')).toBeInTheDocument();
 });
 
 test("passa pela confirmação 4T antes de abrir a home tradicional", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=4");
+  goToScreen("4");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: /tradicional/i }));
   await user.click(screen.getByRole("button", { name: /começar jornada/i }));
 
   expect(document.querySelector('[data-figma-node="393:2"]')).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=4t");
+  expectCurrentScreen("4t");
 
   await user.click(screen.getByRole("button", { name: /começar jornada/i }));
   expect(screen.getByText(/vermífugo às 14:00/i)).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=5t");
+  expectCurrentScreen("5t");
   expect(localStorage.getItem("balu-experience")).toBe("traditional");
 });
 
 test("salva a experiência gamificada escolhida no onboarding", async () => {
   const user = userEvent.setup();
   localStorage.clear();
-  window.history.pushState({}, "", "/?tela=4");
+  goToScreen("4");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: /gamificada/i }));
@@ -836,7 +847,7 @@ test("salva a experiência gamificada escolhida no onboarding", async () => {
 });
 
 test("reproduz perfil e notificações com os assets do Figma e a barra inferior", () => {
-  window.history.pushState({}, "", "/?tela=6");
+  goToScreen("6");
   const profile = render(<App />);
 
   expect(screen.getByRole("heading", { name: /perfil do tutor/i })).toBeInTheDocument();
@@ -844,7 +855,7 @@ test("reproduz perfil e notificações com os assets do Figma e a barra inferior
   expect(screen.getByRole("button", { name: "Início" })).toBeInTheDocument();
   profile.unmount();
 
-  window.history.pushState({}, "", "/?tela=6a");
+  goToScreen("6a");
   const { container } = render(<App />);
 
   expect(screen.getByRole("heading", { name: /notificações/i })).toBeInTheDocument();
@@ -860,29 +871,29 @@ test("reproduz perfil e notificações com os assets do Figma e a barra inferior
 
 test("abre o convite pelo cuidado compartilhado e volta", async () => {
   const user = userEvent.setup();
-  window.history.pushState({}, "", "/?tela=12");
+  goToScreen("12");
   render(<App />);
 
   await user.click(screen.getByRole("button", { name: /convidar/i }));
 
   expect(screen.getByRole("heading", { name: /convidar tutor/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=13");
+  expectCurrentScreen("13");
 
   await user.click(screen.getByRole("button", { name: "Voltar" }));
 
   expect(screen.getByRole("heading", { name: /cuidado compartilhado/i })).toBeInTheDocument();
-  expect(window.location.search).toBe("?tela=12");
+  expectCurrentScreen("12");
 });
 
 test("usa Plus Jakarta Sans nos controles de cuidado compartilhado e convite", () => {
-  window.history.pushState({}, "", "/?tela=12");
+  goToScreen("12");
   const sharedCare = render(<App />);
   expect(
     getComputedStyle(screen.getByRole("button", { name: /convidar tutor/i })).fontFamily,
   ).toContain("Plus Jakarta Sans");
   sharedCare.unmount();
 
-  window.history.pushState({}, "", "/?tela=13");
+  goToScreen("13");
   render(<App />);
   expect(
     getComputedStyle(screen.getByRole("button", { name: /copiar código/i })).fontFamily,
