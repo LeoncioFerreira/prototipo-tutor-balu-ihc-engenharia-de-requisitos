@@ -1,6 +1,10 @@
 .worktrees/
 node_modules/
 dist/
+.vite/
+.vercel/
 coverage/
+docs/
+design-reference/
 .DS_Store
 *.tsbuildinfo
