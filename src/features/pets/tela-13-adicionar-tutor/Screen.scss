@@ -1,0 +1,188 @@
+@use "../../../styles/screen";
+.invite-tutor-screen {
+  color: #002045;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    height: 44px;
+  }
+
+  &__back {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    margin-left: -12px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #002045;
+    cursor: pointer;
+  }
+
+  &__header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+
+  &__subtitle {
+    margin: 14px 0 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+
+  .invite-code {
+    display: flex;
+    width: 100%;
+    max-width: 321px;
+    min-height: 146px;
+    margin: 30px auto 0;
+    padding: 14px 18px 12px;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 34px;
+    text-align: center;
+    background: #e6fffa;
+    color: #8492a6;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .invite-code p {
+    margin: 0;
+  }
+
+  .invite-code b {
+    display: block;
+    margin-top: 8px;
+    color: #002045;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.56px;
+    line-height: 32px;
+  }
+
+  .invite-code button,
+  .whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 0;
+    font-weight: 700;
+  }
+
+  .invite-code button {
+    position: relative;
+    isolation: isolate;
+    margin-top: 3px;
+    padding: 2px 6px;
+    background: transparent;
+    color: #002045;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .invite-code button::before {
+    position: absolute;
+    z-index: 0;
+    inset: -11px -8px;
+    content: "";
+  }
+
+  .whatsapp {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    width: 209px;
+    height: 36px;
+    margin: 8px auto 0;
+    border-radius: 18px;
+    background: #25d366;
+    color: #fff;
+    font-size: 13px;
+    line-height: 18px;
+    text-decoration: none;
+  }
+
+  .whatsapp::before {
+    position: absolute;
+    z-index: 0;
+    inset: -4px 0;
+    content: "";
+  }
+
+  .whatsapp img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .permissions,
+  .safe-code {
+    border-radius: 16px;
+    padding: 12px;
+    background: #fff;
+  }
+
+  .permissions {
+    min-height: 182px;
+    margin-top: 20px;
+    border: 1.5px solid #e2e8f0;
+  }
+
+  .permissions h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+
+  .safe-code {
+    min-height: 94px;
+    margin-top: 22px;
+    border: 1.2px solid #b2f5ea;
+    background: #e6f7f4;
+  }
+
+  .safe-code h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+
+  .safe-code p {
+    margin: 7px 0 0;
+    color: #4a5568;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .permissions ul {
+    margin: 11px 0 0;
+    padding-left: 19px;
+    color: #4a5568;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  .permissions li + li {
+    margin-top: 5px;
+  }
+
+  .warning {
+    color: #ed8936;
+  }
+
+  &__note {
+    margin: 10px 0 0;
+    color: #718096;
+    font-size: 12px;
+    line-height: 17px;
+  }
+}

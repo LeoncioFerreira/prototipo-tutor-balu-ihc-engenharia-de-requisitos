@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-500.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-600.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-700.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/plus-jakarta-sans-800.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+  color: #183a78;
+  background: #f7fafc;
+  --balu-navy: #183a78;
+  --balu-mint: #b2f5ea;
+  --balu-mint-soft: #e6fffa;
+  --balu-canvas: #f7fafc;
+  --balu-text: #183a78;
+  --balu-text-secondary: #4a5568;
+  --balu-border: #e2e8f0;
+  --balu-muted: #f2f4f5;
+  --balu-danger: #e53e3e;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+
+.balu-mobile-shell {
+  scrollbar-width: none;
+}
+
+.balu-mobile-shell::-webkit-scrollbar {
+  display: none;
+}

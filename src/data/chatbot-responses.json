@@ -1,0 +1,19 @@
+{
+  "urgentKeywords": ["sem respirar", "desmaiou", "convulsao", "sangramento intenso"],
+  "urgentReply": "Isso pode ser uma urgência. Procure imediatamente uma clínica veterinária ou serviço de emergência.",
+  "fallbackReply": "Ainda não encontrei uma orientação para isso. Para segurança do seu pet, fale com a clínica ou um médico-veterinário.",
+  "intents": [
+    {
+      "keywords": ["vacina", "vacinacao"],
+      "reply": "A carteira digital mostra as vacinas registradas e as próximas doses. Para definir o calendário do Balu, confirme com a clínica."
+    },
+    {
+      "keywords": ["alimentacao", "racao", "comida"],
+      "reply": "Você pode acompanhar os horários de alimentação na rotina do Balu. Em caso de mudança no apetite, procure orientação veterinária."
+    },
+    {
+      "keywords": ["remedio", "medicamento", "dose"],
+      "reply": "Confira o medicamento prescrito na área de saúde e siga somente a orientação do médico-veterinário."
+    }
+  ]
+}

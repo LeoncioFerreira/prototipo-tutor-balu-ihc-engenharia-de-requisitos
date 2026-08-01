@@ -1,0 +1,162 @@
+.clinic-link-screen {
+  position: relative;
+  width: 393px;
+  min-height: 852px;
+  background: white;
+  color: #183a78;
+  text-align: center;
+}
+
+.clinic-back {
+  position: absolute;
+  top: 44px;
+  left: 20px;
+  width: 18px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #002045;
+  font: inherit;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.clinic-badge {
+  position: absolute;
+  top: 74px;
+  left: 145px;
+  display: block;
+  width: 104px;
+  height: 104px;
+}
+
+.clinic-link-screen > h1 {
+  position: absolute;
+  top: 198px;
+  left: 36px;
+  width: 321px;
+  margin: 0;
+  color: #183a78;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+}
+
+.clinic-description {
+  position: absolute;
+  top: 292px;
+  left: 36px;
+  width: 321px;
+  margin: 0;
+  color: #4a5568;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  text-align: left;
+}
+
+.clinic-card {
+  position: absolute;
+  top: 390px;
+  left: 20px;
+  width: 353px;
+  height: 108px;
+  overflow: hidden;
+  border: 2px solid #c4c6cf;
+  border-radius: 20px;
+  background: white;
+  text-align: left;
+}
+
+.clinic-avatar {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: block;
+  width: 56px;
+  height: 56px;
+}
+
+.clinic-avatar-letter {
+  position: absolute;
+  top: 26px;
+  left: 34px;
+  color: #183a78;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.clinic-card h2 {
+  position: absolute;
+  top: 17px;
+  left: 88px;
+  margin: 0;
+  color: #183a78;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.clinic-card p {
+  position: absolute;
+  top: 43px;
+  left: 88px;
+  margin: 0;
+  color: #4a5568;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.clinic-card b {
+  position: absolute;
+  top: 70px;
+  left: 88px;
+  display: grid;
+  width: 104px;
+  height: 24px;
+  place-items: center;
+  border-radius: 12px;
+  background: #e9fcf7;
+  color: #21966f;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.accept-link {
+  position: absolute;
+  top: 526px;
+  left: 20px;
+  width: 353px;
+  height: 56px;
+  border: 0;
+  border-radius: 28px;
+  background: #183a78;
+  box-shadow: 0 4px 20px rgba(26, 54, 93, 0.08);
+  color: white;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.reject-link {
+  position: absolute;
+  top: 606px;
+  left: 50%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #183a78;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+  transform: translateX(-50%);
+}

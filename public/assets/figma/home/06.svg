@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Add Pet Avatar">
+<rect x="0.75" y="0.75" width="54.5" height="54.5" rx="27.25" fill="white"/>
+<rect x="0.75" y="0.75" width="54.5" height="54.5" rx="27.25" stroke="#E2E8F0" stroke-width="1.5"/>
+<circle id="Add Plus Circle" cx="28" cy="28" r="12" fill="#B2F5EA"/>
+<rect id="Add Plus H" x="22" y="27" width="12" height="2.5" rx="1.25" fill="#002045"/>
+<rect id="Add Plus V" x="27" y="22" width="2.5" height="12" rx="1.25" fill="#002045"/>
+</g>
+</svg>

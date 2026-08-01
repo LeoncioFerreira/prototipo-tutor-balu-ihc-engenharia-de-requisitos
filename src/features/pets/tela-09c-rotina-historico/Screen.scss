@@ -1,0 +1,23 @@
+.routine-screen .routine-history-list article span {
+  background: #dcfce7;
+  color: #48bb78;
+}
+
+.routine-screen .routine-history-list article {
+  position: relative;
+  min-height: 108px;
+}
+
+.routine-screen .routine-history-list article > button {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  height: 24px;
+  border: 0;
+  border-radius: 12px;
+  background: #e6f7f4;
+  padding: 0 13px;
+  color: #183a78;
+  font-size: 10px;
+  font-weight: 700;
+}

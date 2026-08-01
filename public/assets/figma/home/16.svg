@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Triage Shape Icon" clip-path="url(#clip0_0_4)">
+<circle id="Chat Bg" cx="9" cy="9" r="8.45" fill="white" stroke="#B2F5EA" stroke-width="1.1"/>
+<rect id="Chat Bubble" x="4" y="5" width="10" height="7" rx="3.5" fill="#002045"/>
+<path id="Chat Tail" d="M10.8794 8.31596L13.2765 9.83787L10.0213 11.0227L10.8794 8.31596Z" fill="#002045"/>
+<circle id="Dot 1" cx="6.9" cy="8.4" r="0.8" fill="#B2F5EA"/>
+<circle id="Dot 2" cx="9" cy="8.4" r="0.8" fill="#B2F5EA"/>
+<circle id="Dot 3" cx="11.1" cy="8.4" r="0.8" fill="#B2F5EA"/>
+</g>
+<defs>
+<clipPath id="clip0_0_4">
+<rect width="18" height="18" fill="white"/>
+</clipPath>
+</defs>
+</svg>

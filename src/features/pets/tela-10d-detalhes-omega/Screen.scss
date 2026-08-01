@@ -1,0 +1,137 @@
+@use "../../../styles/screen";
+
+.medicine-history-detail-screen {
+  color: #002045;
+
+  > header {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    gap: 12px;
+
+    button {
+      display: grid;
+      width: 20px;
+      height: 30px;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: #002045;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 25px;
+    }
+  }
+
+  &__medicine,
+  &__data,
+  &__observation {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 16px;
+    background: #fff;
+  }
+
+  &__medicine {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+    padding: 16px;
+
+    img {
+      width: 48px;
+      height: 48px;
+    }
+
+    h2 {
+      max-width: 150px;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: #718096;
+      font-size: 11px;
+    }
+
+    > span {
+      position: absolute;
+      top: 27px;
+      right: 14px;
+      border-radius: 11px;
+      background: #dcfce7;
+      padding: 5px 11px;
+      color: #48bb78;
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    > span.is-scheduled {
+      background: #feebc8;
+      color: #ed8936;
+    }
+  }
+
+  &__data {
+    margin-top: 16px;
+    padding: 15px;
+
+    h2 {
+      margin: 0 0 9px;
+      font-size: 14px;
+    }
+
+    dl {
+      margin: 0;
+    }
+
+    dl div {
+      display: flex;
+      min-height: 40px;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    dl div:last-child {
+      border-bottom: 0;
+    }
+
+    dt {
+      color: #718096;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    dd {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+    }
+  }
+
+  &__observation {
+    margin-top: 16px;
+    padding: 15px;
+
+    h2 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    p {
+      margin: 8px 0 0;
+      color: #4a5568;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 17px;
+    }
+  }
+}
