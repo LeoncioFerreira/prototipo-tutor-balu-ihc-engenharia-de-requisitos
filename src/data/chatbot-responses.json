@@ -1,19 +1,166 @@
 {
-  "urgentKeywords": ["sem respirar", "desmaiou", "convulsao", "sangramento intenso"],
-  "urgentReply": "Isso pode ser uma urgência. Procure imediatamente uma clínica veterinária ou serviço de emergência.",
-  "fallbackReply": "Ainda não encontrei uma orientação para isso. Para segurança do seu pet, fale com a clínica ou um médico-veterinário.",
+  "messages": {
+    "empty": "Escreva uma pergunta para eu ajudar.",
+    "fallback": "Não entendi essa pergunta sobre {{pet}}. Posso ajudar com dicas de saúde, vacinas, medicamentos, rotina, peso, cuidados gerais e emergências.",
+    "help": "Posso ajudar com vacinas, medicamentos e rotina de {{pet}}; consultar dados cadastrados; oferecer cuidados gerais para {{species}} da raça {{breed}}; e iniciar o protocolo de emergência. Não faço diagnósticos nem prescrevo tratamentos.",
+    "noVaccines": "{{pet}} não possui vacinas cadastradas. Confirme a carteira com a clínica ou o médico-veterinário.",
+    "noNextVaccine": "Não há próxima dose cadastrada para {{pet}}. Confirme o calendário com a clínica.",
+    "nextVaccine": "A carteira digital mostra as vacinas registradas e as próximas doses. A próxima dose cadastrada é {{vaccine}}, prevista para {{date}}. Confirme o calendário com a clínica.",
+    "noMedications": "{{pet}} não possui medicamentos ativos cadastrados. Não administre medicamentos sem orientação veterinária.",
+    "noRoutine": "{{pet}} ainda não possui atividades cadastradas na rotina.",
+    "weightQuestion": "Qual é o peso atual de {{pet}}, em kg?",
+    "weightInvalid": "Não consegui identificar o peso. Informe o peso de {{pet}} em kg, por exemplo: 31 kg.",
+    "weightAnswer": "{{pet}} está com {{weight}} kg. O peso ideal depende de porte, idade e condição corporal; confirme a avaliação com um médico-veterinário.",
+    "emergencyConfirmation": "Isso pode ser uma emergência. Deseja alertar {{clinic}}? Responda “sim” ou “não”.",
+    "emergencyClarification": "Ainda preciso confirmar o alerta. Responda apenas “sim” para enviar ou “não” para cancelar.",
+    "emergencyCancel": "O alerta não foi enviado. Se houver risco imediato, procure atendimento veterinário de emergência.",
+    "emergencyWithClinic": "Alerta simulado enviado para {{clinic}}.",
+    "emergencyWithoutClinic": "Não há clínica vinculada; não foi possível simular o envio do alerta.",
+    "firstAid": "Primeiros socorros: afaste objetos ao redor, não coloque a mão na boca do animal, mantenha-o em local ventilado e procure atendimento veterinário imediatamente. Estas orientações não substituem o atendimento profissional.",
+    "breedCare": "Posso oferecer orientações gerais para {{pet}}, um {{species}} da raça {{breed}}, mas avaliações individuais devem ser feitas por um médico-veterinário.",
+    "activity": "Para {{pet}}, um {{breed}}, prefira brincadeiras adequadas ao porte e à condição física, com pausas, água e supervisão.",
+    "greeting": "Oi! Eu sou o tutor do {{pet}}. Posso ajudar com saúde, vacinas, medicamentos, rotina, cuidados e emergências. O que você gostaria de saber?",
+    "farewell": "Até mais! Cuide bem do {{pet}}. Se precisar, estarei aqui para ajudar.",
+    "thanks": "Por nada! Sempre que precisar de ajuda com o {{pet}}, pode me chamar.",
+    "wellBeing": "Estou bem e pronto para ajudar com o {{pet}}. Como ele está hoje?",
+    "identity": "Sou o tutor virtual do {{pet}}. Posso consultar os dados cadastrados e oferecer orientações gerais, mas não substituo um médico-veterinário.",
+    "petProfile": "Dados cadastrados de {{pet}}: espécie {{species}}, raça {{breed}}, {{age}}. Peso: {{weight}}.",
+    "ageUnknown": "A idade de {{pet}} ainda não está cadastrada.",
+    "breedUnknown": "A raça de {{pet}} ainda não está cadastrada.",
+    "symptom": "Posso registrar uma dúvida sobre sintomas, mas não faço diagnóstico. Descreva o que está acontecendo e procure um médico-veterinário se houver piora ou preocupação.",
+    "feeding": "A alimentação de {{pet}} deve considerar idade, porte, condição corporal e orientação veterinária. Mantenha água fresca disponível e evite mudanças bruscas.",
+    "clinic": "A clínica vinculada ao {{pet}} é {{clinic}}. Para confirmar horários e atendimento, entre em contato diretamente com a clínica.",
+    "clinicUnknown": "Não há uma clínica vinculada ao {{pet}}. Você pode procurar uma clínica veterinária de confiança.",
+    "appointment": "Para agendar ou confirmar uma consulta do {{pet}}, entre em contato com a clínica vinculada.",
+    "positive": "Que bom! Espero que o {{pet}} continue bem. Posso consultar vacinas, medicamentos ou rotina.",
+    "negative": "Sinto muito. Conte o que aconteceu com o {{pet}}. Se houver sinais de emergência, escreva “emergência” para iniciar o protocolo.",
+    "projectTeam": "O Balu foi criado pela equipe formada por Leôncio, Paulo, Salomão e André, com orientação do professor Williamson Silva (Will). O projeto foi desenvolvido nas disciplinas de Interação Humano-Computador (IHC) e Engenharia de Requisitos (ER).",
+    "healthTips": "Dicas de saúde para o {{pet}}: mantenha as vacinas em dia, ofereça água fresca, acompanhe o peso, mantenha uma rotina de alimentação e passeios e observe mudanças de comportamento. Em caso de sinais preocupantes, procure um médico-veterinário."
+  },
   "intents": [
     {
-      "keywords": ["vacina", "vacinacao"],
-      "reply": "A carteira digital mostra as vacinas registradas e as próximas doses. Para definir o calendário do Balu, confirme com a clínica."
+      "id": "ajuda",
+      "keywords": ["o que voce", "capaz", "como pode ajudar", "ajuda", "perguntar", "funcao"]
+    },
+    { "id": "vacina", "keywords": ["vacina", "vacinacao", "dose", "imuniza"] },
+    { "id": "medicamento", "keywords": ["medicamento", "remedio", "vermifugo", "medicacao"] },
+    {
+      "id": "rotina",
+      "keywords": ["rotina", "tarefa", "passeio", "alimentacao", "comida", "racao"]
+    },
+    { "id": "peso", "keywords": ["peso", "pesando", "gordo", "magra", "magro"] },
+    { "id": "atividade", "keywords": ["brinc", "atividade", "entretenimento"] },
+    { "id": "cuidados", "keywords": ["cuidado", "prevencao", "prevenir", "raca"] },
+    {
+      "id": "saudacao",
+      "keywords": ["oi", "ola", "oie", "e ai", "bom dia", "boa tarde", "boa noite"]
+    },
+    { "id": "despedida", "keywords": ["tchau", "ate mais", "ate logo", "falou", "vou embora"] },
+    {
+      "id": "agradecimento",
+      "keywords": ["obrigado", "obrigada", "valeu", "agradeco", "muito obrigado"]
+    },
+    { "id": "bemEstar", "keywords": ["tudo bem", "como voce esta", "como vai", "esta bem"] },
+    {
+      "id": "identidade",
+      "keywords": [
+        "quem e voce",
+        "voce e um robo",
+        "voce e ia",
+        "o que voce faz",
+        "qual sua funcao"
+      ]
     },
     {
-      "keywords": ["alimentacao", "racao", "comida"],
-      "reply": "Você pode acompanhar os horários de alimentação na rotina do Balu. Em caso de mudança no apetite, procure orientação veterinária."
+      "id": "perfilPet",
+      "keywords": [
+        "dados do",
+        "informacoes do",
+        "perfil do",
+        "cadastro do",
+        "ficha do",
+        "fale sobre o meu pet",
+        "pet cadastrado",
+        "animal cadastrado",
+        "meu pet"
+      ]
+    },
+    { "id": "idade", "keywords": ["idade", "quantos anos"] },
+    { "id": "raca", "keywords": ["qual a raca", "que raca", "raca do"] },
+    {
+      "id": "sintoma",
+      "keywords": ["sintoma", "vomit", "diarre", "coceira", "tosse", "febre", "dor", "nao esta bem"]
     },
     {
-      "keywords": ["remedio", "medicamento", "dose"],
-      "reply": "Confira o medicamento prescrito na área de saúde e siga somente a orientação do médico-veterinário."
+      "id": "alimentacao",
+      "keywords": ["alimentar", "alimentacao", "racao", "comida", "come", "fome", "petisco"]
+    },
+    {
+      "id": "clinica",
+      "keywords": ["clinica", "veterinario", "contato da clinica", "qual clinica"]
+    },
+    { "id": "consulta", "keywords": ["consulta", "agendar", "marcar", "horario", "atendimento"] },
+    { "id": "positivo", "keywords": ["esta bem", "melhorou", "tudo certo", "bem sim"] },
+    {
+      "id": "negativo",
+      "keywords": ["nao esta bem", "piorou", "estou preocupado", "preocupada", "mal"]
+    },
+    {
+      "id": "sobreProjeto",
+      "keywords": [
+        "quem criou o balu",
+        "criadores do balu",
+        "equipe do balu",
+        "professor will",
+        "qual disciplina",
+        "quem fez o balu",
+        "sobre o projeto",
+        "leoncio",
+        "paulo",
+        "salmao",
+        "andre",
+        "will"
+      ]
+    },
+    {
+      "id": "dicasSaude",
+      "keywords": ["dicas de saude", "dica de saude", "dicas de cuidado", "orientacao de saude"]
+    },
+    { "id": "feliz", "keywords": ["feliz", "contente", "alegre", "satisfeito", "animado"] },
+    { "id": "triste", "keywords": ["triste", "chateado", "sozinho", "chorando", "desanimado"] },
+    {
+      "id": "preocupado",
+      "keywords": ["preocupado", "preocupada", "ansioso", "ansiosa", "medo", "nervoso", "nervosa"]
+    },
+    { "id": "cansado", "keywords": ["cansado", "cansada", "exausto", "exausta", "sem energia"] },
+    { "id": "entediado", "keywords": ["entediado", "entediada", "tedio", "sem fazer nada"] },
+    {
+      "id": "empolgado",
+      "keywords": ["empolgado", "empolgada", "euforico", "euforica", "animacao"]
+    },
+    {
+      "id": "conversa",
+      "keywords": ["conversar", "conversa", "papo", "companhia", "humor", "conversinha"]
     }
-  ]
+  ],
+  "emergencyKeywords": [
+    "emergencia",
+    "primeiros socorros",
+    "convuls",
+    "sem respirar",
+    "nao consegue respirar",
+    "dificuldade para respirar",
+    "desmai",
+    "inconsciente",
+    "sangramento intenso",
+    "atropel",
+    "veneno",
+    "envenen"
+  ],
+  "affirmativeKeywords": ["sim", "confirmo", "pode", "alertar"],
+  "negativeKeywords": ["nao", "cancelar", "cancela"],
+  "vaccineDetailKeywords": {
+    "last": ["ultima", "mais recente", "tomou", "recebeu"],
+    "next": ["proxima", "quando", "venc", "reforco"]
+  }
 }
