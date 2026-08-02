@@ -64,7 +64,9 @@
   font-size: 13px;
   font-weight: 700;
 
-  .appointment-modal__reason-label > span { color: #e53e3e; }
+  .appointment-modal__reason-label > span {
+    color: #e53e3e;
+  }
 
   textarea {
     width: 100%;
@@ -112,7 +114,9 @@
     border-radius: 50%;
   }
 
-  button:disabled { opacity: 0.28; }
+  button:disabled {
+    opacity: 0.28;
+  }
 }
 
 .appointment-modal__weekdays,
@@ -146,18 +150,40 @@
     font-weight: 600;
   }
 
-  button:hover:not(:disabled) { background: #e6fffa; }
-  button:disabled { color: #bdc5d0; }
-  button.is-today { box-shadow: inset 0 0 0 1.5px #25aa9b; }
-  button.is-selected { background: #183a78; color: white; box-shadow: none; }
+  button:hover:not(:disabled) {
+    background: #e6fffa;
+  }
+  button:disabled {
+    color: #bdc5d0;
+  }
+  button.is-today {
+    box-shadow: inset 0 0 0 1.5px #25aa9b;
+  }
+  button.is-selected {
+    background: #183a78;
+    color: white;
+    box-shadow: none;
+  }
 }
 
 .appointment-modal__times {
   margin-top: 16px;
 
-  h3 { font-size: 14px; font-weight: 800; }
-  > p { margin-top: 2px; color: #667085; font-size: 12px; }
-  > div { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 9px; }
+  h3 {
+    font-size: 14px;
+    font-weight: 800;
+  }
+  > p {
+    margin-top: 2px;
+    color: #667085;
+    font-size: 12px;
+  }
+  > div {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 9px;
+  }
   button {
     border: 1.5px solid #9ee8df;
     border-radius: 12px;
@@ -166,7 +192,11 @@
     font-size: 12px;
     font-weight: 700;
   }
-  button.is-selected { border-color: #183a78; background: #183a78; color: #fff; }
+  button.is-selected {
+    border-color: #183a78;
+    background: #183a78;
+    color: #fff;
+  }
 }
 
 .appointment-modal__actions {
@@ -185,13 +215,23 @@
   font-weight: 800;
 }
 
-.appointment-modal .is-primary { background: #183a78; color: #fff; }
-.appointment-modal .is-secondary { border: 1.5px solid #183a78; background: #fff; }
+.appointment-modal .is-primary {
+  background: #183a78;
+  color: #fff;
+}
+.appointment-modal .is-secondary {
+  border: 1.5px solid #183a78;
+  background: #fff;
+}
 
 .appointment-modal__confirmation {
   text-align: center;
 
-  > p { margin: 12px 0 16px; color: #4a5568; font-size: 14px; }
+  > p {
+    margin: 12px 0 16px;
+    color: #4a5568;
+    font-size: 14px;
+  }
 
   dl {
     overflow: hidden;
@@ -200,10 +240,26 @@
     text-align: left;
   }
 
-  dl div { display: grid; grid-template-columns: 78px 1fr; gap: 12px; padding: 11px 14px; }
-  dl div + div { border-top: 1px solid #edf1f5; }
-  dt { color: #667085; font-size: 12px; font-weight: 700; }
-  dd { color: #24324a; font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+  dl div {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 12px;
+    padding: 11px 14px;
+  }
+  dl div + div {
+    border-top: 1px solid #edf1f5;
+  }
+  dt {
+    color: #667085;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  dd {
+    color: #24324a;
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
 }
 
 .appointment-modal__success-icon {
@@ -218,4 +274,7 @@
   color: #183a78;
 }
 
-.appointment-modal__conclude { width: 100%; margin-top: 20px; }
+.appointment-modal__conclude {
+  width: 100%;
+  margin-top: 20px;
+}
