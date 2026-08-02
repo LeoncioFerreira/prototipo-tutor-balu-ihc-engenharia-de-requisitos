@@ -314,6 +314,17 @@ test("exibe apenas o Balu na lista de pets", () => {
   expect(screen.getByRole("button", { name: /adicionar novo pet/i })).toBeInTheDocument();
 });
 
+test("abre o agendamento pelo botão Marcar Consulta", async () => {
+  const user = userEvent.setup();
+  goToScreen("7");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /marcar consulta/i }));
+
+  expect(screen.getByRole("dialog", { name: /marcar consulta/i })).toBeInTheDocument();
+  expect(screen.getByText("Agendamento para Balu")).toBeInTheDocument();
+});
+
 test("exibe o formulário de adicionar pet sem marcador emoji", () => {
   goToScreen("7a");
   render(<App />);
