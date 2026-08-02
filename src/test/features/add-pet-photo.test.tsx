@@ -43,10 +43,7 @@ describe("foto no cadastro do pet", () => {
     expect(screen.getByTestId("pet-photo-gallery-input")).toHaveAttribute("accept", "image/*");
     expect(screen.getByTestId("pet-photo-gallery-input")).not.toHaveAttribute("capture");
     expect(screen.getByTestId("pet-photo-camera-input")).toHaveAttribute("accept", "image/*");
-    expect(screen.getByTestId("pet-photo-camera-input")).toHaveAttribute(
-      "capture",
-      "environment",
-    );
+    expect(screen.getByTestId("pet-photo-camera-input")).toHaveAttribute("capture", "environment");
   });
 
   it("mostra a imagem escolhida e mantém o botão disponível para troca", async () => {

@@ -206,7 +206,11 @@ export function AddPetScreen({ onBack }: { onBack: () => void }) {
                 <Camera aria-hidden="true" size={21} />
                 Tirar foto
               </button>
-              <button type="button" className="add-pet-screen__photo-cancel" onClick={closePhotoMenu}>
+              <button
+                type="button"
+                className="add-pet-screen__photo-cancel"
+                onClick={closePhotoMenu}
+              >
                 Cancelar
               </button>
             </div>
