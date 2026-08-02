@@ -9,13 +9,25 @@ export function WalletScreen({
   onBack: () => void;
   onOpen?: (screen: string) => void;
 }) {
-  const [activeTab, setActiveTab] = useState<"vacinas" | "consultas" | "exames" | "docs">("vacinas");
+  const [activeTab, setActiveTab] = useState<"vacinas" | "consultas" | "exames" | "docs">(
+    "vacinas",
+  );
 
   return (
     <MobileShell active="pets" onNavigate={() => undefined}>
       <div className="wallet-screen" data-figma-node="236:85">
         <header className="figma-pet-header">
-          <button aria-label="Voltar" onClick={onBack} style={{ minWidth: 44, minHeight: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <button
+            aria-label="Voltar"
+            onClick={onBack}
+            style={{
+              minWidth: 44,
+              minHeight: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <ArrowLeft size={20} />
           </button>
           <h1>Carteira do Pet</h1>
@@ -38,16 +50,28 @@ export function WalletScreen({
           </button>
         </nav>
         <nav className="wallet-tabs">
-          <button className={activeTab === "vacinas" ? "active" : ""} onClick={() => setActiveTab("vacinas")}>
+          <button
+            className={activeTab === "vacinas" ? "active" : ""}
+            onClick={() => setActiveTab("vacinas")}
+          >
             Vacinas
           </button>
-          <button className={activeTab === "consultas" ? "active" : ""} onClick={() => setActiveTab("consultas")}>
+          <button
+            className={activeTab === "consultas" ? "active" : ""}
+            onClick={() => setActiveTab("consultas")}
+          >
             Consultas
           </button>
-          <button className={activeTab === "exames" ? "active" : ""} onClick={() => setActiveTab("exames")}>
+          <button
+            className={activeTab === "exames" ? "active" : ""}
+            onClick={() => setActiveTab("exames")}
+          >
             Exames
           </button>
-          <button className={activeTab === "docs" ? "active" : ""} onClick={() => setActiveTab("docs")}>
+          <button
+            className={activeTab === "docs" ? "active" : ""}
+            onClick={() => setActiveTab("docs")}
+          >
             Docs
           </button>
         </nav>

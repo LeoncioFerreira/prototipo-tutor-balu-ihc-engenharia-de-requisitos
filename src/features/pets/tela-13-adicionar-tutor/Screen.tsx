@@ -20,7 +20,14 @@ export function AddTutorScreen({ onBack }: { onBack: () => void }) {
             type="button"
             aria-label="Voltar"
             onClick={onBack}
-            style={{ ...controlFont, minWidth: 44, minHeight: 44, display: "flex", alignItems: "center", justifyContent: "center" }}
+            style={{
+              ...controlFont,
+              minWidth: 44,
+              minHeight: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <ArrowLeft size={20} />
           </button>

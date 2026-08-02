@@ -9,7 +9,18 @@ export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
     <MobileShell padded={false}>
       <div className="pet-add-form-screen">
         <header>
-          <button aria-label="Voltar" onClick={onBack} type="button" style={{ minWidth: 44, minHeight: 44, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <button
+            aria-label="Voltar"
+            onClick={onBack}
+            type="button"
+            style={{
+              minWidth: 44,
+              minHeight: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <ArrowLeft size={22} />
           </button>
           <div>
@@ -18,7 +29,16 @@ export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
           </div>
         </header>
         {saved && (
-          <div style={{ backgroundColor: "#d1fae5", color: "#065f46", padding: "12px 16px", borderRadius: 8, margin: "16px", fontWeight: 600 }}>
+          <div
+            style={{
+              backgroundColor: "#d1fae5",
+              color: "#065f46",
+              padding: "12px 16px",
+              borderRadius: 8,
+              margin: "16px",
+              fontWeight: 600,
+            }}
+          >
             ✓ Rotina salva com sucesso! Retornando...
           </div>
         )}
