@@ -1,4 +1,6 @@
+import { useRef, useState } from "react";
 import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
+import { AppointmentModal } from "./AppointmentModal";
 
 const pets = [
   ["B", "Balu", ["Samoieda", "2 anos", "22 kg"], ["Carteira atualizada", "Cuidado compartilhado"]],
@@ -11,6 +13,9 @@ export function MyPetsScreen({
   onNavigate?: (destination: MainDestination) => void;
   onOpen?: (screen: string) => void;
 }) {
+  const [appointmentOpen, setAppointmentOpen] = useState(false);
+  const appointmentButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <MobileShell active="pets" onNavigate={onNavigate}>
       <div className="my-pets-screen">
@@ -64,7 +69,12 @@ export function MyPetsScreen({
                 >
                   Ver perfil
                 </button>
-                <button className="rounded-full border border-[#e2e8f0] bg-[#e6fffa] px-3 py-2 text-[13px] font-semibold leading-4 text-[#183a78]">
+                <button
+                  ref={appointmentButtonRef}
+                  type="button"
+                  onClick={() => setAppointmentOpen(true)}
+                  className="rounded-full border border-[#e2e8f0] bg-[#e6fffa] px-3 py-2 text-[13px] font-semibold leading-4 text-[#183a78]"
+                >
                   Marcar Consulta
                 </button>
               </div>
@@ -82,6 +92,13 @@ export function MyPetsScreen({
           />
           Adicionar novo pet
         </button>
+        {appointmentOpen && (
+          <AppointmentModal
+            petName="Balu"
+            onClose={() => setAppointmentOpen(false)}
+            returnFocusRef={appointmentButtonRef}
+          />
+        )}
       </div>
     </MobileShell>
   );
