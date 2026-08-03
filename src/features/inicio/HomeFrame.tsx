@@ -46,6 +46,7 @@ export function HomeFrame({
     variant === "5a" || variant === "5b" || variant === "5tb",
   );
   const [walkDone, setWalkDone] = useState(variant === "5b" || variant === "5tb");
+  const [lastCompleted, setLastCompleted] = useState<"medicine" | "walk" | null>(null);
   const displayVariant: HomeVariant =
     variant === "5" || variant === "5a" || variant === "5b"
       ? walkDone
@@ -151,6 +152,21 @@ export function HomeFrame({
 
         <section className="balu-home__routine">
           <h2>Rotina de Hoje</h2>
+          {lastCompleted && (
+            <div role="status" className="balu-home__undo">
+              Cuidado concluído.
+              <button
+                type="button"
+                onClick={() => {
+                  if (lastCompleted === "medicine") setMedicineDone(false);
+                  if (lastCompleted === "walk") setWalkDone(false);
+                  setLastCompleted(null);
+                }}
+              >
+                Desfazer
+              </button>
+            </div>
+          )}
           <div className="balu-home__tasks">
             <Task
               icon="08.svg"
@@ -166,7 +182,10 @@ export function HomeFrame({
               description="Dar 1/2 comprimido via oral"
               done={medicineDone}
               label="Vermífugo Chemital"
-              onToggle={() => setMedicineDone((value) => !value)}
+              onToggle={() => {
+                setMedicineDone(true);
+                setLastCompleted("medicine");
+              }}
             />
             <Task
               icon="14.svg"
@@ -174,7 +193,10 @@ export function HomeFrame({
               description="Meta diária: 20 min de caminhada"
               done={walkDone}
               label="Passeio Diário"
-              onToggle={() => setWalkDone((value) => !value)}
+              onToggle={() => {
+                setWalkDone(true);
+                setLastCompleted("walk");
+              }}
             />
           </div>
         </section>

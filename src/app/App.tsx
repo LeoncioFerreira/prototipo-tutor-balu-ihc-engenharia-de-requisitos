@@ -1,5 +1,6 @@
 import { useState, type ComponentType, type ReactNode } from "react";
 import { LoginScreen } from "../features/acesso/tela-01-login/Screen";
+import { NotFoundScreen } from "../features/acesso/tela-00-nao-encontrada/Screen";
 import { ForgotPasswordScreen } from "../features/acesso/tela-01a-recuperar-senha/Screen";
 import { CreateAccountScreen } from "../features/acesso/tela-02-criar-conta/Screen";
 import { RegisterPetScreen } from "../features/acesso/tela-03-cadastrar-pet/Screen";
@@ -261,6 +262,7 @@ function AppContent() {
   }
 
   if (view === "forgot") return <ForgotPasswordScreen onBack={() => openView("login")} />;
+  if (view === "not-found") return <NotFoundScreen onHome={() => openView("login")} />;
   if (view === "login")
     return (
       <LoginScreen

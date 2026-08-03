@@ -1,0 +1,33 @@
+.not-found-screen {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  background: #f7fafc;
+  padding: 24px;
+  text-align: center;
+  color: #183a78;
+
+  section {
+    max-width: 340px;
+  }
+  strong {
+    font-size: 54px;
+  }
+  h1 {
+    margin: 8px 0;
+    font-size: 24px;
+  }
+  p {
+    color: #4a5568;
+    line-height: 1.5;
+  }
+  button {
+    min-height: 44px;
+    border: 0;
+    border-radius: 14px;
+    background: #183a78;
+    padding: 0 20px;
+    color: white;
+    font-weight: 700;
+  }
+}
