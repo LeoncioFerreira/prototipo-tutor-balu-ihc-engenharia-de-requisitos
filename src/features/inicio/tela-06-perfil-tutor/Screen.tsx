@@ -38,7 +38,7 @@ export function TutorProfileScreen({
             <strong>Resumo da conta</strong>
             <span>Ativa</span>
           </div>
-          <p>Conta criada e onboarding em andamento.</p>
+          <p>Conta criada e configuração inicial em andamento.</p>
           <p>Gerencie dados pessoais, pets e preferências por aqui.</p>
           <small>Tutor verificado</small>
         </section>

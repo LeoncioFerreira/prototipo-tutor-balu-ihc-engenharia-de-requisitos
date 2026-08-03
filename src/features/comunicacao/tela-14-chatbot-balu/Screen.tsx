@@ -22,6 +22,7 @@ export function ChatbotBaluScreen({
 }) {
   const [messages, setMessages] = useState(initialMessages);
   const [message, setMessage] = useState("");
+  const [faqOpen, setFaqOpen] = useState(false);
   const chatSession = useRef(createChatSession(demoPets[0]));
   const messagesRef = useRef<HTMLElement>(null);
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
@@ -76,7 +77,7 @@ export function ChatbotBaluScreen({
           <img src="/assets/figma/chat/balu-avatar.png" alt="" />
           <div>
             <h1>Conversa com Balu</h1>
-            <p>Online</p>
+            <p>Assistente Virtual (IA)</p>
           </div>
         </header>
 
@@ -103,6 +104,9 @@ export function ChatbotBaluScreen({
           </aside>
 
           <div className="chatbot-screen__chips">
+            <button type="button" onClick={() => setFaqOpen((value) => !value)}>
+              Perguntas frequentes
+            </button>
             <button
               type="button"
               className="is-emergency"
@@ -117,6 +121,25 @@ export function ChatbotBaluScreen({
               Remédios
             </button>
           </div>
+          {faqOpen && (
+            <section className="chatbot-screen__faq" aria-label="Perguntas frequentes">
+              <details>
+                <summary>Como registrar uma rotina?</summary>
+                <p>Abra o perfil do pet, escolha Ver rotina e toque em Adicionar rotina.</p>
+              </details>
+              <details>
+                <summary>Como consultar a carteira do pet?</summary>
+                <p>
+                  Abra o perfil do pet e escolha Ver carteira para acessar vacinas, consultas,
+                  exames e documentos.
+                </p>
+              </details>
+              <details>
+                <summary>Como gerenciar vínculos?</summary>
+                <p>Use Cuidado compartilhado no perfil do pet para convidar ou revisar tutores.</p>
+              </details>
+            </section>
+          )}
 
           <form
             className="chatbot-screen__input"
