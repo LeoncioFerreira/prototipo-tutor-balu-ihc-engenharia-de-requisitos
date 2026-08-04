@@ -72,11 +72,6 @@ export function CommunitiesScreen({
               showToast("Comunidade dos Gateiros selecionada");
             }}
           />
-          <Breed
-            label="Adicionar"
-            add
-            onClick={() => showToast("Modal para seguir nova raça aberto")}
-          />
         </div>
 
         <label className="communities-screen__search">
@@ -131,13 +126,11 @@ export function CommunitiesScreen({
 function Breed({
   asset,
   label,
-  add = false,
   active = false,
   onClick,
 }: {
-  asset?: string;
+  asset: string;
   label: string;
-  add?: boolean;
   active?: boolean;
   onClick?: () => void;
 }) {
@@ -148,7 +141,7 @@ function Breed({
       style={active ? { borderColor: "#10b981", backgroundColor: "#ecfdf5" } : undefined}
     >
       <span className="communities-screen__breed-icon">
-        {add ? "+" : <img src={`/assets/figma/community/${asset}`} alt="" />}
+        <img src={`/assets/figma/community/${asset}`} alt="" />
       </span>
       <small style={active ? { fontWeight: 700, color: "#065f46" } : undefined}>{label}</small>
     </button>

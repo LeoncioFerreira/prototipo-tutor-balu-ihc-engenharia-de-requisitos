@@ -63,9 +63,7 @@ test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () 
   const controls = screen.getByRole("region", { name: "Controles da conversa" });
   const actions = within(controls).getByRole("group", { name: "Ações rápidas" });
   expect(within(actions).getAllByRole("button")).toHaveLength(2);
-  expect(actions).toContainElement(
-    screen.getByRole("button", { name: "Perguntas frequentes" }),
-  );
+  expect(actions).toContainElement(screen.getByRole("button", { name: "Perguntas frequentes" }));
   expect(actions).toContainElement(screen.getByRole("button", { name: "Acionar Emergência" }));
   expect(screen.queryByRole("button", { name: "Dicas de Saúde" })).not.toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "Remédios" })).not.toBeInTheDocument();
@@ -308,6 +306,16 @@ test("abre uma tela numerada diretamente pela URL", () => {
   goToScreen("10");
   render(<App />);
   expect(screen.getByRole("heading", { name: /medicamentos do pet/i })).toBeInTheDocument();
+});
+
+test("mostra somente as raças seguidas na seção Minhas raças", () => {
+  goToScreen("15");
+  render(<App />);
+
+  expect(screen.getByRole("button", { name: "Caramelo" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Vira-lata" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Gateiros" })).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: /adicionar/i })).not.toBeInTheDocument();
 });
 
 test("abre o Clube dos Caramelos pelo botão Entrar no clube", async () => {
