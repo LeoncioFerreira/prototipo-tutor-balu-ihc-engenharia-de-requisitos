@@ -104,7 +104,12 @@ export function ChatbotBaluScreen({
           </aside>
 
           <div className="chatbot-screen__chips">
-            <button type="button" onClick={() => setFaqOpen((value) => !value)}>
+            <button
+              type="button"
+              aria-expanded={faqOpen}
+              aria-controls="chatbot-faq"
+              onClick={() => setFaqOpen((value) => !value)}
+            >
               Perguntas frequentes
             </button>
             <button
@@ -122,7 +127,11 @@ export function ChatbotBaluScreen({
             </button>
           </div>
           {faqOpen && (
-            <section className="chatbot-screen__faq" aria-label="Perguntas frequentes">
+            <section
+              id="chatbot-faq"
+              className="chatbot-screen__faq"
+              aria-label="Perguntas frequentes"
+            >
               <details>
                 <summary>Como registrar uma rotina?</summary>
                 <p>Abra o perfil do pet, escolha Ver rotina e toque em Adicionar rotina.</p>

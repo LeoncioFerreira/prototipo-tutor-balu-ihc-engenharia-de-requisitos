@@ -43,6 +43,19 @@ test("inicia o chat limpo e responde às mensagens enviadas", async () => {
   expect(screen.getByText(/a carteira digital mostra as vacinas/i)).toBeInTheDocument();
 });
 
+test("lista as vacinas cadastradas ao perguntar pelo chat", async () => {
+  const user = userEvent.setup();
+  goToScreen("14");
+  render(<App />);
+
+  await user.type(screen.getByLabelText("Mensagem"), "Tem vacinas?");
+  await user.click(screen.getByRole("button", { name: "Enviar mensagem" }));
+
+  const reply = screen.getByText(/Vacinas de Balu/);
+  expect(reply).toHaveTextContent("Antirrábica");
+  expect(reply).toHaveTextContent("V10 múltipla");
+});
+
 test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () => {
   goToScreen("14");
   render(<App />);
@@ -397,7 +410,17 @@ test("oferece ajuda contextual no assistente virtual", async () => {
   render(<App />);
 
   expect(screen.getByText("Assistente Virtual (IA)")).toBeInTheDocument();
-  await user.click(screen.getByRole("button", { name: "Perguntas frequentes" }));
+  const faqButton = screen.getByRole("button", { name: "Perguntas frequentes" });
+  expect(faqButton).toHaveAttribute("aria-expanded", "false");
+  expect(faqButton).toHaveAttribute("aria-controls", "chatbot-faq");
+
+  await user.click(faqButton);
+
+  expect(faqButton).toHaveAttribute("aria-expanded", "true");
+  expect(screen.getByRole("region", { name: "Perguntas frequentes" })).toHaveAttribute(
+    "id",
+    "chatbot-faq",
+  );
   expect(screen.getByText("Como registrar uma rotina?")).toBeInTheDocument();
   expect(screen.getByText("Como consultar a carteira do pet?")).toBeInTheDocument();
 });
