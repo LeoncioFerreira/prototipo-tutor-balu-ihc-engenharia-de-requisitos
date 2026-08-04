@@ -59,7 +59,7 @@ export function ChatbotBaluScreen({
           <img src="/assets/figma/chat/balu-avatar.png" alt="" />
           <div>
             <h1>Conversa com Balu</h1>
-            <p>Online • Assistente Virtual</p>
+            <p>Assistente Virtual (IA)</p>
           </div>
         </header>
 
@@ -83,6 +83,9 @@ export function ChatbotBaluScreen({
           </aside>
 
           <div className="chatbot-screen__chips">
+            <button type="button" onClick={() => sendMessage("perguntas frequentes")}>
+              Perguntas frequentes
+            </button>
             <button
               type="button"
               className="is-emergency"
