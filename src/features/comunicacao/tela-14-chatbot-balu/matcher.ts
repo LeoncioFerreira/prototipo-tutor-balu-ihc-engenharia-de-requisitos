@@ -1,5 +1,6 @@
 import replies from "../../../data/chatbot-responses.json";
 import smalltalk from "../../../data/chatbot-smalltalk.json";
+import { demoPets } from "../../../data/demo-pets";
 
 export type Vaccine = { name: string; appliedAt: string; nextAt?: string };
 export type Medication = { name: string; schedule: string; instructions: string };
@@ -302,16 +303,7 @@ export function createChatSession(pet: PetChatContext) {
   };
 }
 
-const legacyPet: PetChatContext = {
-  id: "pet",
-  name: "seu pet",
-  species: "pet",
-  breed: "não informada",
-  vaccines: [],
-  medications: [],
-  routine: [],
-};
 export function findChatbotReply(question: string): ChatbotReply {
-  const reply = createChatSession(legacyPet).reply(question);
+  const reply = createChatSession(demoPets[0]).reply(question);
   return reply.kind === "emergency-confirmation" ? { ...reply, kind: "urgent" } : reply;
 }
