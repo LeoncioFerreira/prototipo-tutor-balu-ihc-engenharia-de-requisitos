@@ -113,58 +113,35 @@
     }
   }
 
-  &__quick-actions {
+  &__actions {
     display: grid;
-    gap: 7px;
-
-    h2 {
-      margin: 0;
-      color: #4a5568;
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 14px;
-    }
-  }
-
-  &__chips {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: 8px;
-    margin-top: 0;
 
-    button {
+    > button {
       width: 100%;
-      min-height: 40px;
+      min-height: 44px;
       height: auto;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       background: white;
-      padding: 8px 10px;
+      padding: 8px;
       color: #4a5568;
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 700;
       line-height: 14px;
       white-space: normal;
     }
 
-    button:first-child {
-      grid-column: 1 / -1;
+    > .chatbot-screen__emergency-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-color: #fca5a5;
+      background: #fff1f2;
+      color: #b91c1c;
     }
-  }
-
-  &__emergency-action {
-    display: flex;
-    width: 100%;
-    min-height: 44px;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid #fca5a5;
-    border-radius: 12px;
-    background: #fff1f2;
-    color: #b91c1c;
-    font-size: 11px;
-    font-weight: 700;
   }
 
   &__faq {
@@ -194,6 +171,22 @@
       color: #4a5568;
       font-size: 10px;
       line-height: 15px;
+    }
+  }
+
+  &__medications {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 12px 12px 28px;
+    color: #4a5568;
+    font-size: 10px;
+    line-height: 15px;
+
+    li,
+    span {
+      display: grid;
+      gap: 2px;
     }
   }
 

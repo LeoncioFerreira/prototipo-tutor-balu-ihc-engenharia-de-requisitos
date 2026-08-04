@@ -103,36 +103,24 @@ export function ChatbotBaluScreen({
             </p>
           </aside>
 
-          <section
-            className="chatbot-screen__quick-actions"
-            aria-labelledby="quick-actions-title"
-          >
-            <h2 id="quick-actions-title">Perguntas rápidas</h2>
-            <div className="chatbot-screen__chips" role="group" aria-label="Perguntas rápidas">
-              <button
-                type="button"
-                aria-expanded={faqOpen}
-                aria-controls="chatbot-faq"
-                onClick={() => setFaqOpen((value) => !value)}
-              >
-                Perguntas frequentes
-              </button>
-              <button type="button" onClick={() => sendMessage("dicas de saúde")}>
-                Dicas de Saúde
-              </button>
-              <button type="button" onClick={() => sendMessage("remédio")}>
-                Remédios
-              </button>
-            </div>
-          </section>
-          <button
-            type="button"
-            className="chatbot-screen__emergency-action"
-            onClick={() => sendMessage("emergência")}
-          >
-            <TriangleAlert aria-hidden="true" size={18} strokeWidth={2.25} />
-            Acionar Emergência
-          </button>
+          <div className="chatbot-screen__actions" role="group" aria-label="Ações rápidas">
+            <button
+              type="button"
+              aria-expanded={faqOpen}
+              aria-controls="chatbot-faq"
+              onClick={() => setFaqOpen((value) => !value)}
+            >
+              Perguntas frequentes
+            </button>
+            <button
+              type="button"
+              className="chatbot-screen__emergency-action"
+              onClick={() => sendMessage("emergência")}
+            >
+              <TriangleAlert aria-hidden="true" size={18} strokeWidth={2.25} />
+              Acionar Emergência
+            </button>
+          </div>
           {faqOpen && (
             <section
               id="chatbot-faq"
@@ -153,6 +141,27 @@ export function ChatbotBaluScreen({
               <details>
                 <summary>Como gerenciar vínculos?</summary>
                 <p>Use Cuidado compartilhado no perfil do pet para convidar ou revisar tutores.</p>
+              </details>
+              <details>
+                <summary>Dicas de Saúde</summary>
+                <p>
+                  Mantenha as vacinas em dia, ofereça água fresca, acompanhe o peso, mantenha uma
+                  rotina de alimentação e passeios e observe mudanças de comportamento. Em caso de
+                  sinais preocupantes, procure um médico-veterinário.
+                </p>
+              </details>
+              <details>
+                <summary>Remédios</summary>
+                <ul className="chatbot-screen__medications" aria-label="Remédios cadastrados">
+                  {demoPets[0].medications.map((medication) => (
+                    <li key={medication.name}>
+                      <strong>{medication.name}</strong>
+                      <span>
+                        {medication.schedule} — {medication.instructions}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </details>
             </section>
           )}

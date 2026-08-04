@@ -61,16 +61,14 @@ test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () 
   render(<App />);
 
   const controls = screen.getByRole("region", { name: "Controles da conversa" });
-  const quickQuestions = within(controls).getByRole("group", { name: "Perguntas rápidas" });
-  expect(quickQuestions).toContainElement(
+  const actions = within(controls).getByRole("group", { name: "Ações rápidas" });
+  expect(within(actions).getAllByRole("button")).toHaveLength(2);
+  expect(actions).toContainElement(
     screen.getByRole("button", { name: "Perguntas frequentes" }),
   );
-  expect(quickQuestions).toContainElement(screen.getByRole("button", { name: "Dicas de Saúde" }));
-  expect(quickQuestions).toContainElement(screen.getByRole("button", { name: "Remédios" }));
-  expect(quickQuestions).not.toContainElement(
-    screen.getByRole("button", { name: "Acionar Emergência" }),
-  );
-  expect(controls).toContainElement(screen.getByRole("button", { name: "Acionar Emergência" }));
+  expect(actions).toContainElement(screen.getByRole("button", { name: "Acionar Emergência" }));
+  expect(screen.queryByRole("button", { name: "Dicas de Saúde" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Remédios" })).not.toBeInTheDocument();
   expect(controls).toContainElement(screen.getByLabelText("Mensagem"));
   expect(screen.getByLabelText("Mensagem").tagName).toBe("TEXTAREA");
 });
@@ -430,6 +428,17 @@ test("oferece ajuda contextual no assistente virtual", async () => {
   );
   expect(screen.getByText("Como registrar uma rotina?")).toBeInTheDocument();
   expect(screen.getByText("Como consultar a carteira do pet?")).toBeInTheDocument();
+  expect(screen.getByText("Dicas de Saúde", { selector: "summary" })).toBeInTheDocument();
+
+  await user.click(screen.getByText("Remédios", { selector: "summary" }));
+
+  const medications = screen.getByRole("list", { name: "Remédios cadastrados" });
+  expect(within(medications).getByText("Vermífugo Chemital")).toBeInTheDocument();
+  expect(within(medications).getByText(/14:00/)).toBeInTheDocument();
+  expect(within(medications).getByText("Prednisolona")).toBeInTheDocument();
+  expect(within(medications).getByText(/18:30/)).toBeInTheDocument();
+  expect(within(medications).getByText("Ômega 3")).toBeInTheDocument();
+  expect(within(medications).getByText(/08:00/)).toBeInTheDocument();
 });
 
 test("exibe apenas o Balu na lista de pets", () => {
