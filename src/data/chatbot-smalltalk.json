@@ -1,0 +1,2506 @@
+{
+  "version": 1,
+  "description": "Catálogo de 500 respostas para conversas básicas e estados emocionais.",
+  "responses": [
+    {
+      "id": "happy-001",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz."
+    },
+    {
+      "id": "happy-002",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia."
+    },
+    {
+      "id": "happy-003",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável."
+    },
+    {
+      "id": "happy-004",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}."
+    },
+    {
+      "id": "happy-005",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}."
+    },
+    {
+      "id": "happy-006",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 6)"
+    },
+    {
+      "id": "happy-007",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 7)"
+    },
+    {
+      "id": "happy-008",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 8)"
+    },
+    {
+      "id": "happy-009",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 9)"
+    },
+    {
+      "id": "happy-010",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 10)"
+    },
+    {
+      "id": "happy-011",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 11)"
+    },
+    {
+      "id": "happy-012",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 12)"
+    },
+    {
+      "id": "happy-013",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 13)"
+    },
+    {
+      "id": "happy-014",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 14)"
+    },
+    {
+      "id": "happy-015",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 15)"
+    },
+    {
+      "id": "happy-016",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 16)"
+    },
+    {
+      "id": "happy-017",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 17)"
+    },
+    {
+      "id": "happy-018",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 18)"
+    },
+    {
+      "id": "happy-019",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 19)"
+    },
+    {
+      "id": "happy-020",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 20)"
+    },
+    {
+      "id": "happy-021",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 21)"
+    },
+    {
+      "id": "happy-022",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 22)"
+    },
+    {
+      "id": "happy-023",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 23)"
+    },
+    {
+      "id": "happy-024",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 24)"
+    },
+    {
+      "id": "happy-025",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 25)"
+    },
+    {
+      "id": "happy-026",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 26)"
+    },
+    {
+      "id": "happy-027",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 27)"
+    },
+    {
+      "id": "happy-028",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 28)"
+    },
+    {
+      "id": "happy-029",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 29)"
+    },
+    {
+      "id": "happy-030",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 30)"
+    },
+    {
+      "id": "happy-031",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 31)"
+    },
+    {
+      "id": "happy-032",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 32)"
+    },
+    {
+      "id": "happy-033",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 33)"
+    },
+    {
+      "id": "happy-034",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 34)"
+    },
+    {
+      "id": "happy-035",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 35)"
+    },
+    {
+      "id": "happy-036",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 36)"
+    },
+    {
+      "id": "happy-037",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 37)"
+    },
+    {
+      "id": "happy-038",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 38)"
+    },
+    {
+      "id": "happy-039",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 39)"
+    },
+    {
+      "id": "happy-040",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 40)"
+    },
+    {
+      "id": "happy-041",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 41)"
+    },
+    {
+      "id": "happy-042",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 42)"
+    },
+    {
+      "id": "happy-043",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 43)"
+    },
+    {
+      "id": "happy-044",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 44)"
+    },
+    {
+      "id": "happy-045",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 45)"
+    },
+    {
+      "id": "happy-046",
+      "intent": "feliz",
+      "text": "Que bom saber disso, {{pet}}! Aproveite esse momento feliz. (variação 46)"
+    },
+    {
+      "id": "happy-047",
+      "intent": "feliz",
+      "text": "Adoro ouvir que você está feliz. O {{pet}} também pode sentir essa energia. (variação 47)"
+    },
+    {
+      "id": "happy-048",
+      "intent": "feliz",
+      "text": "Que notícia boa! Vamos manter o dia do {{pet}} leve e saudável. (variação 48)"
+    },
+    {
+      "id": "happy-049",
+      "intent": "feliz",
+      "text": "Felicidade compartilhada faz bem. Estou aqui para conversar com você e cuidar do {{pet}}. (variação 49)"
+    },
+    {
+      "id": "happy-050",
+      "intent": "feliz",
+      "text": "Isso merece um sorriso! Posso ajudar com a rotina do {{pet}}. (variação 50)"
+    },
+    {
+      "id": "sad-001",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}."
+    },
+    {
+      "id": "sad-002",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje?"
+    },
+    {
+      "id": "sad-003",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}."
+    },
+    {
+      "id": "sad-004",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu."
+    },
+    {
+      "id": "sad-005",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia."
+    },
+    {
+      "id": "sad-006",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 6)"
+    },
+    {
+      "id": "sad-007",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 7)"
+    },
+    {
+      "id": "sad-008",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 8)"
+    },
+    {
+      "id": "sad-009",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 9)"
+    },
+    {
+      "id": "sad-010",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 10)"
+    },
+    {
+      "id": "sad-011",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 11)"
+    },
+    {
+      "id": "sad-012",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 12)"
+    },
+    {
+      "id": "sad-013",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 13)"
+    },
+    {
+      "id": "sad-014",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 14)"
+    },
+    {
+      "id": "sad-015",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 15)"
+    },
+    {
+      "id": "sad-016",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 16)"
+    },
+    {
+      "id": "sad-017",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 17)"
+    },
+    {
+      "id": "sad-018",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 18)"
+    },
+    {
+      "id": "sad-019",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 19)"
+    },
+    {
+      "id": "sad-020",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 20)"
+    },
+    {
+      "id": "sad-021",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 21)"
+    },
+    {
+      "id": "sad-022",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 22)"
+    },
+    {
+      "id": "sad-023",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 23)"
+    },
+    {
+      "id": "sad-024",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 24)"
+    },
+    {
+      "id": "sad-025",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 25)"
+    },
+    {
+      "id": "sad-026",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 26)"
+    },
+    {
+      "id": "sad-027",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 27)"
+    },
+    {
+      "id": "sad-028",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 28)"
+    },
+    {
+      "id": "sad-029",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 29)"
+    },
+    {
+      "id": "sad-030",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 30)"
+    },
+    {
+      "id": "sad-031",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 31)"
+    },
+    {
+      "id": "sad-032",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 32)"
+    },
+    {
+      "id": "sad-033",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 33)"
+    },
+    {
+      "id": "sad-034",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 34)"
+    },
+    {
+      "id": "sad-035",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 35)"
+    },
+    {
+      "id": "sad-036",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 36)"
+    },
+    {
+      "id": "sad-037",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 37)"
+    },
+    {
+      "id": "sad-038",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 38)"
+    },
+    {
+      "id": "sad-039",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 39)"
+    },
+    {
+      "id": "sad-040",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 40)"
+    },
+    {
+      "id": "sad-041",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 41)"
+    },
+    {
+      "id": "sad-042",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 42)"
+    },
+    {
+      "id": "sad-043",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 43)"
+    },
+    {
+      "id": "sad-044",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 44)"
+    },
+    {
+      "id": "sad-045",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 45)"
+    },
+    {
+      "id": "sad-046",
+      "intent": "triste",
+      "text": "Sinto muito que você esteja triste. Estou aqui para conversar com você e ajudar com o {{pet}}. (variação 46)"
+    },
+    {
+      "id": "sad-047",
+      "intent": "triste",
+      "text": "Entendo. Às vezes falar um pouco já ajuda. Como o {{pet}} está hoje? (variação 47)"
+    },
+    {
+      "id": "sad-048",
+      "intent": "triste",
+      "text": "Você não precisa passar por isso sozinho. Posso ficar aqui com você e o {{pet}}. (variação 48)"
+    },
+    {
+      "id": "sad-049",
+      "intent": "triste",
+      "text": "Sinto muito. Vamos com calma; posso ouvir o que aconteceu. (variação 49)"
+    },
+    {
+      "id": "sad-050",
+      "intent": "triste",
+      "text": "Espero que você se sinta melhor logo. O {{pet}} pode ser uma boa companhia. (variação 50)"
+    },
+    {
+      "id": "worried-001",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}."
+    },
+    {
+      "id": "worried-002",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes."
+    },
+    {
+      "id": "worried-003",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança."
+    },
+    {
+      "id": "worried-004",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}?"
+    },
+    {
+      "id": "worried-005",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos."
+    },
+    {
+      "id": "worried-006",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 6)"
+    },
+    {
+      "id": "worried-007",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 7)"
+    },
+    {
+      "id": "worried-008",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 8)"
+    },
+    {
+      "id": "worried-009",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 9)"
+    },
+    {
+      "id": "worried-010",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 10)"
+    },
+    {
+      "id": "worried-011",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 11)"
+    },
+    {
+      "id": "worried-012",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 12)"
+    },
+    {
+      "id": "worried-013",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 13)"
+    },
+    {
+      "id": "worried-014",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 14)"
+    },
+    {
+      "id": "worried-015",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 15)"
+    },
+    {
+      "id": "worried-016",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 16)"
+    },
+    {
+      "id": "worried-017",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 17)"
+    },
+    {
+      "id": "worried-018",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 18)"
+    },
+    {
+      "id": "worried-019",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 19)"
+    },
+    {
+      "id": "worried-020",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 20)"
+    },
+    {
+      "id": "worried-021",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 21)"
+    },
+    {
+      "id": "worried-022",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 22)"
+    },
+    {
+      "id": "worried-023",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 23)"
+    },
+    {
+      "id": "worried-024",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 24)"
+    },
+    {
+      "id": "worried-025",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 25)"
+    },
+    {
+      "id": "worried-026",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 26)"
+    },
+    {
+      "id": "worried-027",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 27)"
+    },
+    {
+      "id": "worried-028",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 28)"
+    },
+    {
+      "id": "worried-029",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 29)"
+    },
+    {
+      "id": "worried-030",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 30)"
+    },
+    {
+      "id": "worried-031",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 31)"
+    },
+    {
+      "id": "worried-032",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 32)"
+    },
+    {
+      "id": "worried-033",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 33)"
+    },
+    {
+      "id": "worried-034",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 34)"
+    },
+    {
+      "id": "worried-035",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 35)"
+    },
+    {
+      "id": "worried-036",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 36)"
+    },
+    {
+      "id": "worried-037",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 37)"
+    },
+    {
+      "id": "worried-038",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 38)"
+    },
+    {
+      "id": "worried-039",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 39)"
+    },
+    {
+      "id": "worried-040",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 40)"
+    },
+    {
+      "id": "worried-041",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 41)"
+    },
+    {
+      "id": "worried-042",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 42)"
+    },
+    {
+      "id": "worried-043",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 43)"
+    },
+    {
+      "id": "worried-044",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 44)"
+    },
+    {
+      "id": "worried-045",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 45)"
+    },
+    {
+      "id": "worried-046",
+      "intent": "preocupado",
+      "text": "Entendo sua preocupação. Vamos analisar com calma o que está acontecendo com o {{pet}}. (variação 46)"
+    },
+    {
+      "id": "worried-047",
+      "intent": "preocupado",
+      "text": "Respire fundo. Conte mais sobre a situação e procure um veterinário se houver sinais preocupantes. (variação 47)"
+    },
+    {
+      "id": "worried-048",
+      "intent": "preocupado",
+      "text": "É normal ficar preocupado quando se trata do {{pet}}. Estou aqui para orientar com segurança. (variação 48)"
+    },
+    {
+      "id": "worried-049",
+      "intent": "preocupado",
+      "text": "Vamos por partes. O que mudou no comportamento do {{pet}}? (variação 49)"
+    },
+    {
+      "id": "worried-050",
+      "intent": "preocupado",
+      "text": "Se houver risco imediato, procure atendimento veterinário; caso contrário, podemos revisar os dados juntos. (variação 50)"
+    },
+    {
+      "id": "tired-001",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco."
+    },
+    {
+      "id": "tired-002",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia."
+    },
+    {
+      "id": "tired-003",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar."
+    },
+    {
+      "id": "tired-004",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas."
+    },
+    {
+      "id": "tired-005",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde."
+    },
+    {
+      "id": "tired-006",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 6)"
+    },
+    {
+      "id": "tired-007",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 7)"
+    },
+    {
+      "id": "tired-008",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 8)"
+    },
+    {
+      "id": "tired-009",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 9)"
+    },
+    {
+      "id": "tired-010",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 10)"
+    },
+    {
+      "id": "tired-011",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 11)"
+    },
+    {
+      "id": "tired-012",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 12)"
+    },
+    {
+      "id": "tired-013",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 13)"
+    },
+    {
+      "id": "tired-014",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 14)"
+    },
+    {
+      "id": "tired-015",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 15)"
+    },
+    {
+      "id": "tired-016",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 16)"
+    },
+    {
+      "id": "tired-017",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 17)"
+    },
+    {
+      "id": "tired-018",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 18)"
+    },
+    {
+      "id": "tired-019",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 19)"
+    },
+    {
+      "id": "tired-020",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 20)"
+    },
+    {
+      "id": "tired-021",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 21)"
+    },
+    {
+      "id": "tired-022",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 22)"
+    },
+    {
+      "id": "tired-023",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 23)"
+    },
+    {
+      "id": "tired-024",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 24)"
+    },
+    {
+      "id": "tired-025",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 25)"
+    },
+    {
+      "id": "tired-026",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 26)"
+    },
+    {
+      "id": "tired-027",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 27)"
+    },
+    {
+      "id": "tired-028",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 28)"
+    },
+    {
+      "id": "tired-029",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 29)"
+    },
+    {
+      "id": "tired-030",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 30)"
+    },
+    {
+      "id": "tired-031",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 31)"
+    },
+    {
+      "id": "tired-032",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 32)"
+    },
+    {
+      "id": "tired-033",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 33)"
+    },
+    {
+      "id": "tired-034",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 34)"
+    },
+    {
+      "id": "tired-035",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 35)"
+    },
+    {
+      "id": "tired-036",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 36)"
+    },
+    {
+      "id": "tired-037",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 37)"
+    },
+    {
+      "id": "tired-038",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 38)"
+    },
+    {
+      "id": "tired-039",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 39)"
+    },
+    {
+      "id": "tired-040",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 40)"
+    },
+    {
+      "id": "tired-041",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 41)"
+    },
+    {
+      "id": "tired-042",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 42)"
+    },
+    {
+      "id": "tired-043",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 43)"
+    },
+    {
+      "id": "tired-044",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 44)"
+    },
+    {
+      "id": "tired-045",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 45)"
+    },
+    {
+      "id": "tired-046",
+      "intent": "cansado",
+      "text": "Parece que você está cansado. Faça uma pausa e descanse um pouco. (variação 46)"
+    },
+    {
+      "id": "tired-047",
+      "intent": "cansado",
+      "text": "Cuide de você também. Posso ajudar a organizar a rotina do {{pet}} para facilitar seu dia. (variação 47)"
+    },
+    {
+      "id": "tired-048",
+      "intent": "cansado",
+      "text": "Um pouco de descanso pode ajudar. Estou aqui quando você quiser conversar. (variação 48)"
+    },
+    {
+      "id": "tired-049",
+      "intent": "cansado",
+      "text": "Você fez bastante hoje. Vamos manter as orientações para o {{pet}} simples e práticas. (variação 49)"
+    },
+    {
+      "id": "tired-050",
+      "intent": "cansado",
+      "text": "Se o cansaço for intenso ou persistente, considere conversar com um profissional de saúde. (variação 50)"
+    },
+    {
+      "id": "bored-001",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}."
+    },
+    {
+      "id": "bored-002",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}?"
+    },
+    {
+      "id": "bored-003",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}?"
+    },
+    {
+      "id": "bored-004",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova."
+    },
+    {
+      "id": "bored-005",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}."
+    },
+    {
+      "id": "bored-006",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 6)"
+    },
+    {
+      "id": "bored-007",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 7)"
+    },
+    {
+      "id": "bored-008",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 8)"
+    },
+    {
+      "id": "bored-009",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 9)"
+    },
+    {
+      "id": "bored-010",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 10)"
+    },
+    {
+      "id": "bored-011",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 11)"
+    },
+    {
+      "id": "bored-012",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 12)"
+    },
+    {
+      "id": "bored-013",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 13)"
+    },
+    {
+      "id": "bored-014",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 14)"
+    },
+    {
+      "id": "bored-015",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 15)"
+    },
+    {
+      "id": "bored-016",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 16)"
+    },
+    {
+      "id": "bored-017",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 17)"
+    },
+    {
+      "id": "bored-018",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 18)"
+    },
+    {
+      "id": "bored-019",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 19)"
+    },
+    {
+      "id": "bored-020",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 20)"
+    },
+    {
+      "id": "bored-021",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 21)"
+    },
+    {
+      "id": "bored-022",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 22)"
+    },
+    {
+      "id": "bored-023",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 23)"
+    },
+    {
+      "id": "bored-024",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 24)"
+    },
+    {
+      "id": "bored-025",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 25)"
+    },
+    {
+      "id": "bored-026",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 26)"
+    },
+    {
+      "id": "bored-027",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 27)"
+    },
+    {
+      "id": "bored-028",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 28)"
+    },
+    {
+      "id": "bored-029",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 29)"
+    },
+    {
+      "id": "bored-030",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 30)"
+    },
+    {
+      "id": "bored-031",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 31)"
+    },
+    {
+      "id": "bored-032",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 32)"
+    },
+    {
+      "id": "bored-033",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 33)"
+    },
+    {
+      "id": "bored-034",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 34)"
+    },
+    {
+      "id": "bored-035",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 35)"
+    },
+    {
+      "id": "bored-036",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 36)"
+    },
+    {
+      "id": "bored-037",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 37)"
+    },
+    {
+      "id": "bored-038",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 38)"
+    },
+    {
+      "id": "bored-039",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 39)"
+    },
+    {
+      "id": "bored-040",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 40)"
+    },
+    {
+      "id": "bored-041",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 41)"
+    },
+    {
+      "id": "bored-042",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 42)"
+    },
+    {
+      "id": "bored-043",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 43)"
+    },
+    {
+      "id": "bored-044",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 44)"
+    },
+    {
+      "id": "bored-045",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 45)"
+    },
+    {
+      "id": "bored-046",
+      "intent": "entediado",
+      "text": "Vamos encontrar algo para fazer! Posso sugerir atividades para você e o {{pet}}. (variação 46)"
+    },
+    {
+      "id": "bored-047",
+      "intent": "entediado",
+      "text": "Que tal um passeio curto ou uma brincadeira segura com o {{pet}}? (variação 47)"
+    },
+    {
+      "id": "bored-048",
+      "intent": "entediado",
+      "text": "Estou aqui para fazer companhia. Quer conversar sobre o {{pet}}? (variação 48)"
+    },
+    {
+      "id": "bored-049",
+      "intent": "entediado",
+      "text": "Podemos revisar a rotina do {{pet}} ou pensar em uma atividade nova. (variação 49)"
+    },
+    {
+      "id": "bored-050",
+      "intent": "entediado",
+      "text": "Um pequeno passeio pode mudar o clima do dia, sempre respeitando a condição do {{pet}}. (variação 50)"
+    },
+    {
+      "id": "excited-001",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}."
+    },
+    {
+      "id": "excited-002",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}."
+    },
+    {
+      "id": "excited-003",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom?"
+    },
+    {
+      "id": "excited-004",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}."
+    },
+    {
+      "id": "excited-005",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo."
+    },
+    {
+      "id": "excited-006",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 6)"
+    },
+    {
+      "id": "excited-007",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 7)"
+    },
+    {
+      "id": "excited-008",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 8)"
+    },
+    {
+      "id": "excited-009",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 9)"
+    },
+    {
+      "id": "excited-010",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 10)"
+    },
+    {
+      "id": "excited-011",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 11)"
+    },
+    {
+      "id": "excited-012",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 12)"
+    },
+    {
+      "id": "excited-013",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 13)"
+    },
+    {
+      "id": "excited-014",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 14)"
+    },
+    {
+      "id": "excited-015",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 15)"
+    },
+    {
+      "id": "excited-016",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 16)"
+    },
+    {
+      "id": "excited-017",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 17)"
+    },
+    {
+      "id": "excited-018",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 18)"
+    },
+    {
+      "id": "excited-019",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 19)"
+    },
+    {
+      "id": "excited-020",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 20)"
+    },
+    {
+      "id": "excited-021",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 21)"
+    },
+    {
+      "id": "excited-022",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 22)"
+    },
+    {
+      "id": "excited-023",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 23)"
+    },
+    {
+      "id": "excited-024",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 24)"
+    },
+    {
+      "id": "excited-025",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 25)"
+    },
+    {
+      "id": "excited-026",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 26)"
+    },
+    {
+      "id": "excited-027",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 27)"
+    },
+    {
+      "id": "excited-028",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 28)"
+    },
+    {
+      "id": "excited-029",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 29)"
+    },
+    {
+      "id": "excited-030",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 30)"
+    },
+    {
+      "id": "excited-031",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 31)"
+    },
+    {
+      "id": "excited-032",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 32)"
+    },
+    {
+      "id": "excited-033",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 33)"
+    },
+    {
+      "id": "excited-034",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 34)"
+    },
+    {
+      "id": "excited-035",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 35)"
+    },
+    {
+      "id": "excited-036",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 36)"
+    },
+    {
+      "id": "excited-037",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 37)"
+    },
+    {
+      "id": "excited-038",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 38)"
+    },
+    {
+      "id": "excited-039",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 39)"
+    },
+    {
+      "id": "excited-040",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 40)"
+    },
+    {
+      "id": "excited-041",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 41)"
+    },
+    {
+      "id": "excited-042",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 42)"
+    },
+    {
+      "id": "excited-043",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 43)"
+    },
+    {
+      "id": "excited-044",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 44)"
+    },
+    {
+      "id": "excited-045",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 45)"
+    },
+    {
+      "id": "excited-046",
+      "intent": "empolgado",
+      "text": "Que legal ver você empolgado! Vamos aproveitar para cuidar ainda melhor do {{pet}}. (variação 46)"
+    },
+    {
+      "id": "excited-047",
+      "intent": "empolgado",
+      "text": "Essa energia é ótima! Posso sugerir uma brincadeira segura para o {{pet}}. (variação 47)"
+    },
+    {
+      "id": "excited-048",
+      "intent": "empolgado",
+      "text": "Adoro esse entusiasmo. O que aconteceu de bom? (variação 48)"
+    },
+    {
+      "id": "excited-049",
+      "intent": "empolgado",
+      "text": "Vamos transformar essa animação em uma atividade saudável para o {{pet}}. (variação 49)"
+    },
+    {
+      "id": "excited-050",
+      "intent": "empolgado",
+      "text": "Que bom! Compartilhe a novidade comigo. (variação 50)"
+    },
+    {
+      "id": "smalltalk-001",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão?"
+    },
+    {
+      "id": "smalltalk-002",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso."
+    },
+    {
+      "id": "smalltalk-003",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}?"
+    },
+    {
+      "id": "smalltalk-004",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}."
+    },
+    {
+      "id": "smalltalk-005",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar?"
+    },
+    {
+      "id": "smalltalk-006",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 6)"
+    },
+    {
+      "id": "smalltalk-007",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 7)"
+    },
+    {
+      "id": "smalltalk-008",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 8)"
+    },
+    {
+      "id": "smalltalk-009",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 9)"
+    },
+    {
+      "id": "smalltalk-010",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 10)"
+    },
+    {
+      "id": "smalltalk-011",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 11)"
+    },
+    {
+      "id": "smalltalk-012",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 12)"
+    },
+    {
+      "id": "smalltalk-013",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 13)"
+    },
+    {
+      "id": "smalltalk-014",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 14)"
+    },
+    {
+      "id": "smalltalk-015",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 15)"
+    },
+    {
+      "id": "smalltalk-016",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 16)"
+    },
+    {
+      "id": "smalltalk-017",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 17)"
+    },
+    {
+      "id": "smalltalk-018",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 18)"
+    },
+    {
+      "id": "smalltalk-019",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 19)"
+    },
+    {
+      "id": "smalltalk-020",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 20)"
+    },
+    {
+      "id": "smalltalk-021",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 21)"
+    },
+    {
+      "id": "smalltalk-022",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 22)"
+    },
+    {
+      "id": "smalltalk-023",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 23)"
+    },
+    {
+      "id": "smalltalk-024",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 24)"
+    },
+    {
+      "id": "smalltalk-025",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 25)"
+    },
+    {
+      "id": "smalltalk-026",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 26)"
+    },
+    {
+      "id": "smalltalk-027",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 27)"
+    },
+    {
+      "id": "smalltalk-028",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 28)"
+    },
+    {
+      "id": "smalltalk-029",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 29)"
+    },
+    {
+      "id": "smalltalk-030",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 30)"
+    },
+    {
+      "id": "smalltalk-031",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 31)"
+    },
+    {
+      "id": "smalltalk-032",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 32)"
+    },
+    {
+      "id": "smalltalk-033",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 33)"
+    },
+    {
+      "id": "smalltalk-034",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 34)"
+    },
+    {
+      "id": "smalltalk-035",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 35)"
+    },
+    {
+      "id": "smalltalk-036",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 36)"
+    },
+    {
+      "id": "smalltalk-037",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 37)"
+    },
+    {
+      "id": "smalltalk-038",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 38)"
+    },
+    {
+      "id": "smalltalk-039",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 39)"
+    },
+    {
+      "id": "smalltalk-040",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 40)"
+    },
+    {
+      "id": "smalltalk-041",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 41)"
+    },
+    {
+      "id": "smalltalk-042",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 42)"
+    },
+    {
+      "id": "smalltalk-043",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 43)"
+    },
+    {
+      "id": "smalltalk-044",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 44)"
+    },
+    {
+      "id": "smalltalk-045",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 45)"
+    },
+    {
+      "id": "smalltalk-046",
+      "intent": "conversa",
+      "text": "Claro, podemos conversar. Como você e o {{pet}} estão? (variação 46)"
+    },
+    {
+      "id": "smalltalk-047",
+      "intent": "conversa",
+      "text": "Estou aqui para fazer companhia e ajudar no que for preciso. (variação 47)"
+    },
+    {
+      "id": "smalltalk-048",
+      "intent": "conversa",
+      "text": "Vamos bater um papo! Quer falar sobre a rotina do {{pet}}? (variação 48)"
+    },
+    {
+      "id": "smalltalk-049",
+      "intent": "conversa",
+      "text": "Pode me contar o que está pensando; eu também posso consultar os dados do {{pet}}. (variação 49)"
+    },
+    {
+      "id": "smalltalk-050",
+      "intent": "conversa",
+      "text": "Estou ouvindo. Sobre qual assunto você gostaria de conversar? (variação 50)"
+    },
+    {
+      "id": "greeting-001",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje?"
+    },
+    {
+      "id": "greeting-002",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar?"
+    },
+    {
+      "id": "greeting-003",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}."
+    },
+    {
+      "id": "greeting-004",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar?"
+    },
+    {
+      "id": "greeting-005",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}."
+    },
+    {
+      "id": "greeting-006",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 6)"
+    },
+    {
+      "id": "greeting-007",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 7)"
+    },
+    {
+      "id": "greeting-008",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 8)"
+    },
+    {
+      "id": "greeting-009",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 9)"
+    },
+    {
+      "id": "greeting-010",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 10)"
+    },
+    {
+      "id": "greeting-011",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 11)"
+    },
+    {
+      "id": "greeting-012",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 12)"
+    },
+    {
+      "id": "greeting-013",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 13)"
+    },
+    {
+      "id": "greeting-014",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 14)"
+    },
+    {
+      "id": "greeting-015",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 15)"
+    },
+    {
+      "id": "greeting-016",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 16)"
+    },
+    {
+      "id": "greeting-017",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 17)"
+    },
+    {
+      "id": "greeting-018",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 18)"
+    },
+    {
+      "id": "greeting-019",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 19)"
+    },
+    {
+      "id": "greeting-020",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 20)"
+    },
+    {
+      "id": "greeting-021",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 21)"
+    },
+    {
+      "id": "greeting-022",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 22)"
+    },
+    {
+      "id": "greeting-023",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 23)"
+    },
+    {
+      "id": "greeting-024",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 24)"
+    },
+    {
+      "id": "greeting-025",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 25)"
+    },
+    {
+      "id": "greeting-026",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 26)"
+    },
+    {
+      "id": "greeting-027",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 27)"
+    },
+    {
+      "id": "greeting-028",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 28)"
+    },
+    {
+      "id": "greeting-029",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 29)"
+    },
+    {
+      "id": "greeting-030",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 30)"
+    },
+    {
+      "id": "greeting-031",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 31)"
+    },
+    {
+      "id": "greeting-032",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 32)"
+    },
+    {
+      "id": "greeting-033",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 33)"
+    },
+    {
+      "id": "greeting-034",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 34)"
+    },
+    {
+      "id": "greeting-035",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 35)"
+    },
+    {
+      "id": "greeting-036",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 36)"
+    },
+    {
+      "id": "greeting-037",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 37)"
+    },
+    {
+      "id": "greeting-038",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 38)"
+    },
+    {
+      "id": "greeting-039",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 39)"
+    },
+    {
+      "id": "greeting-040",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 40)"
+    },
+    {
+      "id": "greeting-041",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 41)"
+    },
+    {
+      "id": "greeting-042",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 42)"
+    },
+    {
+      "id": "greeting-043",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 43)"
+    },
+    {
+      "id": "greeting-044",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 44)"
+    },
+    {
+      "id": "greeting-045",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 45)"
+    },
+    {
+      "id": "greeting-046",
+      "intent": "greeting",
+      "text": "Oi! Como você e o {{pet}} estão hoje? (variação 46)"
+    },
+    {
+      "id": "greeting-047",
+      "intent": "greeting",
+      "text": "Olá! Que bom conversar com você. Como posso ajudar? (variação 47)"
+    },
+    {
+      "id": "greeting-048",
+      "intent": "greeting",
+      "text": "Oi! Estou aqui para cuidar das dúvidas sobre o {{pet}}. (variação 48)"
+    },
+    {
+      "id": "greeting-049",
+      "intent": "greeting",
+      "text": "Olá! Quer conversar sobre saúde, rotina ou bem-estar? (variação 49)"
+    },
+    {
+      "id": "greeting-050",
+      "intent": "greeting",
+      "text": "Oi! Conte como foi o dia do {{pet}}. (variação 50)"
+    },
+    {
+      "id": "thanks-001",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar."
+    },
+    {
+      "id": "thanks-002",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}."
+    },
+    {
+      "id": "thanks-003",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser."
+    },
+    {
+      "id": "thanks-004",
+      "intent": "thanks",
+      "text": "É um prazer ajudar."
+    },
+    {
+      "id": "thanks-005",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas."
+    },
+    {
+      "id": "thanks-006",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 6)"
+    },
+    {
+      "id": "thanks-007",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 7)"
+    },
+    {
+      "id": "thanks-008",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 8)"
+    },
+    {
+      "id": "thanks-009",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 9)"
+    },
+    {
+      "id": "thanks-010",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 10)"
+    },
+    {
+      "id": "thanks-011",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 11)"
+    },
+    {
+      "id": "thanks-012",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 12)"
+    },
+    {
+      "id": "thanks-013",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 13)"
+    },
+    {
+      "id": "thanks-014",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 14)"
+    },
+    {
+      "id": "thanks-015",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 15)"
+    },
+    {
+      "id": "thanks-016",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 16)"
+    },
+    {
+      "id": "thanks-017",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 17)"
+    },
+    {
+      "id": "thanks-018",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 18)"
+    },
+    {
+      "id": "thanks-019",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 19)"
+    },
+    {
+      "id": "thanks-020",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 20)"
+    },
+    {
+      "id": "thanks-021",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 21)"
+    },
+    {
+      "id": "thanks-022",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 22)"
+    },
+    {
+      "id": "thanks-023",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 23)"
+    },
+    {
+      "id": "thanks-024",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 24)"
+    },
+    {
+      "id": "thanks-025",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 25)"
+    },
+    {
+      "id": "thanks-026",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 26)"
+    },
+    {
+      "id": "thanks-027",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 27)"
+    },
+    {
+      "id": "thanks-028",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 28)"
+    },
+    {
+      "id": "thanks-029",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 29)"
+    },
+    {
+      "id": "thanks-030",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 30)"
+    },
+    {
+      "id": "thanks-031",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 31)"
+    },
+    {
+      "id": "thanks-032",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 32)"
+    },
+    {
+      "id": "thanks-033",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 33)"
+    },
+    {
+      "id": "thanks-034",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 34)"
+    },
+    {
+      "id": "thanks-035",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 35)"
+    },
+    {
+      "id": "thanks-036",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 36)"
+    },
+    {
+      "id": "thanks-037",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 37)"
+    },
+    {
+      "id": "thanks-038",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 38)"
+    },
+    {
+      "id": "thanks-039",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 39)"
+    },
+    {
+      "id": "thanks-040",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 40)"
+    },
+    {
+      "id": "thanks-041",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 41)"
+    },
+    {
+      "id": "thanks-042",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 42)"
+    },
+    {
+      "id": "thanks-043",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 43)"
+    },
+    {
+      "id": "thanks-044",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 44)"
+    },
+    {
+      "id": "thanks-045",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 45)"
+    },
+    {
+      "id": "thanks-046",
+      "intent": "thanks",
+      "text": "Por nada! Estou aqui sempre que precisar. (variação 46)"
+    },
+    {
+      "id": "thanks-047",
+      "intent": "thanks",
+      "text": "Fico feliz em ajudar você e o {{pet}}. (variação 47)"
+    },
+    {
+      "id": "thanks-048",
+      "intent": "thanks",
+      "text": "Disponha! Pode me chamar quando quiser. (variação 48)"
+    },
+    {
+      "id": "thanks-049",
+      "intent": "thanks",
+      "text": "É um prazer ajudar. (variação 49)"
+    },
+    {
+      "id": "thanks-050",
+      "intent": "thanks",
+      "text": "Conte comigo para as próximas dúvidas. (variação 50)"
+    },
+    {
+      "id": "farewell-001",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}."
+    },
+    {
+      "id": "farewell-002",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo."
+    },
+    {
+      "id": "farewell-003",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar."
+    },
+    {
+      "id": "farewell-004",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim."
+    },
+    {
+      "id": "farewell-005",
+      "intent": "farewell",
+      "text": "Nos vemos depois."
+    },
+    {
+      "id": "farewell-006",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 6)"
+    },
+    {
+      "id": "farewell-007",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 7)"
+    },
+    {
+      "id": "farewell-008",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 8)"
+    },
+    {
+      "id": "farewell-009",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 9)"
+    },
+    {
+      "id": "farewell-010",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 10)"
+    },
+    {
+      "id": "farewell-011",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 11)"
+    },
+    {
+      "id": "farewell-012",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 12)"
+    },
+    {
+      "id": "farewell-013",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 13)"
+    },
+    {
+      "id": "farewell-014",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 14)"
+    },
+    {
+      "id": "farewell-015",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 15)"
+    },
+    {
+      "id": "farewell-016",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 16)"
+    },
+    {
+      "id": "farewell-017",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 17)"
+    },
+    {
+      "id": "farewell-018",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 18)"
+    },
+    {
+      "id": "farewell-019",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 19)"
+    },
+    {
+      "id": "farewell-020",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 20)"
+    },
+    {
+      "id": "farewell-021",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 21)"
+    },
+    {
+      "id": "farewell-022",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 22)"
+    },
+    {
+      "id": "farewell-023",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 23)"
+    },
+    {
+      "id": "farewell-024",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 24)"
+    },
+    {
+      "id": "farewell-025",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 25)"
+    },
+    {
+      "id": "farewell-026",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 26)"
+    },
+    {
+      "id": "farewell-027",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 27)"
+    },
+    {
+      "id": "farewell-028",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 28)"
+    },
+    {
+      "id": "farewell-029",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 29)"
+    },
+    {
+      "id": "farewell-030",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 30)"
+    },
+    {
+      "id": "farewell-031",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 31)"
+    },
+    {
+      "id": "farewell-032",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 32)"
+    },
+    {
+      "id": "farewell-033",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 33)"
+    },
+    {
+      "id": "farewell-034",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 34)"
+    },
+    {
+      "id": "farewell-035",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 35)"
+    },
+    {
+      "id": "farewell-036",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 36)"
+    },
+    {
+      "id": "farewell-037",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 37)"
+    },
+    {
+      "id": "farewell-038",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 38)"
+    },
+    {
+      "id": "farewell-039",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 39)"
+    },
+    {
+      "id": "farewell-040",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 40)"
+    },
+    {
+      "id": "farewell-041",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 41)"
+    },
+    {
+      "id": "farewell-042",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 42)"
+    },
+    {
+      "id": "farewell-043",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 43)"
+    },
+    {
+      "id": "farewell-044",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 44)"
+    },
+    {
+      "id": "farewell-045",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 45)"
+    },
+    {
+      "id": "farewell-046",
+      "intent": "farewell",
+      "text": "Até logo! Cuide bem do {{pet}}. (variação 46)"
+    },
+    {
+      "id": "farewell-047",
+      "intent": "farewell",
+      "text": "Tchau! Espero que o dia de vocês seja tranquilo. (variação 47)"
+    },
+    {
+      "id": "farewell-048",
+      "intent": "farewell",
+      "text": "Até mais! Estarei aqui quando precisar. (variação 48)"
+    },
+    {
+      "id": "farewell-049",
+      "intent": "farewell",
+      "text": "Boa despedida! Dê carinho ao {{pet}} por mim. (variação 49)"
+    },
+    {
+      "id": "farewell-050",
+      "intent": "farewell",
+      "text": "Nos vemos depois. (variação 50)"
+    }
+  ]
+}

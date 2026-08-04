@@ -1,0 +1,101 @@
+id,pergunta,intencao_esperada,grupo
+001,O que você é capaz de fazer?,ajuda,capacidades
+002,Como você pode me ajudar?,ajuda,capacidades
+003,Que perguntas posso fazer para você?,ajuda,capacidades
+004,Quais são as suas funções?,ajuda,capacidades
+005,Você entende dúvidas sobre o Balu?,ajuda,capacidades
+006,Você consegue consultar os dados do meu pet?,ajuda,capacidades
+007,Me mostre alguns exemplos de perguntas,ajuda,capacidades
+008,Para que serve o chatbot Balu?,ajuda,capacidades
+009,Como funciona esse assistente?,ajuda,capacidades
+010,Ajuda,ajuda,capacidades
+011,Qual foi a última vacina do Balu?,consultar_ultima_vacina,vacinas
+012,Que vacina o Balu tomou por último?,consultar_ultima_vacina,vacinas
+013,Me diga a vacina mais recente dele,consultar_ultima_vacina,vacinas
+014,Quando foi a última vacinação do Balu?,consultar_ultima_vacina,vacinas
+015,Qual vacina foi aplicada recentemente?,consultar_ultima_vacina,vacinas
+016,Quando é a próxima vacina do Balu?,consultar_proxima_vacina,vacinas
+017,Qual a data da próxima dose?,consultar_proxima_vacina,vacinas
+018,Tem vacina do Balu perto de vencer?,consultar_proxima_vacina,vacinas
+019,Quando devo dar o próximo reforço?,consultar_proxima_vacina,vacinas
+020,Qual é o próximo compromisso de vacinação?,consultar_proxima_vacina,vacinas
+021,Liste todas as vacinas do Balu,listar_vacinas,vacinas
+022,Mostre a carteira de vacinação dele,listar_vacinas,vacinas
+023,Quais vacinas estão cadastradas?,listar_vacinas,vacinas
+024,O Balu está com as vacinas em dia?,listar_vacinas,vacinas
+025,Quero ver o histórico de vacinas,listar_vacinas,vacinas
+026,Quais medicamentos o Balu toma?,listar_medicamentos,medicamentos
+027,Liste os remédios ativos dele,listar_medicamentos,medicamentos
+028,Qual remédio preciso dar hoje?,listar_medicamentos,medicamentos
+029,Que horas dou o vermífugo?,listar_medicamentos,medicamentos
+030,Mostre a medicação cadastrada,listar_medicamentos,medicamentos
+031,O Balu tem algum medicamento ativo?,listar_medicamentos,medicamentos
+032,Qual é a instrução do remédio dele?,listar_medicamentos,medicamentos
+033,Me lembra o horário do medicamento,listar_medicamentos,medicamentos
+034,Tem algum remédio atrasado?,listar_medicamentos,medicamentos
+035,Quais são as medicações do meu cachorro?,listar_medicamentos,medicamentos
+036,Faça uma lista dos medicamentos e vacinas do Balu,listar_saude,lista_combinada
+037,Mostre remédios e vacinas juntos,listar_saude,lista_combinada
+038,Quero um resumo de medicação e vacinação,listar_saude,lista_combinada
+039,Monte uma tabela da saúde do Balu,listar_saude,lista_combinada
+040,Quais remédios e doses de vacina estão cadastrados?,listar_saude,lista_combinada
+041,Qual é a rotina do Balu?,consultar_rotina,rotina
+042,O que o Balu precisa fazer hoje?,consultar_rotina,rotina
+043,Mostre as tarefas de hoje,consultar_rotina,rotina
+044,Que horas é o passeio?,consultar_rotina,rotina
+045,Quando devo alimentar o Balu?,consultar_rotina,rotina
+046,Qual é o horário da ração?,consultar_rotina,rotina
+047,Tem alguma tarefa pendente?,consultar_rotina,rotina
+048,Me mostre os cuidados de hoje,consultar_rotina,rotina
+049,Quando é a próxima atividade?,consultar_rotina,rotina
+050,Organize a rotina diária do Balu,consultar_rotina,rotina
+051,Quanto o Balu pesa?,consultar_peso,peso
+052,O peso do Balu está ideal?,avaliar_peso,peso
+053,Ele está muito gordo?,avaliar_peso,peso
+054,Meu cachorro está magro?,avaliar_peso,peso
+055,Qual seria um peso saudável para ele?,avaliar_peso,peso
+056,Trinta e um quilos está bom para um Golden?,avaliar_peso,peso
+057,O peso dele mudou?,consultar_peso,peso
+058,Preciso me preocupar com o peso?,avaliar_peso,peso
+059,Como acompanho o peso do Balu?,consultar_peso,peso
+060,Qual o peso registrado?,consultar_peso,peso
+061,Quais cuidados um Golden Retriever precisa?,cuidados_raca,cuidados
+062,Como cuidar melhor do Balu?,cuidados_raca,cuidados
+063,Que problemas são comuns nessa raça?,prevencao_raca,cuidados
+064,Como prevenir problemas de saúde?,prevencao_raca,cuidados
+065,Que sinais de piora devo observar?,sinais_piora,cuidados
+066,Quando devo procurar um veterinário?,sinais_piora,cuidados
+067,Como manter meu cachorro saudável?,prevencao_raca,cuidados
+068,Quais cuidados dependem da raça dele?,cuidados_raca,cuidados
+069,O que devo observar no dia a dia?,sinais_piora,cuidados
+070,Como prevenir doenças no Balu?,prevencao_raca,cuidados
+071,Que brincadeiras posso fazer com o Balu?,sugerir_atividade,bem_estar
+072,Me dê uma ideia de atividade,sugerir_atividade,bem_estar
+073,Como posso brincar com um Golden?,sugerir_atividade,bem_estar
+074,Qual passeio é adequado para ele?,sugerir_atividade,bem_estar
+075,O Balu precisa de quanto exercício?,sugerir_atividade,bem_estar
+076,Me sugira uma atividade de bem-estar,sugerir_atividade,bem_estar
+077,Posso brincar de buscar a bola?,sugerir_atividade,bem_estar
+078,Que atividade faço dentro de casa?,sugerir_atividade,bem_estar
+079,Como enriquecer o ambiente do meu pet?,sugerir_atividade,bem_estar
+080,Quero uma brincadeira segura,sugerir_atividade,bem_estar
+081,Meu cachorro está convulsionando,emergencia,emergencia
+082,O Balu não consegue respirar,emergencia,emergencia
+083,Ele desmaiou agora,emergencia,emergencia
+084,Tem um sangramento intenso,emergencia,emergencia
+085,Meu cachorro foi atropelado,emergencia,emergencia
+086,Acho que ele comeu veneno,emergencia,emergencia
+087,O Balu está inconsciente,emergencia,emergencia
+088,Ele está com muita dificuldade para respirar,emergencia,emergencia
+089,Como faço primeiros socorros?,emergencia,emergencia
+090,É uma emergência,emergencia,emergencia
+091,Avise a clínica do Balu,confirmar_emergencia,confirmacao
+092,Sim pode alertar a clínica,confirmar_emergencia,confirmacao
+093,Confirmo o alerta,confirmar_emergencia,confirmacao
+094,Pode avisar que estamos indo,confirmar_emergencia,confirmacao
+095,Não envie o alerta,cancelar_emergencia,confirmacao
+096,Não quero avisar a clínica,cancelar_emergencia,confirmacao
+097,Cancele a emergência,cancelar_emergencia,confirmacao
+098,Não é necessário alertar,cancelar_emergencia,confirmacao
+099,sim,confirmar_emergencia,confirmacao
+100,não,cancelar_emergencia,confirmacao

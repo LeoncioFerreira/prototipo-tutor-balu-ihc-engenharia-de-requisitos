@@ -1,5 +1,7 @@
-import { ArrowLeft } from "lucide-react";
+import { useCallback, useEffect, useId, useRef, useState, type ChangeEvent } from "react";
+import { ArrowLeft, Camera, ImagePlus, Plus } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
+import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 
 const fields = [
   ["Nome do pet", "Ex: Balu"],
@@ -9,6 +11,60 @@ const fields = [
 ] as const;
 
 export function AddPetScreen({ onBack }: { onBack: () => void }) {
+  const [isPhotoMenuOpen, setIsPhotoMenuOpen] = useState(false);
+  const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(null);
+  const addPhotoButtonRef = useRef<HTMLButtonElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const photoPreviewUrlRef = useRef<string | null>(null);
+  const photoMenuTitleId = useId();
+  const { showToast } = useErrorFeedback();
+
+  const closePhotoMenu = useCallback(() => {
+    setIsPhotoMenuOpen(false);
+    window.requestAnimationFrame(() => addPhotoButtonRef.current?.focus());
+  }, []);
+
+  const choosePhotoSource = (source: "gallery" | "camera") => {
+    setIsPhotoMenuOpen(false);
+    const input = source === "gallery" ? galleryInputRef.current : cameraInputRef.current;
+    input?.click();
+  };
+
+  const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      showToast("Selecione um arquivo de imagem válido.");
+      return;
+    }
+
+    if (photoPreviewUrlRef.current) URL.revokeObjectURL(photoPreviewUrlRef.current);
+    const nextPhotoPreviewUrl = URL.createObjectURL(file);
+    photoPreviewUrlRef.current = nextPhotoPreviewUrl;
+    setPhotoPreviewUrl(nextPhotoPreviewUrl);
+  };
+
+  useEffect(() => {
+    if (!isPhotoMenuOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closePhotoMenu();
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [closePhotoMenu, isPhotoMenuOpen]);
+
+  useEffect(
+    () => () => {
+      if (photoPreviewUrlRef.current) URL.revokeObjectURL(photoPreviewUrlRef.current);
+    },
+    [],
+  );
+
   return (
     <MobileShell padded={false}>
       <div className="add-pet-screen min-h-[100dvh] bg-white px-5 pb-8 pt-11 text-[#183a78]">
@@ -25,7 +81,39 @@ export function AddPetScreen({ onBack }: { onBack: () => void }) {
         </header>
 
         <div className="mt-1 grid h-24 place-items-center">
-          <img src="/assets/figma/home/11.svg" alt="" className="h-20 w-20" />
+          <div className="add-pet-screen__photo">
+            <img
+              src={photoPreviewUrl ?? "/assets/figma/home/11.svg"}
+              alt={photoPreviewUrl ? "Foto selecionada do pet" : ""}
+              className={photoPreviewUrl ? "add-pet-screen__photo-preview" : "h-20 w-20"}
+            />
+            <button
+              ref={addPhotoButtonRef}
+              type="button"
+              className="add-pet-screen__photo-button"
+              aria-label="Adicionar foto do pet"
+              onClick={() => setIsPhotoMenuOpen(true)}
+            >
+              <Plus aria-hidden="true" size={18} strokeWidth={3} />
+            </button>
+            <input
+              ref={galleryInputRef}
+              data-testid="pet-photo-gallery-input"
+              className="add-pet-screen__photo-input"
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+            />
+            <input
+              ref={cameraInputRef}
+              data-testid="pet-photo-camera-input"
+              className="add-pet-screen__photo-input"
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={handlePhotoChange}
+            />
+          </div>
         </div>
 
         <section className="mt-3">
@@ -38,12 +126,27 @@ export function AddPetScreen({ onBack }: { onBack: () => void }) {
                 className="block text-[12px] font-semibold leading-[15px] text-[#4a5568]"
               >
                 {label} <span className="required-mark">*</span>
-                <input
-                  aria-label={label}
-                  placeholder={placeholder}
-                  required
-                  className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-[14px] font-normal text-[#183a78] placeholder:text-[#737885]"
-                />
+                {label === "Sexo" ? (
+                  <select
+                    aria-label="Sexo"
+                    defaultValue=""
+                    required
+                    className="add-pet-screen__sex-select mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-[14px] font-normal"
+                  >
+                    <option value="" disabled>
+                      Selecione
+                    </option>
+                    <option value="Macho">Macho</option>
+                    <option value="Fêmea">Fêmea</option>
+                  </select>
+                ) : (
+                  <input
+                    aria-label={label}
+                    placeholder={placeholder}
+                    required
+                    className="mt-1.5 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 text-[14px] font-normal text-[#183a78] placeholder:text-[#737885]"
+                  />
+                )}
               </label>
             ))}
           </div>
@@ -80,6 +183,39 @@ export function AddPetScreen({ onBack }: { onBack: () => void }) {
         <button className="mt-6 h-14 w-full rounded-[28px] bg-[#183a78] text-[16px] font-extrabold text-white shadow-[0_4px_20px_rgba(26,54,93,.08)]">
           Continuar
         </button>
+
+        {isPhotoMenuOpen && (
+          <div
+            className="add-pet-screen__photo-backdrop"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) closePhotoMenu();
+            }}
+          >
+            <div
+              className="add-pet-screen__photo-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={photoMenuTitleId}
+            >
+              <h2 id={photoMenuTitleId}>Adicionar foto do pet</h2>
+              <button type="button" onClick={() => choosePhotoSource("gallery")}>
+                <ImagePlus aria-hidden="true" size={21} />
+                Escolher da galeria
+              </button>
+              <button type="button" onClick={() => choosePhotoSource("camera")}>
+                <Camera aria-hidden="true" size={21} />
+                Tirar foto
+              </button>
+              <button
+                type="button"
+                className="add-pet-screen__photo-cancel"
+                onClick={closePhotoMenu}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </MobileShell>
   );

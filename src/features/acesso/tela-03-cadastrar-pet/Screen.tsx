@@ -20,12 +20,14 @@ export function RegisterPetScreen({
 }) {
   const { showToast } = useErrorFeedback();
   const [fields, setFields] = useState(initialFields);
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [sharedCareChoice, setSharedCareChoice] = useState<SharedCareChoice | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const inviteButtonRef = useRef<HTMLButtonElement>(null);
 
   const updateField = (field: FieldName, value: string) => {
     setFields((current) => ({ ...current, [field]: value }));
+    setErrors((current) => ({ ...current, [field]: undefined }));
   };
 
   return (
@@ -38,10 +40,15 @@ export function RegisterPetScreen({
         onSubmit={(event) => {
           event.preventDefault();
 
-          const hasEmptyField = Object.values(fields).some((value) => !value.trim());
-          if (hasEmptyField) {
+          const nextErrors: Partial<Record<FieldName, string>> = {};
+          if (!fields.name.trim()) nextErrors.name = "Informe o nome do pet.";
+          if (!fields.breed.trim()) nextErrors.breed = "Informe a raça do pet.";
+          if (!fields.sex.trim()) nextErrors.sex = "Informe o sexo do pet.";
+          if (!fields.age.trim()) nextErrors.age = "Informe a idade do pet.";
+          setErrors(nextErrors);
+          if (Object.keys(nextErrors).length) {
             showToast("Preencha os campos obrigatórios para continuar.");
-            formRef.current?.querySelector<HTMLInputElement>("input:invalid")?.focus();
+            formRef.current?.querySelector<HTMLInputElement>("input")?.focus();
             return;
           }
 
@@ -70,24 +77,32 @@ export function RegisterPetScreen({
             placeholder="Ex: Balu"
             value={fields.name}
             onChange={(value) => updateField("name", value)}
+            error={errors.name}
+            name="name"
           />
           <Field
             label="Raça"
             placeholder="Ex: Samoieda"
             value={fields.breed}
             onChange={(value) => updateField("breed", value)}
+            error={errors.breed}
+            name="breed"
           />
           <Field
             label="Sexo"
             placeholder="Macho ou fêmea"
             value={fields.sex}
             onChange={(value) => updateField("sex", value)}
+            error={errors.sex}
+            name="sex"
           />
           <Field
             label="Idade"
             placeholder="Ex: 2 anos"
             value={fields.age}
             onChange={(value) => updateField("age", value)}
+            error={errors.age}
+            name="age"
           />
         </section>
         <section className="register-pet-screen__shared">
@@ -126,6 +141,11 @@ export function RegisterPetScreen({
                 Adicionar depois
               </button>
             </div>
+            {sharedCareChoice === "later" && (
+              <p role="status" className="register-pet-screen__saved-note">
+                Os dados preenchidos do pet serão mantidos. Você poderá convidar outro tutor depois.
+              </p>
+            )}
             <button
               type="button"
               className={`is-code ${sharedCareChoice === "code" ? "is-selected" : ""}`}
@@ -149,11 +169,15 @@ function Field({
   placeholder,
   value,
   onChange,
+  error,
+  name,
 }: {
   label: string;
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
+  error?: string;
+  name: FieldName;
 }) {
   return (
     <label>
@@ -161,11 +185,19 @@ function Field({
         {label} <span className="required-mark">*</span>
       </span>
       <input
+        id={`register-pet-${name}`}
         required
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `register-pet-${name}-error` : undefined}
       />
+      {error && (
+        <small id={`register-pet-${name}-error`} className="field-error">
+          {error}
+        </small>
+      )}
     </label>
   );
 }

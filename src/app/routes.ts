@@ -58,9 +58,10 @@ export function screenForPath(path: string) {
   return pathsToScreens[normalizePath(path)];
 }
 
-export type AppView = "login" | "account" | "home" | "pets" | "community" | "chat" | "forgot";
+export type AppView =
+  "login" | "account" | "home" | "pets" | "community" | "chat" | "forgot" | "not-found";
 
-const viewPaths: Record<AppView, string> = {
+const viewPaths: Record<Exclude<AppView, "not-found">, string> = {
   login: "/login",
   account: screenPaths["2"],
   home: screenPaths["5"],
@@ -71,12 +72,17 @@ const viewPaths: Record<AppView, string> = {
 };
 
 export function pathForView(view: AppView) {
-  return viewPaths[view];
+  return view === "not-found" ? "/pagina-nao-encontrada" : viewPaths[view];
 }
 
 export function viewForPath(path: string): AppView {
   const normalized = normalizePath(path);
   if (normalized === "/recuperar-senha") return "forgot";
   if (normalized === "/login" || normalized === "/") return "login";
-  return "login";
+  if (Object.values(viewPaths).includes(normalized)) {
+    return (Object.entries(viewPaths).find(([, path]) => path === normalized)?.[0] ??
+      "login") as AppView;
+  }
+  if (screenForPath(normalized)) return "login";
+  return "not-found";
 }

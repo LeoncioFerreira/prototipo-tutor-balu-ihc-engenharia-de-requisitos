@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import App from "../../app/App";
@@ -302,6 +302,106 @@ test("abre o Clube dos Caramelos pelo botão Entrar no clube", async () => {
   expect(screen.getByRole("button", { name: "Criar publicação" })).toBeInTheDocument();
 });
 
+test("filtra o clube por hashtag e cria uma publicação", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  const passeio = screen.getByRole("button", { name: "#Passeios" });
+  await user.click(passeio);
+  expect(passeio).toHaveAttribute("aria-pressed", "true");
+  expect(screen.getByText("Passeio tranquilo no parque ao pôr do sol.")).toBeInTheDocument();
+  expect(screen.queryByText(/escova de banho ajudou demais/i)).not.toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Criar publicação" }));
+  const dialog = screen.getByRole("dialog", { name: "Criar publicação" });
+  await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
+  expect(within(dialog).getByText("Escreva o conteúdo da publicação.")).toBeInTheDocument();
+
+  await user.type(
+    within(dialog).getByLabelText("Conteúdo da publicação"),
+    "Passeio no parque hoje.",
+  );
+  await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
+
+  expect(screen.queryByRole("dialog", { name: "Criar publicação" })).not.toBeInTheDocument();
+  expect(screen.getByText("Passeio no parque hoje.")).toBeInTheDocument();
+  expect(screen.getByRole("status")).toHaveTextContent("Publicação criada com sucesso");
+});
+
+test("confirma o salvamento do remédio antes de voltar", async () => {
+  const user = userEvent.setup();
+  goToScreen("10h");
+  render(<App />);
+
+  await user.type(screen.getByPlaceholderText("Ex: Vermífugo Chemital"), "NexGard");
+  await user.type(screen.getByPlaceholderText("Ex: 1/2 comprimido"), "1 comprimido");
+  await user.type(screen.getByLabelText("Horário *"), "14:00");
+  await user.click(screen.getByRole("button", { name: "Salvar remédio" }));
+
+  expect(screen.getByRole("status")).toHaveTextContent("Remédio salvo com sucesso");
+  expect(screen.getByRole("heading", { name: "Adicionar remédio" })).toBeInTheDocument();
+});
+
+test("permite desfazer um cuidado concluído", async () => {
+  const user = userEvent.setup();
+  goToScreen("5");
+  render(<App />);
+
+  await user.click(screen.getByRole("checkbox", { name: "Passeio Diário" }));
+  await user.click(screen.getByRole("button", { name: "Desfazer" }));
+
+  expect(screen.getByRole("checkbox", { name: "Passeio Diário" })).toHaveAttribute(
+    "aria-checked",
+    "false",
+  );
+});
+
+test("mostra página amigável para rota desconhecida", async () => {
+  const user = userEvent.setup();
+  window.history.replaceState({}, "", "/rota-inexistente");
+  render(<App />);
+
+  expect(screen.getByRole("heading", { name: "Página não encontrada" })).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Voltar ao início" }));
+  expect(screen.getByRole("heading", { name: "Entrar no Balu" })).toBeInTheDocument();
+});
+
+test("identifica o primeiro campo inválido do cadastro do pet", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Continuar" }));
+
+  const nameInput = screen.getByRole("textbox", { name: /Nome do pet/ });
+  expect(nameInput).toHaveAttribute("aria-invalid", "true");
+  expect(screen.getByText("Informe o nome do pet.")).toBeInTheDocument();
+  expect(nameInput).toHaveFocus();
+});
+
+test("explica que os dados permanecem salvos ao adicionar tutor depois", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Adicionar depois" }));
+  expect(screen.getByRole("status")).toHaveTextContent(
+    "Os dados preenchidos do pet serão mantidos",
+  );
+});
+
+test("oferece ajuda contextual no assistente virtual", async () => {
+  const user = userEvent.setup();
+  goToScreen("14");
+  render(<App />);
+
+  expect(screen.getByText("Assistente Virtual (IA)")).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Perguntas frequentes" }));
+  expect(screen.getByText("Como registrar uma rotina?")).toBeInTheDocument();
+  expect(screen.getByText("Como consultar a carteira do pet?")).toBeInTheDocument();
+});
+
 test("exibe apenas o Balu na lista de pets", () => {
   goToScreen("7");
   render(<App />);
@@ -312,6 +412,17 @@ test("exibe apenas o Balu na lista de pets", () => {
   expect(screen.getAllByRole("button", { name: /ver perfil/i })).toHaveLength(1);
   expect(screen.getAllByRole("button", { name: /marcar consulta/i })).toHaveLength(1);
   expect(screen.getByRole("button", { name: /adicionar novo pet/i })).toBeInTheDocument();
+});
+
+test("abre o agendamento pelo botão Marcar Consulta", async () => {
+  const user = userEvent.setup();
+  goToScreen("7");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /marcar consulta/i }));
+
+  expect(screen.getByRole("dialog", { name: /marcar consulta/i })).toBeInTheDocument();
+  expect(screen.getByText("Agendamento para Balu")).toBeInTheDocument();
 });
 
 test("exibe o formulário de adicionar pet sem marcador emoji", () => {

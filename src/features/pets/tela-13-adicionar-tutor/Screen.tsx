@@ -1,7 +1,16 @@
+import { useState } from "react";
 import { ArrowLeft, Copy } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
 const controlFont = { fontFamily: '"Plus Jakarta Sans", Arial, sans-serif' };
 export function AddTutorScreen({ onBack }: { onBack: () => void }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("BALU-4821");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
   return (
     <MobileShell active="pets" onNavigate={() => undefined}>
       <div className="invite-tutor-screen">
@@ -11,7 +20,14 @@ export function AddTutorScreen({ onBack }: { onBack: () => void }) {
             type="button"
             aria-label="Voltar"
             onClick={onBack}
-            style={controlFont}
+            style={{
+              ...controlFont,
+              minWidth: 44,
+              minHeight: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <ArrowLeft size={20} />
           </button>
@@ -21,10 +37,15 @@ export function AddTutorScreen({ onBack }: { onBack: () => void }) {
         <div className="invite-code">
           <p>Compartilhe este código com outro cuidador para entrar na família do pet.</p>
           <b>BALU-4821</b>
-          <button type="button" style={controlFont}>
+          <button type="button" style={controlFont} onClick={handleCopy}>
             <Copy size={16} />
-            Copiar código
+            {copied ? "Código copiado!" : "Copiar código"}
           </button>
+          {copied && (
+            <div style={{ color: "#10b981", fontSize: "0.85rem", fontWeight: 600, marginTop: 4 }}>
+              ✓ Código copiado para a área de transferência!
+            </div>
+          )}
         </div>
         <a
           className="whatsapp"
