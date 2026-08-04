@@ -103,29 +103,36 @@ export function ChatbotBaluScreen({
             </p>
           </aside>
 
-          <div className="chatbot-screen__chips">
-            <button
-              type="button"
-              aria-expanded={faqOpen}
-              aria-controls="chatbot-faq"
-              onClick={() => setFaqOpen((value) => !value)}
-            >
-              Perguntas frequentes
-            </button>
-            <button
-              type="button"
-              className="is-emergency"
-              onClick={() => sendMessage("emergência")}
-            >
-              Acionar Emergência
-            </button>
-            <button type="button" onClick={() => sendMessage("dicas de saúde")}>
-              Dicas de Saúde
-            </button>
-            <button type="button" onClick={() => sendMessage("remédio")}>
-              Remédios
-            </button>
-          </div>
+          <section
+            className="chatbot-screen__quick-actions"
+            aria-labelledby="quick-actions-title"
+          >
+            <h2 id="quick-actions-title">Perguntas rápidas</h2>
+            <div className="chatbot-screen__chips" role="group" aria-label="Perguntas rápidas">
+              <button
+                type="button"
+                aria-expanded={faqOpen}
+                aria-controls="chatbot-faq"
+                onClick={() => setFaqOpen((value) => !value)}
+              >
+                Perguntas frequentes
+              </button>
+              <button type="button" onClick={() => sendMessage("dicas de saúde")}>
+                Dicas de Saúde
+              </button>
+              <button type="button" onClick={() => sendMessage("remédio")}>
+                Remédios
+              </button>
+            </div>
+          </section>
+          <button
+            type="button"
+            className="chatbot-screen__emergency-action"
+            onClick={() => sendMessage("emergência")}
+          >
+            <TriangleAlert aria-hidden="true" size={18} strokeWidth={2.25} />
+            Acionar Emergência
+          </button>
           {faqOpen && (
             <section
               id="chatbot-faq"

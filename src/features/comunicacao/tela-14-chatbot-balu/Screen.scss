@@ -113,6 +113,19 @@
     }
   }
 
+  &__quick-actions {
+    display: grid;
+    gap: 7px;
+
+    h2 {
+      margin: 0;
+      color: #4a5568;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 14px;
+    }
+  }
+
   &__chips {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -134,10 +147,24 @@
       white-space: normal;
     }
 
-    .is-emergency {
-      border-color: #fed7d7;
-      color: #c53030;
+    button:first-child {
+      grid-column: 1 / -1;
     }
+  }
+
+  &__emergency-action {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #fca5a5;
+    border-radius: 12px;
+    background: #fff1f2;
+    color: #b91c1c;
+    font-size: 11px;
+    font-weight: 700;
   }
 
   &__faq {

@@ -61,9 +61,16 @@ test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () 
   render(<App />);
 
   const controls = screen.getByRole("region", { name: "Controles da conversa" });
+  const quickQuestions = within(controls).getByRole("group", { name: "Perguntas rápidas" });
+  expect(quickQuestions).toContainElement(
+    screen.getByRole("button", { name: "Perguntas frequentes" }),
+  );
+  expect(quickQuestions).toContainElement(screen.getByRole("button", { name: "Dicas de Saúde" }));
+  expect(quickQuestions).toContainElement(screen.getByRole("button", { name: "Remédios" }));
+  expect(quickQuestions).not.toContainElement(
+    screen.getByRole("button", { name: "Acionar Emergência" }),
+  );
   expect(controls).toContainElement(screen.getByRole("button", { name: "Acionar Emergência" }));
-  expect(controls).toContainElement(screen.getByRole("button", { name: "Dicas de Saúde" }));
-  expect(controls).toContainElement(screen.getByRole("button", { name: "Remédios" }));
   expect(controls).toContainElement(screen.getByLabelText("Mensagem"));
   expect(screen.getByLabelText("Mensagem").tagName).toBe("TEXTAREA");
 });
