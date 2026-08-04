@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
 
 export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
   const [saved, setSaved] = useState(false);
+  const returnTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (returnTimer.current) clearTimeout(returnTimer.current);
+    },
+    [],
+  );
+
   return (
     <MobileShell padded={false}>
       <div className="pet-add-form-screen">
@@ -30,7 +39,7 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
           onSubmit={(event) => {
             event.preventDefault();
             setSaved(true);
-            setTimeout(onBack, 1200);
+            returnTimer.current = setTimeout(onBack, 1200);
           }}
         >
           <p className="required-note">* indica campo obrigatório</p>
