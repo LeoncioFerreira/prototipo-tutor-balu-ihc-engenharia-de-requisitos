@@ -112,7 +112,7 @@ export function AccountSettingsScreen({
             aria-label={`${appleLinked ? "Desvincular" : "Vincular"} Apple`}
             onClick={() => toggleProvider("Apple", appleLinked)}
           >
-            <span>
+            <span className="account-settings-screen__provider-icon is-apple">
               <img src="/assets/figma/access/apple.svg" alt="" />
             </span>
             <span>

@@ -26,12 +26,39 @@ const homeFrameStyles = readFileSync(
   join(process.cwd(), "src/features/inicio/HomeFrame.scss"),
   "utf8",
 );
+const appleIcon = readFileSync(join(process.cwd(), "public/assets/figma/access/apple.svg"), "utf8");
+const loginStyles = readFileSync(
+  join(process.cwd(), "src/features/acesso/tela-01-login/Screen.scss"),
+  "utf8",
+);
+const createAccountStyles = readFileSync(
+  join(process.cwd(), "src/features/acesso/tela-02-criar-conta/Screen.scss"),
+  "utf8",
+);
+const accountSettingsStyles = readFileSync(
+  join(process.cwd(), "src/features/inicio/tela-06c-configuracoes-conta/Screen.scss"),
+  "utf8",
+);
 
 function goToScreen(screen: string) {
   const path = pathForScreen(screen);
   if (!path) throw new Error("Rota não mapeada: " + screen);
   window.history.pushState({}, "", path);
 }
+
+test("mantém o ícone da Apple visível no mesmo padrão cromático do Google", () => {
+  expect(appleIcon).toContain('fill="#4285F4"');
+  expect(appleIcon).not.toContain('fill="white"');
+  expect(loginStyles).toMatch(
+    /&__apple\s*{[^}]*border:\s*1px solid #b2f5ea;[^}]*background:\s*white;/s,
+  );
+  expect(createAccountStyles).toMatch(
+    /\.is-apple\s*{[^}]*border:\s*1px solid #b2f5ea;[^}]*background:\s*white;/s,
+  );
+  expect(accountSettingsStyles).toMatch(
+    /&__provider-icon\.is-apple\s*{[^}]*border:\s*1px solid #b2f5ea;[^}]*background:\s*white;/s,
+  );
+});
 
 function expectCurrentScreen(screen: string) {
   expect(window.location.pathname).toBe(pathForScreen(screen));

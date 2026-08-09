@@ -178,6 +178,11 @@
     }
   }
 
+  &__provider-icon.is-apple {
+    border: 1px solid #b2f5ea;
+    background: white;
+  }
+
   &__accessibility > div {
     border: 1px solid #e2e8f0;
     border-radius: 18px;
