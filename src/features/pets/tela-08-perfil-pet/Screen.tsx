@@ -59,13 +59,19 @@ export function PetProfileScreen({
               </button>
             </article>
           ))}
+          <article className="h-[116px] rounded-2xl border-[1.5px] border-[#e2e8f0] bg-white p-3">
+            <h3 className="text-[14px] font-bold leading-[18px]">Cuidado compartilhado</h3>
+            <p className="mt-2 max-w-[300px] text-[12px] font-semibold leading-[15px] text-[#4a5568]">
+              Gerencie cuidadores e acompanhe as atividades realizadas com o pet.
+            </p>
+            <button
+              onClick={() => onOpen?.("12")}
+              className="mt-2 rounded-full bg-[#183a78] px-3 py-[7px] text-[11px] font-bold leading-[14px] text-white"
+            >
+              Gerenciar cuidadores
+            </button>
+          </article>
         </div>
-        <button
-          onClick={() => onOpen?.("12")}
-          className="mt-2 h-12 w-full rounded-full bg-[#183a78] text-sm font-bold text-white"
-        >
-          Gerenciar cuidadores
-        </button>
       </div>
     </MobileShell>
   );
