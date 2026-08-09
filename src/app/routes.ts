@@ -15,8 +15,11 @@ const screenPaths = {
   "6b": "/pets/vinculo-clinica",
   "6c": "/perfil/configuracoes",
   "6d": "/perfil/configuracoes/experiencia",
+  "6e": "/perfil/configuracoes/alterar-email",
+  "6f": "/perfil/configuracoes/alterar-senha",
   "7": "/pets",
   "7a": "/pets/adicionar",
+  "7b": "/pets/consultas",
   "8": "/pets/perfil",
   "9": "/pets/rotina",
   "9a": "/pets/rotina/semanal",
@@ -38,7 +41,16 @@ const screenPaths = {
   "13": "/pets/cuidado-compartilhado/convidar",
   "14": "/chat",
   "15": "/comunidade",
+  "15a": "/comunidade/todas",
   "16": "/comunidade/clube-dos-caramelos",
+  "16a": "/comunidade/clube-dos-vira-latas",
+  "16b": "/comunidade/clube-dos-gateiros",
+  "16c": "/comunidade/golden-retriever",
+  "16d": "/comunidade/shih-tzu",
+  "16e": "/comunidade/poodle",
+  "16f": "/comunidade/labrador",
+  "16g": "/comunidade/pinscher",
+  "16h": "/comunidade/bulldog",
 } as const;
 
 const pathsToScreens = Object.fromEntries(

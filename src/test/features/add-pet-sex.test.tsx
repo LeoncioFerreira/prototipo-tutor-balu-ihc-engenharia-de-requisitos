@@ -12,15 +12,14 @@ test("limita o sexo do novo pet às opções Macho e Fêmea", async () => {
     </ErrorFeedbackProvider>,
   );
 
-  const sexSelect = screen.getByRole("combobox", { name: "Sexo" });
+  const sexSelect = screen.getByRole("combobox", { name: /^sexo/i });
   const options = within(sexSelect).getAllByRole("option");
 
   expect(sexSelect).toBeRequired();
-  expect(sexSelect).toHaveClass("add-pet-screen__sex-select");
   expect(sexSelect).toHaveValue("");
   expect(options).toHaveLength(3);
   expect(options[0]).toHaveTextContent("Selecione");
-  expect(options[0]).toBeDisabled();
+  expect(options[0]).toHaveValue("");
   expect(options[1]).toHaveTextContent("Macho");
   expect(options[2]).toHaveTextContent("Fêmea");
 

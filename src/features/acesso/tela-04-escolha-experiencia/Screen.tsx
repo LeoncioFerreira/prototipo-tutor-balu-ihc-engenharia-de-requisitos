@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 import { OnboardingProgress } from "../../../components/ui/OnboardingProgress";
+import { BackButton } from "../../../components/ui/ScreenPrimitives";
 
 type Choice = "traditional" | "gamified";
 
 export function ExperienceScreen({
   onComplete,
+  onBack,
   initialChoice,
   figmaNode = "177:57",
 }: {
@@ -13,7 +16,15 @@ export function ExperienceScreen({
   initialChoice?: Choice;
   figmaNode?: string;
 }) {
+  const { showToast } = useErrorFeedback();
   const [choice, setChoice] = useState<Choice | undefined>(initialChoice);
+  const [hasError, setHasError] = useState(false);
+  const firstChoiceRef = useRef<HTMLButtonElement>(null);
+
+  const chooseExperience = (nextChoice: Choice) => {
+    setChoice(nextChoice);
+    setHasError(false);
+  };
 
   return (
     <main className="experience-screen">
@@ -24,8 +35,11 @@ export function ExperienceScreen({
       >
         <OnboardingProgress currentStep={3} label="Escolher experiência" />
         <header>
-          <h1>Escolha sua experiência</h1>
-          <p>Defina como você quer acompanhar a rotina e a saúde do seu pet</p>
+          {onBack && <BackButton onClick={onBack} />}
+          <div>
+            <h1>Escolha sua experiência</h1>
+            <p>Defina como você quer acompanhar a rotina e a saúde do seu pet</p>
+          </div>
         </header>
 
         <div className="experience-screen__logo">
@@ -34,12 +48,18 @@ export function ExperienceScreen({
 
         <section className="experience-screen__options">
           <h2>Como você quer usar o Balu?</h2>
-          <div>
+          <div
+            role="group"
+            aria-label="Opções de experiência"
+            aria-invalid={hasError}
+            aria-describedby={hasError ? "experience-choice-error" : undefined}
+          >
             <button
+              ref={firstChoiceRef}
               type="button"
               className={choice === "traditional" ? "is-selected" : ""}
               aria-pressed={choice === "traditional"}
-              onClick={() => setChoice("traditional")}
+              onClick={() => chooseExperience("traditional")}
             >
               <strong>Tradicional</strong>
               <p>Acompanhamento direto com listas, alertas e histórico organizado.</p>
@@ -48,7 +68,7 @@ export function ExperienceScreen({
               type="button"
               className={choice === "gamified" ? "is-selected" : ""}
               aria-pressed={choice === "gamified"}
-              onClick={() => setChoice("gamified")}
+              onClick={() => chooseExperience("gamified")}
             >
               <span>
                 <strong>Gamificada</strong>
@@ -57,6 +77,11 @@ export function ExperienceScreen({
               <p>Ganhe pontos, acompanhe níveis e transforme a rotina em progresso.</p>
             </button>
           </div>
+          {hasError && (
+            <small id="experience-choice-error" className="experience-screen__error">
+              Selecione uma experiência para continuar.
+            </small>
+          )}
         </section>
 
         <p className="experience-screen__helper">
@@ -65,7 +90,15 @@ export function ExperienceScreen({
         <button
           className="experience-screen__submit"
           type="button"
-          onClick={() => choice && onComplete?.(choice)}
+          onClick={() => {
+            if (!choice) {
+              setHasError(true);
+              showToast("Preencha os campos obrigatórios para continuar.");
+              firstChoiceRef.current?.focus();
+              return;
+            }
+            onComplete?.(choice);
+          }}
         >
           Começar jornada
         </button>

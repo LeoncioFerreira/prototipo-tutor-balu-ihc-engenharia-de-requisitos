@@ -12,11 +12,13 @@ type Props = {
 export function LoginScreen({
   onEnter,
   onCreateAccount,
+  onForgotPassword,
   onGoogleUnavailable,
   onAppleUnavailable,
 }: Props) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<{ login?: string; password?: string }>({});
   const { showToast } = useErrorFeedback();
 
   return (
@@ -36,6 +38,10 @@ export function LoginScreen({
           onSubmit={(event) => {
             event.preventDefault();
             if (!login.trim() || !password.trim()) {
+              setErrors({
+                login: login.trim() ? undefined : "Informe o e-mail.",
+                password: password.trim() ? undefined : "Informe a senha.",
+              });
               showToast("Preencha os campos obrigatórios para continuar.");
             } else if (login === "admin" && password === "123") {
               onEnter();
@@ -56,13 +62,24 @@ export function LoginScreen({
               </b>
             </span>
             <input
+              id="login-email"
               aria-label="E-mail"
+              aria-invalid={Boolean(errors.login)}
+              aria-describedby={errors.login ? "login-email-error" : undefined}
               required
               value={login}
-              onChange={(event) => setLogin(event.target.value)}
+              onChange={(event) => {
+                setLogin(event.target.value);
+                setErrors((current) => ({ ...current, login: undefined }));
+              }}
               placeholder="voce@email.com"
               type="text"
             />
+            {errors.login && (
+              <small id="login-email-error" className="login-screen__error">
+                {errors.login}
+              </small>
+            )}
           </label>
           <label>
             <span>
@@ -72,16 +89,30 @@ export function LoginScreen({
               </b>
             </span>
             <input
+              id="login-password"
               aria-label="Senha"
+              aria-invalid={Boolean(errors.password)}
+              aria-describedby={errors.password ? "login-password-error" : undefined}
               required
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setErrors((current) => ({ ...current, password: undefined }));
+              }}
               placeholder="Digite sua senha"
               type="password"
             />
+            {errors.password && (
+              <small id="login-password-error" className="login-screen__error">
+                {errors.password}
+              </small>
+            )}
           </label>
           <button className="login-screen__enter" type="submit">
             Entrar
+          </button>
+          <button className="login-screen__forgot" type="button" onClick={onForgotPassword}>
+            Esqueceu sua senha?
           </button>
         </form>
 

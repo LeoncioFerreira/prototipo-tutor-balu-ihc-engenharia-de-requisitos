@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 import { MobileShell } from "../../../components/ui/MobileShell";
 import { PageHeader, PrimaryButton } from "../../../components/ui/ScreenPrimitives";
 export function ForgotPasswordScreen({ onBack }: { onBack: () => void }) {
-  const [sent, setSent] = useState(false);
+  const { showToast } = useErrorFeedback();
+
   return (
     <MobileShell>
       <PageHeader
@@ -13,7 +14,7 @@ export function ForgotPasswordScreen({ onBack }: { onBack: () => void }) {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setSent(true);
+          showToast("Instruções enviadas no e-mail.", "success");
         }}
         className="space-y-5"
       >
@@ -26,11 +27,6 @@ export function ForgotPasswordScreen({ onBack }: { onBack: () => void }) {
             className="mt-2 h-12 w-full rounded-2xl border-2 border-[#c4c6cf] px-4 font-normal"
           />
         </label>
-        {sent && (
-          <p role="status" className="rounded-2xl bg-[#e6fffa] p-4 text-sm">
-            Se este e-mail existir, enviaremos as instruções de recuperação.
-          </p>
-        )}
         <PrimaryButton type="submit">Enviar instruções</PrimaryButton>
       </form>
     </MobileShell>

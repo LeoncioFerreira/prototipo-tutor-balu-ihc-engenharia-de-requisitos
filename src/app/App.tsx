@@ -1,4 +1,4 @@
-import { useState, type ComponentType, type ReactNode } from "react";
+import { useEffect, useState, type ComponentType, type ReactNode } from "react";
 import { LoginScreen } from "../features/acesso/tela-01-login/Screen";
 import { NotFoundScreen } from "../features/acesso/tela-00-nao-encontrada/Screen";
 import { ForgotPasswordScreen } from "../features/acesso/tela-01a-recuperar-senha/Screen";
@@ -7,22 +7,22 @@ import { RegisterPetScreen } from "../features/acesso/tela-03-cadastrar-pet/Scre
 import { ExperienceScreen } from "../features/acesso/tela-04-escolha-experiencia/Screen";
 import { TraditionalExperienceScreen } from "../features/acesso/tela-04t-experiencia-tradicional/Screen";
 import { GamifiedExperienceScreen } from "../features/acesso/tela-04g-experiencia-gamificada/Screen";
+import { HomeFrame, type HomeVariant } from "../features/inicio/HomeFrame";
 import { HomeTutorScreen } from "../features/inicio/tela-05-home-tutor/Screen";
-import { HomeMedicineDoneScreen } from "../features/inicio/tela-05a-home-vermifugo-concluido/Screen";
-import { HomeWalkDoneScreen } from "../features/inicio/tela-05b-home-passeio-concluido/Screen";
 import { TraditionalHomeScreen } from "../features/inicio/tela-05t-home-tradicional/Screen";
-import { TraditionalHomeMedicineScreen } from "../features/inicio/tela-05ta-home-tradicional-vermifugo/Screen";
-import { TraditionalHomeWalkScreen } from "../features/inicio/tela-05tb-home-tradicional-passeio/Screen";
 import { TutorProfileScreen } from "../features/inicio/tela-06-perfil-tutor/Screen";
 import {
   AccountSettingsScreen,
   type ExperienceMode,
 } from "../features/inicio/tela-06c-configuracoes-conta/Screen";
 import { ExperienceSettingsScreen } from "../features/inicio/tela-06d-escolher-experiencia/Screen";
+import { ChangeEmailScreen } from "../features/inicio/tela-06e-alterar-email/Screen";
+import { ChangePasswordScreen } from "../features/inicio/tela-06f-alterar-senha/Screen";
 import { NotificationsScreen } from "../features/inicio/tela-06a-notificacoes/Screen";
 import { ClinicLinkScreen } from "../features/pets/tela-06b-vinculo-clinica/Screen";
 import { MyPetsScreen } from "../features/pets/tela-07-meus-pets/Screen";
 import { AddPetScreen } from "../features/pets/tela-07a-adicionar-pet/Screen";
+import { ConsultationsScreen } from "../features/pets/tela-07b-consultas/Screen";
 import { PetProfileScreen } from "../features/pets/tela-08-perfil-pet/Screen";
 import { RoutineScreen } from "../features/pets/tela-09-ver-rotina/Screen";
 import { WeeklyRoutineScreen } from "../features/pets/tela-09a-rotina-semanal/Screen";
@@ -44,7 +44,9 @@ import { SharedCareScreen } from "../features/pets/tela-12-cuidado-compartilhado
 import { AddTutorScreen } from "../features/pets/tela-13-adicionar-tutor/Screen";
 import { ChatbotBaluScreen } from "../features/comunicacao/tela-14-chatbot-balu/Screen";
 import { CommunitiesScreen } from "../features/comunidade/tela-15-comunidades-tematicas/Screen";
+import { AllCommunitiesScreen } from "../features/comunidade/tela-15a-todas-comunidades/Screen";
 import { CaramelClubScreen } from "../features/comunidade/tela-16-clube-caramelos/Screen";
+import { communityByScreen } from "../features/comunidade/community-data";
 import { MainNavigationProvider, type MainDestination } from "../components/ui/MobileShell";
 import {
   ErrorFeedbackProvider,
@@ -67,13 +69,25 @@ function AppContent() {
   const routeScreen = screenForPath(window.location.pathname);
   const [screen, setScreen] = useState<string | undefined>(routeScreen);
   const [view, setView] = useState<View>(() => viewForPath(window.location.pathname));
+  const [addPetReturn, setAddPetReturn] = useState<View>("pets");
   const [medicineDetailReturn, setMedicineDetailReturn] = useState("10c");
+  const [notificationReturn, setNotificationReturn] = useState(false);
   const [experience, setExperience] = useState<ExperienceMode>(() => {
     const savedExperience = localStorage.getItem("balu-experience");
     return savedExperience === "traditional" ? "traditional" : "gamified";
   });
+  const [fontLevel, setFontLevel] = useState(() => {
+    const saved = Number(localStorage.getItem("balu-font-level"));
+    return saved >= 1 && saved <= 5 ? saved : 3;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("balu-font-level", String(fontLevel));
+    document.documentElement.dataset.baluFontLevel = String(fontLevel);
+  }, [fontLevel]);
 
   const openView = (next: View) => {
+    setNotificationReturn(false);
     window.history.replaceState({}, "", pathForView(next));
     setScreen(undefined);
     setView(next);
@@ -83,6 +97,22 @@ function AppContent() {
     if (!path) return;
     window.history.replaceState({}, "", path);
     setScreen(next);
+  };
+  const openFromNotifications = (next: string) => {
+    setNotificationReturn(true);
+    openScreen(next);
+  };
+  const backFromNotificationOr = (fallback: string) => {
+    if (notificationReturn) {
+      setNotificationReturn(false);
+      openScreen("6a");
+      return;
+    }
+    openScreen(fallback);
+  };
+  const openAddPet = (returnTo: View) => {
+    setAddPetReturn(returnTo);
+    openScreen("7a");
   };
   const saveExperience = (nextExperience: ExperienceMode) => {
     localStorage.setItem("balu-experience", nextExperience);
@@ -99,13 +129,18 @@ function AppContent() {
 
   if (screen === "2")
     return (
-      <CreateAccountScreen onEnter={() => openScreen("3")} onLogin={() => openView("login")} />
+      <CreateAccountScreen
+        onBack={() => openView("login")}
+        onEnter={() => openScreen("3")}
+        onLogin={() => openView("login")}
+      />
     );
   if (screen === "3")
     return <RegisterPetScreen onBack={() => openScreen("2")} onComplete={() => openScreen("4")} />;
   if (screen === "4")
     return (
       <ExperienceScreen
+        onBack={() => openScreen("3")}
         onComplete={(choice) => {
           if (choice === "traditional") {
             openScreen("4t");
@@ -139,6 +174,10 @@ function AppContent() {
         experience={experience}
         onBack={() => openScreen("6")}
         onChooseExperience={() => openScreen("6d")}
+        onChangeEmail={() => openScreen("6e")}
+        onChangePassword={() => openScreen("6f")}
+        fontLevel={fontLevel}
+        onFontLevelChange={setFontLevel}
       />,
     );
   if (screen === "6d")
@@ -152,22 +191,40 @@ function AppContent() {
         }}
       />,
     );
+  if (screen === "6e")
+    return withMainNavigation(<ChangeEmailScreen onBack={() => openScreen("6c")} />);
+  if (screen === "6f")
+    return withMainNavigation(<ChangePasswordScreen onBack={() => openScreen("6c")} />);
   if (screen === "6a")
     return withMainNavigation(
       <NotificationsScreen
         onBack={() => openView("home")}
-        onOpenClinicLink={() => openScreen("6b")}
+        onOpenNotification={openFromNotifications}
       />,
     );
   if (screen === "6b")
     return withMainNavigation(<ClinicLinkScreen onBack={() => openScreen("6a")} />);
-  if (screen === "7a") return <AddPetScreen onBack={() => openView("pets")} />;
+  if (screen === "7a")
+    return (
+      <AddPetScreen
+        onBack={() => openView(addPetReturn)}
+        onComplete={() => openView(addPetReturn)}
+      />
+    );
+  if (screen === "7")
+    return (
+      <MyPetsScreen onNavigate={navigate} onOpen={openScreen} onAddPet={() => openAddPet("pets")} />
+    );
+  if (screen === "7b")
+    return withMainNavigation(<ConsultationsScreen onBack={() => openView("pets")} />);
   if (screen === "8")
     return withMainNavigation(
       <PetProfileScreen onBack={() => openView("pets")} onOpen={openScreen} />,
     );
   if (screen === "9")
-    return withMainNavigation(<RoutineScreen onBack={() => openScreen("8")} onOpen={openScreen} />);
+    return withMainNavigation(
+      <RoutineScreen onBack={() => backFromNotificationOr("8")} onOpen={openScreen} />,
+    );
   if (screen === "9a")
     return withMainNavigation(
       <WeeklyRoutineScreen onBack={() => openScreen("8")} onOpen={openScreen} />,
@@ -186,7 +243,7 @@ function AppContent() {
   if (screen === "10")
     return withMainNavigation(
       <MedicinesScreen
-        onBack={() => openScreen("8")}
+        onBack={() => backFromNotificationOr("8")}
         onOpen={openScreen}
         onOpenDetail={(detail) => openMedicineDetail(detail, "10")}
       />,
@@ -236,7 +293,10 @@ function AppContent() {
     return withMainNavigation(<WalletScreen onBack={() => openScreen("8")} onOpen={openScreen} />);
   if (screen === "12")
     return withMainNavigation(
-      <SharedCareScreen onBack={() => openScreen("8")} onInvite={() => openScreen("13")} />,
+      <SharedCareScreen
+        onBack={() => backFromNotificationOr("8")}
+        onInvite={() => openScreen("13")}
+      />,
     );
   if (screen === "13")
     return withMainNavigation(<AddTutorScreen onBack={() => openScreen("12")} />);
@@ -246,11 +306,37 @@ function AppContent() {
     );
   if (screen === "15")
     return withMainNavigation(
-      <CommunitiesScreen onNavigate={navigate} onOpenClub={() => openScreen("16")} />,
+      <CommunitiesScreen
+        onNavigate={navigate}
+        onOpenClub={openScreen}
+        onOpenAll={() => openScreen("15a")}
+      />,
     );
-  if (screen === "16")
+  if (screen === "15a")
     return withMainNavigation(
-      <CaramelClubScreen onBack={() => openView("community")} onNavigate={navigate} />,
+      <AllCommunitiesScreen
+        onBack={() => openView("community")}
+        onOpenClub={openScreen}
+        onNavigate={navigate}
+      />,
+    );
+  if (screen && communityByScreen[screen])
+    return withMainNavigation(
+      <CaramelClubScreen
+        community={communityByScreen[screen]}
+        onBack={() => (notificationReturn ? backFromNotificationOr("15") : openView("community"))}
+        onNavigate={navigate}
+      />,
+    );
+  if (screen && homeVariantByScreen[screen])
+    return (
+      <HomeFrame
+        variant={homeVariantByScreen[screen]}
+        onNavigate={navigate}
+        onOpenNotifications={() => openScreen("6a")}
+        onOpenProfile={() => openScreen("6")}
+        onAddPet={() => openAddPet("home")}
+      />
     );
   if (screen && numberedScreenComponents[screen]) {
     const NumberedScreen = numberedScreenComponents[screen];
@@ -286,7 +372,11 @@ function AppContent() {
     );
   if (view === "account")
     return (
-      <CreateAccountScreen onEnter={() => openScreen("3")} onLogin={() => openView("login")} />
+      <CreateAccountScreen
+        onBack={() => openView("login")}
+        onEnter={() => openScreen("3")}
+        onLogin={() => openView("login")}
+      />
     );
   if (view === "home")
     return experience === "traditional" ? (
@@ -294,29 +384,41 @@ function AppContent() {
         onNavigate={navigate}
         onOpenNotifications={() => openScreen("6a")}
         onOpenProfile={() => openScreen("6")}
-        onAddPet={() => openScreen("7a")}
+        onAddPet={() => openAddPet("home")}
       />
     ) : (
       <HomeTutorScreen
         onNavigate={navigate}
         onOpenNotifications={() => openScreen("6a")}
         onOpenProfile={() => openScreen("6")}
-        onAddPet={() => openScreen("7a")}
+        onAddPet={() => openAddPet("home")}
       />
     );
-  if (view === "pets") return <MyPetsScreen onNavigate={navigate} onOpen={openScreen} />;
+  if (view === "pets")
+    return (
+      <MyPetsScreen onNavigate={navigate} onOpen={openScreen} onAddPet={() => openAddPet("pets")} />
+    );
   if (view === "community")
-    return <CommunitiesScreen onNavigate={navigate} onOpenClub={() => openScreen("16")} />;
+    return (
+      <CommunitiesScreen
+        onNavigate={navigate}
+        onOpenClub={openScreen}
+        onOpenAll={() => openScreen("15a")}
+      />
+    );
   return <ChatbotBaluScreen onBack={() => openView("home")} onNavigate={navigate} />;
 }
 
 const numberedScreenComponents: Record<string, ComponentType> = {
-  "5": HomeTutorScreen,
-  "5a": HomeMedicineDoneScreen,
-  "5b": HomeWalkDoneScreen,
-  "5t": TraditionalHomeScreen,
-  "5ta": TraditionalHomeMedicineScreen,
-  "5tb": TraditionalHomeWalkScreen,
   "7": MyPetsScreen,
   "15": CommunitiesScreen,
+};
+
+const homeVariantByScreen: Record<string, HomeVariant> = {
+  "5": "5",
+  "5a": "5a",
+  "5b": "5b",
+  "5t": "5t",
+  "5ta": "5ta",
+  "5tb": "5tb",
 };

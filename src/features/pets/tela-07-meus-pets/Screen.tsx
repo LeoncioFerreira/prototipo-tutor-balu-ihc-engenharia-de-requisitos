@@ -1,6 +1,4 @@
-import { useRef, useState } from "react";
 import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
-import { AppointmentModal } from "./AppointmentModal";
 
 const pets = [
   ["B", "Balu", ["Samoieda", "2 anos", "22 kg"], ["Carteira atualizada", "Cuidado compartilhado"]],
@@ -9,13 +7,12 @@ const pets = [
 export function MyPetsScreen({
   onNavigate = () => undefined,
   onOpen,
+  onAddPet,
 }: {
   onNavigate?: (destination: MainDestination) => void;
   onOpen?: (screen: string) => void;
+  onAddPet?: () => void;
 }) {
-  const [appointmentOpen, setAppointmentOpen] = useState(false);
-  const appointmentButtonRef = useRef<HTMLButtonElement>(null);
-
   return (
     <MobileShell active="pets" onNavigate={onNavigate}>
       <div className="my-pets-screen">
@@ -70,19 +67,18 @@ export function MyPetsScreen({
                   Ver perfil
                 </button>
                 <button
-                  ref={appointmentButtonRef}
                   type="button"
-                  onClick={() => setAppointmentOpen(true)}
+                  onClick={() => onOpen?.("7b")}
                   className="rounded-full border border-[#e2e8f0] bg-[#e6fffa] px-3 py-2 text-[13px] font-semibold leading-4 text-[#183a78]"
                 >
-                  Marcar Consulta
+                  Consultas
                 </button>
               </div>
             </article>
           ))}
         </div>
         <button
-          onClick={() => onOpen?.("7a")}
+          onClick={onAddPet}
           className="mt-7 flex h-12 w-full items-center justify-center gap-2 rounded-full border-2 border-[#183a78] text-sm font-bold text-[#183a78]"
         >
           <img
@@ -92,13 +88,6 @@ export function MyPetsScreen({
           />
           Adicionar novo pet
         </button>
-        {appointmentOpen && (
-          <AppointmentModal
-            petName="Balu"
-            onClose={() => setAppointmentOpen(false)}
-            returnFocusRef={appointmentButtonRef}
-          />
-        )}
       </div>
     </MobileShell>
   );

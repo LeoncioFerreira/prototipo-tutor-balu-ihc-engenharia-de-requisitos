@@ -37,6 +37,15 @@
       font-size: 24px;
       line-height: 1;
     }
+
+    &--success {
+      border-color: #9ae6b4;
+
+      .error-feedback__symbol {
+        background: #e6fffa;
+        color: #237a57;
+      }
+    }
   }
 
   &__symbol,

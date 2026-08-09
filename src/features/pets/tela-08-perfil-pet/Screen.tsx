@@ -1,5 +1,5 @@
-import { ArrowLeft } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
+import { PetSectionHeader } from "../../../components/ui/PetSectionHeader";
 
 const cards = [
   [
@@ -35,51 +35,7 @@ export function PetProfileScreen({
   return (
     <MobileShell active="pets" onNavigate={() => undefined}>
       <div className="pet-profile-screen">
-        <header className="mt-1 flex items-center gap-3">
-          <button type="button" aria-label="Voltar" onClick={onBack}>
-            <ArrowLeft size={20} strokeWidth={2.5} />
-          </button>
-          <h1 className="text-[20px] font-bold leading-[25px]">Perfil do Pet</h1>
-        </header>
-        <section className="mt-[27px] h-[170px] rounded-[18px] border-[1.5px] border-[#e2e8f0] bg-white pt-[15px] text-center shadow-[0_8px_16px_rgba(26,54,93,.04)]">
-          <img src="/assets/figma/pets/pet-avatar.svg" alt="" className="mx-auto h-20 w-20" />
-          <h2 className="mt-1 text-[18px] font-bold leading-6">Balu</h2>
-          <div className="mt-2 flex justify-center gap-[31px] text-[11px] font-semibold leading-3 text-[#4a5568]">
-            <span className="rounded-full bg-[#f2f4f5] px-2.5 py-[6px]">Samoieda</span>
-            <span className="rounded-full bg-[#f2f4f5] px-5 py-[6px]">2 anos</span>
-            <span className="rounded-full bg-[#f2f4f5] px-[22px] py-[6px]">22 kg</span>
-          </div>
-        </section>
-        <nav className="mt-5 flex h-11 items-start justify-center gap-1 text-[10px]">
-          <button
-            type="button"
-            onClick={() => onOpen?.("8")}
-            className="h-[30px] rounded-full border-[1.25px] border-[#b2f5ea] bg-white px-3 font-bold"
-          >
-            Visão geral
-          </button>
-          <button
-            type="button"
-            onClick={() => onOpen?.("9")}
-            className="h-[30px] rounded-full border border-[#e2e8f0] bg-white px-3 text-[#717e91]"
-          >
-            Ver rotina
-          </button>
-          <button
-            type="button"
-            onClick={() => onOpen?.("10")}
-            className="h-[30px] rounded-full border border-[#e2e8f0] bg-white px-3 text-[#717e91]"
-          >
-            Ver remédios
-          </button>
-          <button
-            type="button"
-            onClick={() => onOpen?.("11")}
-            className="h-[30px] rounded-full border border-[#e2e8f0] bg-white px-3 text-[#717e91]"
-          >
-            Ver carteira
-          </button>
-        </nav>
+        <PetSectionHeader title="Perfil do Pet" active="overview" onBack={onBack} onOpen={onOpen} />
         <div className="mt-4 space-y-4">
           {cards.map(([title, text, status, action, screen], index) => (
             <article

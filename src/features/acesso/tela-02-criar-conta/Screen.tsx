@@ -1,33 +1,85 @@
+import { useRef, useState } from "react";
+import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 import { OnboardingProgress } from "../../../components/ui/OnboardingProgress";
+import { BackButton } from "../../../components/ui/ScreenPrimitives";
+
+const initialFields = {
+  name: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
+};
+
+type FieldName = keyof typeof initialFields;
 
 export function CreateAccountScreen({
   onEnter,
   onLogin,
+  onBack,
 }: {
   onEnter: () => void;
   onLogin?: () => void;
+  onBack: () => void;
 }) {
+  const { showToast } = useErrorFeedback();
+  const [values, setValues] = useState(initialFields);
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
+  const formRef = useRef<HTMLFormElement>(null);
   const fields = [
-    ["Nome", "Seu nome completo", "text"],
-    ["E-mail", "voce@email.com", "email"],
-    ["Senha", "Crie uma senha", "password"],
-    ["Confirmar senha", "Digite novamente", "password"],
+    ["name", "Nome", "Seu nome completo", "text", "Informe o nome."],
+    ["email", "E-mail", "voce@email.com", "email", "Informe o e-mail."],
+    ["password", "Senha", "Crie uma senha", "password", "Informe a senha."],
+    [
+      "passwordConfirmation",
+      "Confirmar senha",
+      "Digite novamente",
+      "password",
+      "Confirme a senha.",
+    ],
   ] as const;
+
+  const updateField = (field: FieldName, value: string) => {
+    setValues((current) => ({ ...current, [field]: value }));
+    setErrors((current) => ({ ...current, [field]: undefined }));
+  };
 
   return (
     <main className="create-account-screen">
       <section className="create-account-screen__canvas" data-figma-node="175:2">
         <OnboardingProgress currentStep={1} label="Criar sua conta" />
         <header>
-          <h1>Criar conta</h1>
-          <p>Crie seu acesso para depois cadastrar seu pet</p>
+          <BackButton onClick={onBack} />
+          <div>
+            <h1>Criar conta</h1>
+            <p>Crie seu acesso para depois cadastrar seu pet</p>
+          </div>
         </header>
         <div className="create-account-screen__logo">
           <img src="/assets/figma/logo-balu.png" alt="Balu" />
         </div>
         <form
+          ref={formRef}
+          noValidate
           onSubmit={(event) => {
             event.preventDefault();
+
+            const nextErrors: Partial<Record<FieldName, string>> = {};
+            for (const [name, , , , message] of fields) {
+              if (!values[name].trim()) nextErrors[name] = message;
+            }
+            setErrors(nextErrors);
+
+            if (Object.keys(nextErrors).length) {
+              showToast("Preencha os campos obrigatórios para continuar.");
+              const firstInvalidField = fields.find(([name]) => nextErrors[name]);
+              if (firstInvalidField) {
+                formRef.current
+                  ?.querySelector<HTMLInputElement>(`#create-account-${firstInvalidField[0]}`)
+                  ?.focus();
+              }
+              return;
+            }
+
             onEnter();
           }}
         >
@@ -35,15 +87,30 @@ export function CreateAccountScreen({
             <strong>Cadastro</strong>
             <small>* indica campo obrigatório</small>
           </div>
-          {fields.map(([label, placeholder, type]) => (
-            <label key={label}>
+          {fields.map(([name, label, placeholder, type]) => (
+            <label key={name}>
               <span>
                 {label}{" "}
                 <b className="create-account-screen__required" aria-hidden="true">
                   *
                 </b>
               </span>
-              <input aria-label={label} required type={type} placeholder={placeholder} />
+              <input
+                id={`create-account-${name}`}
+                aria-label={label}
+                aria-invalid={Boolean(errors[name])}
+                aria-describedby={errors[name] ? `create-account-${name}-error` : undefined}
+                required
+                type={type}
+                placeholder={placeholder}
+                value={values[name]}
+                onChange={(event) => updateField(name, event.target.value)}
+              />
+              {errors[name] && (
+                <small id={`create-account-${name}-error`} className="create-account-screen__error">
+                  {errors[name]}
+                </small>
+              )}
             </label>
           ))}
           <button type="submit">Criar conta</button>

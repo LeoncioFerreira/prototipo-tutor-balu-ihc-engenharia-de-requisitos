@@ -7,7 +7,7 @@ export function BackButton({ onClick, label = "Voltar" }: { onClick: () => void;
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="grid h-[30px] w-5 place-items-center bg-transparent text-[#183a78]"
+      className="grid h-11 w-11 place-items-center bg-transparent text-[#183a78]"
     >
       <ArrowLeft size={20} />
     </button>

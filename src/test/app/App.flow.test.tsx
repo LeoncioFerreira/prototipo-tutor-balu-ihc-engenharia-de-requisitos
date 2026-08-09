@@ -1,8 +1,31 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { expect, test } from "vitest";
+// @ts-expect-error Vitest provides Node APIs, while the production tsconfig omits Node types.
+import { readFileSync } from "node:fs";
+// @ts-expect-error Vitest provides Node APIs, while the production tsconfig omits Node types.
+import { join } from "node:path";
+import { expect, test, vi } from "vitest";
 import App from "../../app/App";
 import { pathForScreen } from "../../app/routes";
+
+declare const process: { cwd: () => string };
+
+const registerPetStyles = readFileSync(
+  join(process.cwd(), "src/features/acesso/tela-03-cadastrar-pet/Screen.scss"),
+  "utf8",
+);
+const consultationStyles = readFileSync(
+  join(process.cwd(), "src/features/pets/tela-07b-consultas/Screen.scss"),
+  "utf8",
+);
+const petSectionHeaderStyles = readFileSync(
+  join(process.cwd(), "src/components/ui/PetSectionHeader.scss"),
+  "utf8",
+);
+const homeFrameStyles = readFileSync(
+  join(process.cwd(), "src/features/inicio/HomeFrame.scss"),
+  "utf8",
+);
 
 function goToScreen(screen: string) {
   const path = pathForScreen(screen);
@@ -18,6 +41,17 @@ async function enterAsAdmin(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByLabelText(/e-mail/i), "admin");
   await user.type(screen.getByLabelText(/^senha$/i), "123");
   await user.click(screen.getByRole("button", { name: /^entrar$/i }));
+}
+
+async function fillRequiredPetFields(user: ReturnType<typeof userEvent.setup>) {
+  await user.type(screen.getByLabelText(/nome do pet/i), "Balu");
+  await user.type(screen.getByLabelText(/raça/i), "Samoieda");
+  await user.selectOptions(screen.getByLabelText(/^sexo/i), "Macho");
+  fireEvent.change(screen.getByLabelText(/data de nascimento aproximada/i), {
+    target: { value: "2022-08-08" },
+  });
+  await user.type(screen.getByRole("textbox", { name: /^cor da pelagem/i }), "Branca");
+  await user.type(screen.getByRole("textbox", { name: /^tipo da pelagem/i }), "Longa");
 }
 
 test("entra no app e abre o chatbot pelo menu inferior", async () => {
@@ -107,6 +141,23 @@ test("marca e valida os campos obrigatórios antes de entrar", async () => {
   expect(screen.getByRole("alert")).toHaveTextContent(
     "Preencha os campos obrigatórios para continuar.",
   );
+  const emailInput = screen.getByLabelText(/^e-mail$/i);
+  const passwordInput = screen.getByLabelText(/^senha$/i);
+  const emailError = screen.getByText("Informe o e-mail.");
+  const passwordError = screen.getByText("Informe a senha.");
+  expect(emailInput).toHaveAttribute("aria-invalid", "true");
+  expect(emailInput).toHaveAttribute("aria-describedby", emailError.id);
+  expect(passwordInput).toHaveAttribute("aria-invalid", "true");
+  expect(passwordInput).toHaveAttribute("aria-describedby", passwordError.id);
+
+  await user.type(passwordInput, "123");
+  expect(screen.getByText("Informe o e-mail.")).toBeInTheDocument();
+  expect(screen.queryByText("Informe a senha.")).not.toBeInTheDocument();
+
+  await user.type(emailInput, "admin");
+  expect(screen.queryByText("Informe o e-mail.")).not.toBeInTheDocument();
+  expect(emailInput).toHaveAttribute("aria-invalid", "false");
+  expect(passwordInput).toHaveAttribute("aria-invalid", "false");
 });
 
 test("mostra credenciais inválidas em um toast global sem pedir confirmação", async () => {
@@ -122,6 +173,42 @@ test("mostra credenciais inválidas em um toast global sem pedir confirmação",
   expect(screen.getByText(/coloque um e-mail e senha para entrar/i)).toBeInTheDocument();
   expect(screen.getByRole("button", { name: /fechar aviso/i })).toBeInTheDocument();
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+});
+
+test("abre e fecha a recuperação de senha pelo login", async () => {
+  const user = userEvent.setup();
+  window.history.pushState({}, "", "/login");
+  render(<App />);
+
+  const enterButton = screen.getByRole("button", { name: /^entrar$/i });
+  const recoverButton = screen.getByRole("button", { name: /^esqueceu sua senha\?$/i });
+  expect(recoverButton).toHaveAttribute("type", "button");
+  expect(recoverButton).toHaveClass("login-screen__forgot");
+  expect(enterButton.nextElementSibling).toBe(recoverButton);
+  await user.click(recoverButton);
+
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /^recuperar senha$/i })).toBeInTheDocument();
+  expect(window.location.pathname).toBe("/recuperar-senha");
+
+  await user.click(screen.getByRole("button", { name: /^voltar$/i }));
+  expect(screen.getByRole("heading", { name: /entrar no balu/i })).toBeInTheDocument();
+  expect(window.location.pathname).toBe("/login");
+});
+
+test("envia as instruções de recuperação no toast padrão do app", async () => {
+  const user = userEvent.setup();
+  window.history.pushState({}, "", "/recuperar-senha");
+  render(<App />);
+
+  await user.type(screen.getByRole("textbox", { name: /^e-mail$/i }), "tutor@email.com");
+  await user.click(screen.getByRole("button", { name: /^enviar instruções$/i }));
+
+  const toast = screen.getByRole("alert");
+  expect(toast).toHaveClass("error-feedback__toast--success");
+  expect(toast).toHaveTextContent("Instruções enviadas no e-mail.");
+  expect(screen.queryByText(/se este e-mail existir/i)).not.toBeInTheDocument();
+  expect(window.location.pathname).toBe("/recuperar-senha");
 });
 
 test("mostra a indisponibilidade do Google em um modal", async () => {
@@ -164,6 +251,26 @@ test("abre as notificações ao clicar no sino da home", async () => {
   window.history.pushState({}, "", "/");
 });
 
+test("abre as notificações pelo sino nas variações da home", async () => {
+  const user = userEvent.setup();
+  goToScreen("5a");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Notificações" }));
+
+  expect(screen.getByRole("heading", { name: "Notificações" })).toBeInTheDocument();
+  expectCurrentScreen("6a");
+  window.history.pushState({}, "", "/");
+});
+
+test("mantém toda a ilustração do sino como alvo de toque", () => {
+  const bellRule = homeFrameStyles.match(/&__bell\s*\{([\s\S]*?)&-background/);
+
+  expect(bellRule?.[1]).toMatch(/width:\s*48px/);
+  expect(bellRule?.[1]).toMatch(/height:\s*48px/);
+  expect(bellRule?.[1]).toMatch(/>\s*\*\s*\{[\s\S]*?pointer-events:\s*none/);
+});
+
 test("abre a tela de adicionar pet pelo seletor da home", async () => {
   const user = userEvent.setup();
   window.history.pushState({}, "", "/");
@@ -172,8 +279,10 @@ test("abre a tela de adicionar pet pelo seletor da home", async () => {
 
   await user.click(screen.getByRole("button", { name: /^adicionar$/i }));
 
-  expect(screen.getByRole("heading", { name: /adicionar pet/i })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /cadastrar pet/i })).toBeInTheDocument();
   expectCurrentScreen("7a");
+  await user.click(screen.getByRole("button", { name: /^voltar$/i }));
+  expect(screen.getByRole("button", { name: /^adicionar$/i })).toBeInTheDocument();
 });
 
 test("abre o perfil do tutor ao clicar no avatar e volta para a home", async () => {
@@ -208,6 +317,12 @@ test("abre as configurações da conta pelo perfil e mostra a experiência atual
   expect(screen.getByRole("heading", { name: /configurações da conta/i })).toBeInTheDocument();
   expect(screen.getByText("Gamificada")).toBeInTheDocument();
   expect(screen.getByRole("button", { name: /alterar experiência/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: "Alterar e-mail" }).querySelector(".lucide-mail"),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: "Alterar senha" }).querySelector(".lucide-lock-keyhole"),
+  ).toBeInTheDocument();
   expectCurrentScreen("6c");
 });
 
@@ -231,6 +346,79 @@ test("abre o seletor com a experiência atual marcada e volta para as configura�
 
   await user.click(screen.getByRole("button", { name: "Voltar" }));
   expect(screen.getByRole("heading", { name: /configurações da conta/i })).toBeInTheDocument();
+});
+
+test("abre telas próprias para alterar e-mail e senha com validação", async () => {
+  const user = userEvent.setup();
+  goToScreen("6c");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Alterar e-mail" }));
+  expect(screen.getByRole("heading", { name: "Alterar e-mail" })).toBeInTheDocument();
+  expectCurrentScreen("6e");
+  await user.click(screen.getByRole("button", { name: "Salvar novo e-mail" }));
+  expect(screen.getByText("Preencha todos os campos para alterar o e-mail.")).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Voltar" }));
+
+  await user.click(screen.getByRole("button", { name: "Alterar senha" }));
+  expect(screen.getByRole("heading", { name: "Alterar senha" })).toBeInTheDocument();
+  expectCurrentScreen("6f");
+  await user.click(screen.getByRole("button", { name: "Salvar nova senha" }));
+  expect(screen.getByText("Preencha todos os campos para alterar a senha.")).toBeInTheDocument();
+});
+
+test("mostra e oculta cada senha de forma independente nas configurações", async () => {
+  const user = userEvent.setup();
+  goToScreen("6f");
+  render(<App />);
+
+  const currentPassword = screen.getByLabelText("Senha atual");
+  const newPassword = screen.getByLabelText("Nova senha");
+  expect(currentPassword).toHaveAttribute("type", "password");
+  expect(newPassword).toHaveAttribute("type", "password");
+
+  await user.click(screen.getAllByRole("button", { name: "Mostrar senha" })[0]);
+  expect(currentPassword).toHaveAttribute("type", "text");
+  expect(newPassword).toHaveAttribute("type", "password");
+  expect(screen.getByRole("button", { name: "Ocultar senha" })).toBeInTheDocument();
+});
+
+test("vincula e desvincula Google e mantém Apple disponível", async () => {
+  const user = userEvent.setup();
+  localStorage.clear();
+  goToScreen("6c");
+  render(<App />);
+
+  expect(screen.getByRole("button", { name: "Vincular Google" })).toBeInTheDocument();
+  const appleButton = screen.getByRole("button", { name: "Vincular Apple" });
+  expect(appleButton).toBeInTheDocument();
+  expect(
+    appleButton.querySelector('img[src="/assets/figma/access/apple.svg"]'),
+  ).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Vincular Google" }));
+  expect(screen.getByText("Conta Google vinculada com sucesso.")).toBeInTheDocument();
+  expect(localStorage.getItem("balu-google-linked")).toBe("true");
+
+  await user.click(screen.getByRole("button", { name: "Desvincular Google" }));
+  const dialog = screen.getByRole("dialog", { name: "Desvincular Google" });
+  await user.click(within(dialog).getByRole("button", { name: "Desvincular" }));
+  expect(localStorage.getItem("balu-google-linked")).toBe("false");
+});
+
+test("ajusta a fonte global em cinco níveis e persiste a escolha", async () => {
+  const user = userEvent.setup();
+  localStorage.clear();
+  goToScreen("6c");
+  render(<App />);
+
+  const slider = screen.getByRole("slider", { name: "Tamanho da fonte" });
+  expect(slider).toHaveAttribute("min", "1");
+  expect(slider).toHaveAttribute("max", "5");
+  expect(slider).toHaveValue("3");
+  await user.click(screen.getByRole("button", { name: "Aumentar fonte" }));
+  expect(slider).toHaveValue("4");
+  expect(localStorage.getItem("balu-font-level")).toBe("4");
+  expect(document.documentElement).toHaveAttribute("data-balu-font-level", "4");
 });
 
 test("salva a experiência tradicional, abre sua home e mantém a preferência", async () => {
@@ -294,6 +482,27 @@ test("volta da solicitação de vínculo para as notificações", async () => {
   window.history.pushState({}, "", "/");
 });
 
+test("abre e dispensa notificações pelo próprio cartão", async () => {
+  const user = userEvent.setup();
+  goToScreen("6a");
+  render(<App />);
+
+  expect(screen.queryByRole("button", { name: "Ver medicamentos" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Ver cuidadores" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Abrir rotina" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Abrir clube" })).not.toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Dispensar Vermífugo Chemital vence hoje" }));
+  expect(screen.queryByText("Vermífugo Chemital vence hoje")).not.toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Abrir Paulo aceitou o convite do Balu" }));
+  expect(screen.getByRole("heading", { name: /cuidado compartilhado/i })).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Voltar" }));
+  expect(screen.getByRole("heading", { name: "Notificações" })).toBeInTheDocument();
+  expectCurrentScreen("6a");
+  window.history.pushState({}, "", "/");
+});
+
 test("conclui uma tarefa pela caixa de seleção", async () => {
   const user = userEvent.setup();
   render(<App />);
@@ -325,6 +534,57 @@ test("abre o Clube dos Caramelos pelo botão Entrar no clube", async () => {
 
   await user.click(screen.getByRole("button", { name: "Entrar no clube" }));
 
+  expect(screen.getByRole("button", { name: "Criar publicação" })).toBeInTheDocument();
+});
+
+test("adapta o destaque e o feed para Vira-latas e Gateiros", async () => {
+  const user = userEvent.setup();
+  goToScreen("15");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Vira-lata" }));
+  expect(screen.getByRole("heading", { name: "Clube dos Vira-latas" })).toBeInTheDocument();
+  expect(screen.getByText("André Wesley")).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Entrar no clube" }));
+  expect(screen.getByRole("heading", { name: "Clube dos Vira-latas" })).toBeInTheDocument();
+  expect(screen.getByText("André Wesley")).toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Voltar" }));
+  await user.click(screen.getByRole("button", { name: "Gateiros" }));
+  expect(screen.getByRole("heading", { name: "Clube dos Gateiros" })).toBeInTheDocument();
+  expect(screen.getByText("Paulo Gabriel")).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Entrar no clube" }));
+  expect(screen.getByRole("heading", { name: "Clube dos Gateiros" })).toBeInTheDocument();
+  expect(screen.getByText("Paulo Gabriel")).toBeInTheDocument();
+});
+
+test("busca todas as comunidades e avisa ao tentar abrir uma raça bloqueada", async () => {
+  const user = userEvent.setup();
+  goToScreen("15");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Ver tudo" }));
+  expect(screen.getByRole("heading", { name: "Todas as comunidades" })).toBeInTheDocument();
+  expect(window.location.pathname).toBe("/comunidade/todas");
+
+  const searchInput = screen.getByRole("searchbox", { name: "Buscar comunidades" });
+  await user.type(searchInput, "Poodle");
+  expect(screen.getByRole("button", { name: "Comunidade Poodle bloqueada" })).toBeInTheDocument();
+  expect(
+    screen.queryByRole("button", { name: "Comunidade Golden Retriever bloqueada" }),
+  ).not.toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Comunidade Poodle bloqueada" }));
+  expect(
+    screen.getByText("Para entrar nesta comunidade, primeiro cadastre um pet da raça Poodle."),
+  ).toBeInTheDocument();
+});
+
+test("mantém pronta a tela interna das novas comunidades para liberação futura", () => {
+  goToScreen("16e");
+  render(<App />);
+
+  expect(screen.getByRole("heading", { name: "Clube dos Poodle" })).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Criar publicação" })).toBeInTheDocument();
 });
 
@@ -360,13 +620,38 @@ test("confirma o salvamento do remédio antes de voltar", async () => {
   goToScreen("10h");
   render(<App />);
 
-  await user.type(screen.getByPlaceholderText("Ex: Vermífugo Chemital"), "NexGard");
+  await user.selectOptions(screen.getByLabelText("Medicamento"), "novo");
+  await user.type(screen.getByPlaceholderText("Ex: Vermífugo Chemital"), "NexGard Plus");
   await user.type(screen.getByPlaceholderText("Ex: 1/2 comprimido"), "1 comprimido");
-  await user.type(screen.getByLabelText("Horário *"), "14:00");
+  await user.selectOptions(screen.getByLabelText("Forma"), "comprimido");
+  await user.selectOptions(screen.getByLabelText("Via de administração"), "oral");
+  fireEvent.change(screen.getByLabelText("Data de início"), { target: { value: "2026-08-08" } });
+  await user.selectOptions(screen.getByLabelText("Frequência"), "diaria");
+  fireEvent.change(screen.getByLabelText("Horário 1"), { target: { value: "14:00" } });
   await user.click(screen.getByRole("button", { name: "Salvar remédio" }));
 
-  expect(screen.getByRole("status")).toHaveTextContent("Remédio salvo com sucesso");
+  expect(screen.getByRole("alert")).toHaveTextContent("Medicamento salvo com sucesso.");
   expect(screen.getByRole("heading", { name: "Adicionar remédio" })).toBeInTheDocument();
+});
+
+test("seleciona medicamento existente e adiciona vários horários", async () => {
+  const user = userEvent.setup();
+  goToScreen("10h");
+  render(<App />);
+
+  const medicine = screen.getByLabelText("Medicamento");
+  expect(within(medicine).getByRole("option", { name: "Vermífugo Chemital" })).toBeInTheDocument();
+  expect(within(medicine).getByRole("option", { name: "Prednisolona" })).toBeInTheDocument();
+  expect(within(medicine).getByRole("option", { name: "Ômega 3" })).toBeInTheDocument();
+  expect(within(medicine).getByRole("option", { name: "NexGard" })).toBeInTheDocument();
+
+  await user.selectOptions(medicine, "chemital");
+  expect(screen.queryByLabelText("Nome do medicamento")).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Adicionar horário" }));
+  expect(screen.getByLabelText("Horário 1")).toBeInTheDocument();
+  expect(screen.getByLabelText("Horário 2")).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Remover horário 2" }));
+  expect(screen.queryByLabelText("Horário 2")).not.toBeInTheDocument();
 });
 
 test("permite desfazer um cuidado concluído", async () => {
@@ -398,12 +683,13 @@ test("identifica o primeiro campo inválido do cadastro do pet", async () => {
   goToScreen("3");
   render(<App />);
 
+  await user.type(screen.getByRole("textbox", { name: /Nome do pet/ }), "Balu");
   await user.click(screen.getByRole("button", { name: "Continuar" }));
 
-  const nameInput = screen.getByRole("textbox", { name: /Nome do pet/ });
-  expect(nameInput).toHaveAttribute("aria-invalid", "true");
-  expect(screen.getByText("Informe o nome do pet.")).toBeInTheDocument();
-  expect(nameInput).toHaveFocus();
+  const breedInput = screen.getByRole("textbox", { name: /Raça/ });
+  expect(breedInput).toHaveAttribute("aria-invalid", "true");
+  expect(screen.getByText("Informe a raça do pet.")).toBeInTheDocument();
+  expect(breedInput).toHaveFocus();
 });
 
 test("explica que os dados permanecem salvos ao adicionar tutor depois", async () => {
@@ -411,10 +697,8 @@ test("explica que os dados permanecem salvos ao adicionar tutor depois", async (
   goToScreen("3");
   render(<App />);
 
-  await user.click(screen.getByRole("button", { name: "Adicionar depois" }));
-  expect(screen.getByRole("status")).toHaveTextContent(
-    "Os dados preenchidos do pet serão mantidos",
-  );
+  await user.click(screen.getByRole("button", { name: /adicionar depois/i }));
+  expect(screen.getByRole("status")).toHaveTextContent("Os dados do pet serão salvos");
 });
 
 test("oferece ajuda contextual no assistente virtual", async () => {
@@ -457,30 +741,175 @@ test("exibe apenas o Balu na lista de pets", () => {
   expect(screen.queryByText("Pipoca")).not.toBeInTheDocument();
   expect(screen.queryByText("Pretinha")).not.toBeInTheDocument();
   expect(screen.getAllByRole("button", { name: /ver perfil/i })).toHaveLength(1);
-  expect(screen.getAllByRole("button", { name: /marcar consulta/i })).toHaveLength(1);
+  expect(screen.getAllByRole("button", { name: /^consultas$/i })).toHaveLength(1);
   expect(screen.getByRole("button", { name: /adicionar novo pet/i })).toBeInTheDocument();
 });
 
-test("abre o agendamento pelo botão Marcar Consulta", async () => {
+test("abre a área de consultas e inicia o agendamento pelo cartão do pet", async () => {
   const user = userEvent.setup();
   goToScreen("7");
   render(<App />);
 
-  await user.click(screen.getByRole("button", { name: /marcar consulta/i }));
+  await user.click(screen.getByRole("button", { name: /^consultas$/i }));
+
+  expectCurrentScreen("7b");
+  expect(screen.getByRole("heading", { name: /^consultas$/i }).closest("header")).toHaveClass(
+    "pet-section-header",
+  );
+  const petCard = document.querySelector(".consultations-screen__pet-card");
+  expect(petCard).toBeInTheDocument();
+  expect(within(petCard as HTMLElement).getByRole("heading", { name: "Balu" })).toBeInTheDocument();
+  expect(within(petCard as HTMLElement).getByText("Samoieda")).toBeInTheDocument();
+  expect(within(petCard as HTMLElement).getByText("2 anos")).toBeInTheDocument();
+  expect(within(petCard as HTMLElement).getByText("22 kg")).toBeInTheDocument();
+  expect(screen.queryByRole("navigation", { name: /seções do perfil/i })).not.toBeInTheDocument();
+  const filters = screen.getByRole("group", { name: /filtrar histórico de consultas/i });
+  const nextConsultation = screen.getByText(/próxima consulta/i);
+  expect(petCard?.compareDocumentPosition(filters)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  expect(filters.compareDocumentPosition(nextConsultation)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  expect(screen.getByText(/leve os resultados do exame de pele/i)).toBeInTheDocument();
+  expect(screen.getByText(/^cancelada$/i)).toBeInTheDocument();
+
+  const details = screen.getByRole("link", { name: /ver detalhes/i });
+  await user.click(details);
+  const detailsDialog = screen.getByRole("dialog", { name: /detalhes da consulta/i });
+  expect(within(detailsDialog).getByText("Balu")).toBeInTheDocument();
+  expect(within(detailsDialog).getByText("Retorno dermatológico")).toBeInTheDocument();
+  expect(within(detailsDialog).getByText(/clínica vetcare/i)).toBeInTheDocument();
+  expect(within(detailsDialog).getByText(/dra\. mariana/i)).toBeInTheDocument();
+  expect(
+    within(detailsDialog).queryByRole("button", { name: /confirmar presença/i }),
+  ).not.toBeInTheDocument();
+  expect(
+    within(detailsDialog).queryByRole("button", { name: /cancelar consulta/i }),
+  ).not.toBeInTheDocument();
+  await user.click(within(detailsDialog).getByRole("button", { name: /^fechar$/i }));
+  await vi.waitFor(() => expect(details).toHaveFocus());
+
+  const schedule = screen.getByRole("button", { name: /marcar consulta/i });
+  await user.click(schedule);
 
   expect(screen.getByRole("dialog", { name: /marcar consulta/i })).toBeInTheDocument();
   expect(screen.getByText("Agendamento para Balu")).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: /fechar agendamento/i }));
+  await vi.waitFor(() => expect(schedule).toHaveFocus());
 });
 
-test("exibe o formulário de adicionar pet sem marcador emoji", () => {
+test("filtra o histórico de consultas por situação", async () => {
+  const user = userEvent.setup();
+  goToScreen("7b");
+  render(<App />);
+
+  const allFilter = screen.getByRole("button", { name: "Todas" });
+  const completedFilter = screen.getByRole("button", { name: "Concluídas" });
+  const cancelledFilter = screen.getByRole("button", { name: "Canceladas" });
+  expect(allFilter).toHaveAttribute("aria-pressed", "true");
+  await user.click(completedFilter);
+  expect(allFilter).toHaveAttribute("aria-pressed", "false");
+  expect(completedFilter).toHaveAttribute("aria-pressed", "true");
+  expect(screen.getByText("Consulta preventiva anual")).toBeInTheDocument();
+  expect(screen.queryByText("Consulta odontológica")).not.toBeInTheDocument();
+
+  await user.click(cancelledFilter);
+  expect(completedFilter).toHaveAttribute("aria-pressed", "false");
+  expect(cancelledFilter).toHaveAttribute("aria-pressed", "true");
+  expect(screen.queryByText("Consulta preventiva anual")).not.toBeInTheDocument();
+  expect(screen.getByText("Consulta odontológica")).toBeInTheDocument();
+});
+
+test("confirma a presença na próxima consulta do pet", async () => {
+  const user = userEvent.setup();
+  goToScreen("7b");
+  render(<App />);
+
+  const nextCard = screen.getByRole("region", { name: /retorno dermatológico/i });
+  const details = within(nextCard).getByRole("link", { name: /ver detalhes/i });
+  const confirm = within(nextCard).getByRole("button", { name: /^confirmar$/i });
+  expect(details.compareDocumentPosition(confirm)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  await user.click(confirm);
+
+  expect(screen.queryByRole("dialog", { name: /detalhes da consulta/i })).not.toBeInTheDocument();
+  expect(screen.getByText("Presença confirmada")).toBeInTheDocument();
+  expect(screen.getByRole("alert")).toHaveTextContent("Presença do Balu confirmada.");
+});
+
+test("exige um motivo para cancelar a próxima consulta do pet", async () => {
+  const user = userEvent.setup();
+  goToScreen("7b");
+  render(<App />);
+
+  const nextCard = screen.getByRole("region", { name: /retorno dermatológico/i });
+  await user.click(within(nextCard).getByRole("button", { name: /^cancelar$/i }));
+  const reason = screen.getByRole("textbox", { name: /motivo do cancelamento/i });
+  await user.click(screen.getByRole("button", { name: /confirmar cancelamento/i }));
+
+  expect(reason).toHaveAttribute("aria-invalid", "true");
+  expect(reason).toHaveAccessibleDescription("Informe o motivo do cancelamento.");
+  expect(screen.getByRole("alert")).toHaveTextContent("Informe o motivo do cancelamento.");
+
+  await user.type(reason, "Balu estará em viagem");
+  await user.click(screen.getByRole("button", { name: /confirmar cancelamento/i }));
+
+  expect(screen.queryByText("Próxima consulta")).not.toBeInTheDocument();
+  expect(screen.getByText("Balu estará em viagem")).toBeInTheDocument();
+  expect(screen.getByRole("alert")).toHaveTextContent("Consulta do Balu cancelada.");
+});
+
+test("usa o foco verde do app no motivo do cancelamento sem contorno preto", () => {
+  expect(consultationStyles).toMatch(/textarea:focus-visible\s*\{[^}]*outline:\s*0;/s);
+  expect(consultationStyles).toMatch(/textarea:focus-visible\s*\{[^}]*border-color:\s*#2dd4bf;/s);
+});
+
+test("volta da tela de consultas para meus pets", async () => {
+  const user = userEvent.setup();
+  goToScreen("7b");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /^voltar$/i }));
+
+  expect(screen.getByRole("heading", { name: /meus pets/i })).toBeInTheDocument();
+});
+
+test("usa o mesmo formulário nas rotas de cadastro e adicionar pet", () => {
+  const fields = [
+    /nome do pet/i,
+    /raça/i,
+    /^sexo/i,
+    /data de nascimento aproximada/i,
+    /cor da pelagem/i,
+    /tipo da pelagem/i,
+  ];
+
+  goToScreen("3");
+  const onboarding = render(<App />);
+  for (const field of fields) expect(screen.getByLabelText(field)).toBeRequired();
+  expect(screen.getByRole("button", { name: /adicionar foto do pet/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole("group", { name: /ações de cuidado compartilhado/i }),
+  ).toBeInTheDocument();
+  onboarding.unmount();
+
   goToScreen("7a");
   render(<App />);
 
-  expect(screen.getByRole("heading", { name: /adicionar pet/i })).toBeInTheDocument();
-  expect(screen.getByLabelText(/nome do pet/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/raça/i)).toBeInTheDocument();
-  expect(screen.getByText(/vincular outros tutores/i)).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /cadastrar pet/i })).toBeInTheDocument();
+  for (const field of fields) expect(screen.getByLabelText(field)).toBeRequired();
+  expect(screen.getByRole("button", { name: /adicionar foto do pet/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole("group", { name: /ações de cuidado compartilhado/i }),
+  ).toBeInTheDocument();
+  expect(screen.queryByText(/etapa 2 de 3/i)).not.toBeInTheDocument();
   expect(screen.queryByText("🐾")).not.toBeInTheDocument();
+});
+
+test("volta para meus pets ao abrir a rota de adicionar pet diretamente", async () => {
+  const user = userEvent.setup();
+  goToScreen("7a");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /^voltar$/i }));
+
+  expect(screen.getByRole("heading", { name: /meus pets/i })).toBeInTheDocument();
 });
 
 test("mantém as ações de cuidado compartilhado juntas no cadastro do pet", () => {
@@ -490,6 +919,10 @@ test("mantém as ações de cuidado compartilhado juntas no cadastro do pet", ()
   const actions = screen.getByRole("group", { name: /ações de cuidado compartilhado/i });
   expect(actions).toContainElement(screen.getByRole("button", { name: /convidar tutor/i }));
   expect(actions).toContainElement(screen.getByRole("button", { name: /adicionar depois/i }));
+  expect(registerPetStyles).toMatch(
+    /&-actions\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/,
+  );
+  expect(registerPetStyles).toMatch(/&__action\s*\{[\s\S]*?min-height:\s*72px/);
 });
 
 test("cadastro do pet identifica todos os campos obrigatórios", () => {
@@ -497,11 +930,127 @@ test("cadastro do pet identifica todos os campos obrigatórios", () => {
   render(<App />);
 
   expect(screen.getByText("* indica campo obrigatório")).toBeInTheDocument();
-  expect(screen.getAllByText("*", { selector: ".required-mark" })).toHaveLength(4);
+  expect(screen.getAllByText("*", { selector: ".required-mark" })).toHaveLength(6);
   expect(screen.getByLabelText(/nome do pet/i)).toBeRequired();
   expect(screen.getByLabelText(/raça/i)).toBeRequired();
   expect(screen.getByLabelText(/sexo/i)).toBeRequired();
-  expect(screen.getByLabelText(/idade/i)).toBeRequired();
+  expect(screen.getByLabelText(/data de nascimento aproximada/i)).toBeRequired();
+  expect(screen.getByRole("textbox", { name: /^cor da pelagem/i })).toBeRequired();
+  expect(screen.getByRole("textbox", { name: /^tipo da pelagem/i })).toBeRequired();
+  expect(screen.queryByLabelText(/idade/i)).not.toBeInTheDocument();
+});
+
+test("cadastro do pet oferece sexo, nascimento aproximado e pelagem obrigatórios", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  const sex = screen.getByRole("combobox", { name: /^sexo/i });
+  expect(within(sex).getAllByRole("option")).toHaveLength(3);
+  expect(within(sex).getByRole("option", { name: "Macho" })).toBeInTheDocument();
+  expect(within(sex).getByRole("option", { name: "Fêmea" })).toBeInTheDocument();
+  expect(within(sex).queryByRole("option", { name: /não sei/i })).not.toBeInTheDocument();
+
+  const birthDate = screen.getByLabelText(/data de nascimento aproximada/i);
+  const coatColor = screen.getByRole("textbox", { name: /^cor da pelagem/i });
+  const coatType = screen.getByRole("textbox", { name: /^tipo da pelagem/i });
+  expect(birthDate).toHaveAttribute("type", "date");
+  expect(birthDate).toHaveAttribute("max", expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/));
+  expect(coatColor).not.toHaveAttribute("list");
+  expect(coatType).not.toHaveAttribute("list");
+
+  fireEvent.change(birthDate, { target: { value: "2020-05-10" } });
+  await user.type(coatColor, "Dourada com manchas");
+  await user.type(coatType, "Dupla e volumosa");
+  expect(birthDate).toHaveValue("2020-05-10");
+  expect(coatColor).toHaveValue("Dourada com manchas");
+  expect(coatType).toHaveValue("Dupla e volumosa");
+  expect(screen.queryByRole("checkbox", { name: /não sei/i })).not.toBeInTheDocument();
+});
+
+test("cadastro do pet associa as mensagens aos seis campos obrigatórios", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /^continuar$/i }));
+
+  const cases = [
+    [screen.getByLabelText(/nome do pet/i), "Informe o nome do pet."],
+    [screen.getByLabelText(/raça/i), "Informe a raça do pet."],
+    [screen.getByRole("combobox", { name: /^sexo/i }), "Informe o sexo do pet."],
+    [
+      screen.getByLabelText(/data de nascimento aproximada/i),
+      "Informe a data de nascimento aproximada.",
+    ],
+    [screen.getByRole("textbox", { name: /^cor da pelagem/i }), "Informe a cor da pelagem."],
+    [screen.getByRole("textbox", { name: /^tipo da pelagem/i }), "Informe o tipo da pelagem."],
+  ] as const;
+
+  for (const [control, message] of cases) {
+    const error = screen.getByText(message);
+    expect(control).toHaveAttribute("aria-invalid", "true");
+    expect(control).toHaveAttribute("aria-describedby", error.id);
+  }
+});
+
+test("cadastro do pet mantém controles adequados ao canvas mobile", () => {
+  goToScreen("3");
+  render(<App />);
+
+  const sex = screen.getByRole("combobox", { name: /^sexo/i });
+  expect(document.querySelector(".register-pet-screen__canvas")).toBeInTheDocument();
+  expect(sex).toBeInTheDocument();
+  expect(screen.queryByRole("checkbox", { name: /não sei/i })).not.toBeInTheDocument();
+  expect(registerPetStyles).toMatch(/&__canvas\s*\{[\s\S]*?max-width:\s*393px/);
+  expect(registerPetStyles).toMatch(
+    /input:not\(\[type="checkbox"\]\),\s*select\s*\{[\s\S]*?height:\s*48px/,
+  );
+});
+
+test("cadastro do pet rejeita nascimento futuro e limpa somente o erro corrigido", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  await user.type(screen.getByLabelText(/nome do pet/i), "Balu");
+  await user.type(screen.getByLabelText(/raça/i), "Samoieda");
+  await user.selectOptions(screen.getByLabelText(/^sexo/i), "Macho");
+  fireEvent.change(screen.getByLabelText(/data de nascimento aproximada/i), {
+    target: { value: "2999-01-01" },
+  });
+  await user.click(screen.getByRole("button", { name: /^continuar$/i }));
+
+  const birthDate = screen.getByLabelText(/data de nascimento aproximada/i);
+  const birthError = screen.getByText("A data de nascimento não pode estar no futuro.");
+  expect(birthDate).toHaveAttribute("aria-invalid", "true");
+  expect(birthDate).toHaveAttribute("aria-describedby", birthError.id);
+  expect(birthDate).toHaveFocus();
+  expect(screen.getByText("Informe a cor da pelagem.")).toBeInTheDocument();
+
+  fireEvent.change(birthDate, { target: { value: "2022-08-08" } });
+  expect(
+    screen.queryByText("A data de nascimento não pode estar no futuro."),
+  ).not.toBeInTheDocument();
+  expect(screen.getByText("Informe a cor da pelagem.")).toBeInTheDocument();
+});
+
+test("cadastro do pet aceita a data local atual", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  await user.type(screen.getByLabelText(/nome do pet/i), "Balu");
+  await user.type(screen.getByLabelText(/raça/i), "Samoieda");
+  await user.selectOptions(screen.getByLabelText(/^sexo/i), "Macho");
+  const birthDate = screen.getByLabelText(/data de nascimento aproximada/i);
+  fireEvent.change(birthDate, { target: { value: birthDate.getAttribute("max") } });
+  await user.type(screen.getByRole("textbox", { name: /^cor da pelagem/i }), "Branca");
+  await user.type(screen.getByRole("textbox", { name: /^tipo da pelagem/i }), "Curta");
+  await user.click(screen.getByRole("button", { name: /adicionar depois/i }));
+  await user.click(screen.getByRole("button", { name: /^continuar$/i }));
+
+  expectCurrentScreen("4");
 });
 
 test("cadastro do pet mostra o erro global quando os dados estão vazios", async () => {
@@ -522,10 +1071,7 @@ test("cadastro do pet exige uma escolha de cuidado compartilhado", async () => {
   goToScreen("3");
   render(<App />);
 
-  await user.type(screen.getByLabelText(/nome do pet/i), "Balu");
-  await user.type(screen.getByLabelText(/raça/i), "Samoieda");
-  await user.type(screen.getByLabelText(/sexo/i), "Macho");
-  await user.type(screen.getByLabelText(/idade/i), "2 anos");
+  await fillRequiredPetFields(user);
   await user.click(screen.getByRole("button", { name: /continuar/i }));
 
   expect(screen.getByRole("alert")).toHaveTextContent(
@@ -543,35 +1089,194 @@ test("cadastro do pet permite selecionar adicionar depois e continuar", async ()
   await user.click(addLater);
   expect(addLater).toHaveAttribute("aria-pressed", "true");
 
-  await user.type(screen.getByLabelText(/nome do pet/i), "Balu");
-  await user.type(screen.getByLabelText(/raça/i), "Samoieda");
-  await user.type(screen.getByLabelText(/sexo/i), "Macho");
-  await user.type(screen.getByLabelText(/idade/i), "2 anos");
+  await fillRequiredPetFields(user);
   await user.click(screen.getByRole("button", { name: /continuar/i }));
 
   expect(screen.getByRole("heading", { name: /escolha sua experiência/i })).toBeInTheDocument();
   expectCurrentScreen("4");
 });
 
-test("cadastro do pet mantém apenas uma opção de cuidado compartilhado selecionada", async () => {
+test("cadastro do pet apresenta ações claras e seleciona adicionar depois", async () => {
   const user = userEvent.setup();
   goToScreen("3");
   render(<App />);
 
   const invite = screen.getByRole("button", { name: /convidar tutor/i });
   const addLater = screen.getByRole("button", { name: /adicionar depois/i });
-  const familyCode = screen.getByRole("button", { name: /entrar com código da família/i });
-
-  await user.click(invite);
-  expect(invite).toHaveAttribute("aria-pressed", "true");
+  const familyCode = screen.getByRole("button", { name: /entrar com código/i });
+  expect(invite).toHaveTextContent(/gere um código para compartilhar/i);
+  expect(addLater).toHaveTextContent(/continue agora e convide alguém/i);
+  expect(familyCode).toHaveTextContent(/família já existente/i);
 
   await user.click(addLater);
-  expect(invite).toHaveAttribute("aria-pressed", "false");
+  expect(addLater).toHaveAttribute("aria-pressed", "true");
+  expect(screen.getByText(/os dados do pet serão salvos/i)).toBeInTheDocument();
+});
+
+test("cadastro do pet valida e conclui a entrada com código da família", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  const addLater = screen.getByRole("button", { name: /adicionar depois/i });
+  const familyCode = screen.getByRole("button", { name: /entrar com código/i });
+  await user.click(addLater);
+  await user.click(familyCode);
+
+  const codeInput = screen.getByRole("textbox", { name: /código da família/i });
+  expect(familyCode).toHaveAttribute("aria-pressed", "false");
+  expect(addLater).toHaveAttribute("aria-pressed", "true");
+
+  await user.click(screen.getByRole("button", { name: /vincular família/i }));
+  expect(codeInput).toHaveAttribute("aria-invalid", "true");
+  const emptyCodeError = screen.getByText("Informe o código da família.");
+  expect(codeInput).toHaveAttribute("aria-describedby", emptyCodeError.id);
+  expect(codeInput).toHaveFocus();
+
+  await user.type(codeInput, "incorreto");
+  expect(codeInput).toHaveValue("INCORRETO");
+  await user.click(screen.getByRole("button", { name: /vincular família/i }));
+  expect(screen.getByText("Código da família inválido.")).toBeInTheDocument();
+
+  await user.clear(codeInput);
+  await user.type(codeInput, "balu-4821");
+  await user.click(screen.getByRole("button", { name: /vincular família/i }));
+
+  expect(screen.queryByRole("textbox", { name: /código da família/i })).not.toBeInTheDocument();
+  expect(addLater).toHaveAttribute("aria-pressed", "false");
+  expect(familyCode).toHaveAttribute("aria-pressed", "true");
+
+  await fillRequiredPetFields(user);
+  await user.click(screen.getByRole("button", { name: /^continuar$/i }));
+  expectCurrentScreen("4");
+});
+
+test("cadastro do pet conclui o convite ao copiar sem perder os dados", async () => {
+  const user = userEvent.setup();
+  const writeText = vi.fn().mockResolvedValue(undefined);
+  Object.defineProperty(navigator, "clipboard", {
+    configurable: true,
+    value: { writeText },
+  });
+  Object.defineProperty(URL, "createObjectURL", {
+    configurable: true,
+    value: vi.fn(() => "blob:foto-onboarding"),
+  });
+  Object.defineProperty(URL, "revokeObjectURL", {
+    configurable: true,
+    value: vi.fn(),
+  });
+  goToScreen("3");
+  render(<App />);
+
+  const nameInput = screen.getByLabelText(/nome do pet/i);
+  await user.type(nameInput, "Balu");
+  await user.type(screen.getByLabelText(/raça/i), "Samoieda");
+  await user.selectOptions(screen.getByLabelText(/^sexo/i), "Macho");
+  fireEvent.change(screen.getByLabelText(/data de nascimento aproximada/i), {
+    target: { value: "2022-08-08" },
+  });
+  await user.type(screen.getByRole("textbox", { name: /^cor da pelagem/i }), "Branca");
+  await user.type(screen.getByRole("textbox", { name: /^tipo da pelagem/i }), "Longa");
+  await user.upload(
+    screen.getByTestId("pet-photo-gallery-input"),
+    new File(["foto"], "balu.png", { type: "image/png" }),
+  );
+  const invite = screen.getByRole("button", { name: /convidar tutor/i });
+  await user.click(invite);
+
+  const dialog = screen.getByRole("dialog", { name: /convidar tutor/i });
+  expect(dialog).toHaveAccessibleDescription("Compartilhe este código com outro cuidador.");
+  expect(dialog.querySelector(".register-pet-screen__invite-icon")).toBeInTheDocument();
+  const codeCard = dialog.querySelector(".register-pet-screen__invite-code-card");
+  expect(codeCard).toHaveTextContent("Código do convite");
+  expect(dialog).toHaveTextContent("BALU-4821");
+  expect(dialog).not.toHaveTextContent("Permissões do convite");
+  expect(dialog).not.toHaveTextContent("Ver rotina e histórico do pet");
+  expect(within(dialog).queryByRole("list")).not.toBeInTheDocument();
+  expect(
+    within(dialog).queryByRole("button", { name: /concluir convite/i }),
+  ).not.toBeInTheDocument();
+  expect(within(dialog).queryByRole("button", { name: /^cancelar$/i })).not.toBeInTheDocument();
+  const whatsappLink = screen.getByRole("link", { name: /enviar no whatsapp/i });
+  expect(whatsappLink).toHaveAttribute("href", expect.stringContaining("wa.me"));
+  expect(whatsappLink).toHaveClass("register-pet-screen__whatsapp");
+  expect(whatsappLink.querySelector("img")).toHaveAttribute(
+    "src",
+    "/assets/figma/pets/whatsapp.svg",
+  );
+  const closeInvite = screen.getByRole("button", { name: /fechar convite/i });
+  expect(closeInvite).toHaveFocus();
+  const whatsapp = screen.getByRole("link", { name: /enviar no whatsapp/i });
+  await user.tab({ shift: true });
+  expect(whatsapp).toHaveFocus();
+  await user.tab();
+  expect(closeInvite).toHaveFocus();
+  const copyButton = screen.getByRole("button", { name: /copiar código/i });
+
+  await user.click(copyButton);
+  expect(writeText).toHaveBeenCalledWith("BALU-4821");
+  expect(screen.queryByRole("dialog", { name: /convidar tutor/i })).not.toBeInTheDocument();
+  expect(invite).toHaveAttribute("aria-pressed", "true");
+  expect(invite).toHaveFocus();
+  expect(nameInput).toHaveValue("Balu");
+  expect(screen.getByLabelText(/raça/i)).toHaveValue("Samoieda");
+  expect(screen.getByLabelText(/sexo/i)).toHaveValue("Macho");
+  expect(screen.getByLabelText(/data de nascimento aproximada/i)).toHaveValue("2022-08-08");
+  expect(screen.getByRole("textbox", { name: /^cor da pelagem/i })).toHaveValue("Branca");
+  expect(screen.getByRole("textbox", { name: /^tipo da pelagem/i })).toHaveValue("Longa");
+  expect(screen.getByRole("img", { name: /foto selecionada do pet/i })).toHaveAttribute(
+    "src",
+    "blob:foto-onboarding",
+  );
+  await user.click(screen.getByRole("button", { name: /^continuar$/i }));
+  expectCurrentScreen("4");
+});
+
+test("cadastro do pet fecha convite e código sem substituir a escolha anterior", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  const addLater = screen.getByRole("button", { name: /adicionar depois/i });
+  const invite = screen.getByRole("button", { name: /convidar tutor/i });
+  const familyCode = screen.getByRole("button", { name: /entrar com código/i });
+  await user.click(addLater);
+
+  await user.click(invite);
+  await user.keyboard("{Escape}");
+  expect(addLater).toHaveAttribute("aria-pressed", "true");
+  expect(invite).toHaveFocus();
+
+  await user.click(invite);
+  const dialog = screen.getByRole("dialog", { name: /convidar tutor/i });
+  fireEvent.pointerDown(dialog.parentElement!);
+  expect(screen.queryByRole("dialog", { name: /convidar tutor/i })).not.toBeInTheDocument();
+  expect(addLater).toHaveAttribute("aria-pressed", "true");
+  expect(invite).toHaveFocus();
+
+  await user.click(invite);
+  await user.click(screen.getByRole("button", { name: /fechar convite/i }));
   expect(addLater).toHaveAttribute("aria-pressed", "true");
 
   await user.click(familyCode);
-  expect(addLater).toHaveAttribute("aria-pressed", "false");
-  expect(familyCode).toHaveAttribute("aria-pressed", "true");
+  await user.click(screen.getByRole("button", { name: /^cancelar$/i }));
+  expect(addLater).toHaveAttribute("aria-pressed", "true");
+  expect(screen.queryByRole("textbox", { name: /código da família/i })).not.toBeInTheDocument();
+});
+
+test("cadastro do pet conclui o convite ao abrir o WhatsApp", async () => {
+  const user = userEvent.setup();
+  goToScreen("3");
+  render(<App />);
+
+  const invite = screen.getByRole("button", { name: /convidar tutor/i });
+  await user.click(invite);
+  await user.click(screen.getByRole("link", { name: /enviar no whatsapp/i }));
+
+  expect(screen.queryByRole("dialog", { name: /convidar tutor/i })).not.toBeInTheDocument();
+  expect(invite).toHaveAttribute("aria-pressed", "true");
+  expect(invite).toHaveFocus();
 });
 
 test("exibe o perfil do pet com os atalhos do frame 8 sem marcador emoji", () => {
@@ -638,6 +1343,65 @@ test("abre as telas de adicionar rotina e remédio pelos botões", async () => {
   expect(screen.getByRole("heading", { name: "Adicionar remédio" })).toBeInTheDocument();
 });
 
+test("valida e salva uma nova rotina com campos progressivos", async () => {
+  const user = userEvent.setup();
+  goToScreen("9e");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Salvar rotina" }));
+
+  expect(screen.getByRole("alert")).toHaveTextContent("Preencha os campos obrigatórios da rotina.");
+  expect(screen.getByText("Selecione o tipo de cuidado.")).toBeInTheDocument();
+  expect(screen.getByText("Informe o nome da rotina.")).toBeInTheDocument();
+  expect(screen.getByText("Selecione a frequência.")).toBeInTheDocument();
+  expect(screen.getByText("Informe todos os horários no formato 24 horas.")).toBeInTheDocument();
+  expect(screen.getByLabelText("Tipo de cuidado")).toHaveFocus();
+
+  await user.selectOptions(screen.getByLabelText("Tipo de cuidado"), "passeio");
+  await user.type(screen.getByLabelText("Nome da rotina"), "Passeio da tarde");
+  await user.selectOptions(screen.getByLabelText("Frequência"), "semanal");
+
+  expect(screen.getByRole("group", { name: "Dias da semana" })).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Salvar rotina" }));
+  expect(screen.getByText("Selecione ao menos um dia da semana.")).toBeInTheDocument();
+
+  await user.click(screen.getByLabelText("Segunda-feira"));
+  fireEvent.change(screen.getByLabelText("Horário 1"), { target: { value: "18:00" } });
+  await user.selectOptions(screen.getByLabelText("Lembrete"), "10");
+  await user.click(screen.getByRole("button", { name: "Salvar rotina" }));
+
+  expect(screen.getByRole("alert")).toHaveTextContent("Rotina salva com sucesso.");
+});
+
+test("vincula uma rotina de medicamento cadastrado e permite vários horários", async () => {
+  const user = userEvent.setup();
+  goToScreen("9e");
+  render(<App />);
+
+  await user.selectOptions(screen.getByLabelText("Tipo de cuidado"), "medicamento");
+  const medicine = screen.getByLabelText("Medicamento cadastrado");
+  expect(within(medicine).getByRole("option", { name: "Vermífugo Chemital" })).toBeInTheDocument();
+  expect(within(medicine).getByRole("option", { name: "Prednisolona" })).toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Adicionar horário" }));
+  expect(screen.getByLabelText("Horário 1")).toBeInTheDocument();
+  expect(screen.getByLabelText("Horário 2")).toBeInTheDocument();
+});
+
+test("usa horários de 24 horas e não exibe a marca opcional nos formulários", () => {
+  for (const route of ["9e", "10h"]) {
+    goToScreen(route);
+    const rendered = render(<App />);
+    const time = screen.getByLabelText("Horário 1");
+
+    expect(time).toHaveAttribute("type", "text");
+    expect(time).toHaveAttribute("inputmode", "numeric");
+    expect(time).toHaveAttribute("placeholder", "HH:MM");
+    expect(screen.queryByText("Opcional")).not.toBeInTheDocument();
+    rendered.unmount();
+  }
+});
+
 test("mostra o aviso de campos obrigatórios no início das telas de adicionar", () => {
   for (const route of ["7a", "9e", "10h"]) {
     goToScreen(route);
@@ -653,7 +1417,7 @@ test("reproduz os conteúdos-chave dos frames restantes de pets", () => {
     ["6b", /aceitar vínculo/i],
     ["9", /visão geral/i],
     ["10", /prednisolona/i],
-    ["11", /abrir carteira pet do gov/i],
+    ["11", /próxima dose em 25\/07\/2026/i],
     ["12", /clínica sincronizou vacina v10 múltipla/i],
     ["13", /balu-4821/i],
   ] as const;
@@ -664,6 +1428,15 @@ test("reproduz os conteúdos-chave dos frames restantes de pets", () => {
     expect(screen.getByText(content)).toBeInTheDocument();
     unmount();
   }
+});
+
+test("não exibe a ação externa na carteira de vacinação", () => {
+  goToScreen("11");
+  render(<App />);
+
+  expect(
+    screen.queryByRole("button", { name: /abrir carteira pet do gov/i }),
+  ).not.toBeInTheDocument();
 });
 
 test("mantém a navegação inferior nos frames de pets que a exibem", () => {
@@ -794,6 +1567,59 @@ test("abre o perfil do pet pelo frame 8 do figma", async () => {
   expect(screen.getByText(/rotina do pet/i)).toBeInTheDocument();
 });
 
+test("perfil e carteira compartilham o mesmo cabeçalho visual do pet", () => {
+  goToScreen("8");
+  const profile = render(<App />);
+
+  expect(document.querySelector(".pet-section-header")).toBeInTheDocument();
+  expect(document.querySelector(".pet-context-card")).toBeInTheDocument();
+  expect(document.querySelector(".pet-section-tabs")).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Visão geral" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  profile.unmount();
+
+  goToScreen("11");
+  render(<App />);
+
+  expect(document.querySelector(".pet-section-header")).toBeInTheDocument();
+  expect(document.querySelector(".pet-context-card")).toBeInTheDocument();
+  expect(document.querySelector(".pet-section-tabs")).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Ver carteira" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+});
+
+test("cabeçalho compartilhado fixa a tipografia do Balu nos dois títulos", () => {
+  expect(petSectionHeaderStyles).toMatch(
+    /\.pet-section-header\s*\{[\s\S]*?h1\s*\{[\s\S]*?font-family:\s*"Plus Jakarta Sans"/,
+  );
+  expect(petSectionHeaderStyles).toMatch(/h1\s*\{[^}]*font-size:\s*20px/s);
+  expect(petSectionHeaderStyles).toMatch(/h1\s*\{[^}]*font-weight:\s*700/s);
+  expect(petSectionHeaderStyles).toMatch(/h1\s*\{[^}]*line-height:\s*25px/s);
+});
+
+test("ações da próxima consulta seguem a geometria visual do Balu", () => {
+  expect(consultationStyles).toMatch(
+    /&__decision-actions\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,[^;]+;[\s\S]*?button\s*\{[^}]*min-height:\s*44px[^}]*border:\s*1\.5px[^}]*font-size:\s*11px[^}]*font-weight:\s*700/s,
+  );
+  expect(consultationStyles).toMatch(
+    /&__details-link\s*\{[^}]*min-height:\s*44px[^}]*text-decoration:\s*none/s,
+  );
+  expect(consultationStyles).toMatch(
+    /\.is-confirm\s*\{[^}]*background:\s*#18794e[^}]*color:\s*#fff/s,
+  );
+  expect(consultationStyles).toMatch(
+    /\.is-cancel\s*\{[^}]*background:\s*#fff[^}]*color:\s*#b42318/s,
+  );
+});
+
+test("mantém o agendamento fixo com folga acima da navegação inferior", () => {
+  expect(consultationStyles).toMatch(/&__schedule\s*\{[^}]*position:\s*fixed[^}]*bottom:\s*98px/s);
+});
+
 test("navega entre visão geral, rotina, remédios e carteira pelas abas do pet", async () => {
   const user = userEvent.setup();
   goToScreen("8");
@@ -896,13 +1722,97 @@ test("avança pelo fluxo de cadastro até escolher a experiência", async () => 
   await user.type(screen.getByLabelText(/confirmar senha/i), "12345678");
   await user.click(screen.getByRole("button", { name: /^criar conta$/i }));
   expect(screen.getByRole("heading", { name: /cadastrar pet/i })).toBeInTheDocument();
-  await user.type(screen.getByLabelText(/nome do pet/i), "Balu");
-  await user.type(screen.getByLabelText(/raça/i), "Samoieda");
-  await user.type(screen.getByLabelText(/sexo/i), "Macho");
-  await user.type(screen.getByLabelText(/idade/i), "2 anos");
+  await fillRequiredPetFields(user);
   await user.click(screen.getByRole("button", { name: /adicionar depois/i }));
   await user.click(screen.getByRole("button", { name: /continuar/i }));
   expect(screen.getByText(/^gamificada$/i)).toBeInTheDocument();
+});
+
+test("valida os campos obrigatórios ao criar conta", async () => {
+  const user = userEvent.setup();
+  goToScreen("2");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /^criar conta$/i }));
+
+  expect(screen.getByRole("heading", { name: /criar conta/i })).toBeInTheDocument();
+  expect(screen.getByRole("alert")).toHaveTextContent(
+    "Preencha os campos obrigatórios para continuar.",
+  );
+
+  const expectations = [
+    ["Nome", "Informe o nome."],
+    ["E-mail", "Informe o e-mail."],
+    ["Senha", "Informe a senha."],
+    ["Confirmar senha", "Confirme a senha."],
+  ] as const;
+
+  for (const [label, message] of expectations) {
+    const input = screen.getByLabelText(new RegExp(`^${label}$`, "i"));
+    const error = screen.getByText(message);
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input).toHaveAttribute("aria-describedby", error.id);
+  }
+
+  const nameInput = screen.getByLabelText(/^nome$/i);
+  expect(nameInput).toHaveFocus();
+  await user.type(nameInput, "Leôncio");
+  expect(screen.queryByText("Informe o nome.")).not.toBeInTheDocument();
+  expect(nameInput).toHaveAttribute("aria-invalid", "false");
+});
+
+test("exige uma experiência antes de começar", async () => {
+  const user = userEvent.setup();
+  goToScreen("4");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /começar jornada/i }));
+
+  expect(screen.getByRole("heading", { name: /escolha sua experiência/i })).toBeInTheDocument();
+  expect(screen.getByRole("alert")).toHaveTextContent(
+    "Preencha os campos obrigatórios para continuar.",
+  );
+  const group = screen.getByRole("group", { name: /opções de experiência/i });
+  const error = screen.getByText("Selecione uma experiência para continuar.");
+  expect(group).toHaveAttribute("aria-invalid", "true");
+  expect(group).toHaveAttribute("aria-describedby", error.id);
+  expect(screen.getByRole("button", { name: /tradicional/i })).toHaveFocus();
+
+  await user.click(screen.getByRole("button", { name: /gamificada/i }));
+  expect(error).not.toBeInTheDocument();
+  expect(group).toHaveAttribute("aria-invalid", "false");
+});
+
+test("volta corretamente nas três etapas do onboarding", async () => {
+  const user = userEvent.setup();
+  const steps = [
+    ["2", /criar conta/i, /entrar no balu/i],
+    ["3", /cadastrar pet/i, /criar conta/i],
+    ["4", /escolha sua experiência/i, /cadastrar pet/i],
+  ] as const;
+
+  for (const [route, currentHeading, targetHeading] of steps) {
+    goToScreen(route);
+    const rendered = render(<App />);
+    const backButton = screen.getByRole("button", { name: /^voltar$/i });
+    const heading = screen.getByRole("heading", { name: currentHeading });
+    const header = heading.closest("header");
+    expect(backButton).toHaveAttribute("type", "button");
+    expect(backButton).toHaveClass("h-11", "w-11");
+    expect(header).toContainElement(backButton);
+
+    await user.click(backButton);
+
+    expect(screen.getByRole("heading", { name: targetHeading })).toBeInTheDocument();
+    rendered.unmount();
+  }
+
+  for (const route of ["4t", "4g"]) {
+    goToScreen(route);
+    const rendered = render(<App />);
+    expect(screen.queryByRole("button", { name: /^voltar$/i })).not.toBeInTheDocument();
+    rendered.unmount();
+  }
 });
 
 test("mostra o progresso correto nas três etapas do onboarding", () => {

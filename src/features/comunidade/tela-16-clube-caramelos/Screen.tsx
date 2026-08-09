@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
+import { communityById, type Community } from "../community-data";
 
 export function CaramelClubScreen({
   onBack,
   onNavigate = () => undefined,
+  community = communityById.caramelo,
 }: {
   onBack: () => void;
   onNavigate?: (destination: MainDestination) => void;
+  community?: Community;
 }) {
-  const [activeTag, setActiveTag] = useState("#Caramelos");
+  const [activeTag, setActiveTag] = useState(community.tags[0]);
   const [composerOpen, setComposerOpen] = useState(false);
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
@@ -47,14 +50,14 @@ export function CaramelClubScreen({
           <button type="button" aria-label="Voltar" onClick={onBack}>
             ←
           </button>
-          <h1>Clube dos Caramelos</h1>
+          <h1>{community.clubTitle}</h1>
         </header>
         <label className="caramel-club-screen__search">
           <img src="/assets/figma/community/search.svg" alt="" />
           <input aria-label="Buscar na comunidade" placeholder="Buscar na comunidade..." />
         </label>
         <div className="caramel-club-screen__tags">
-          {["#Caramelos", "#Escovação", "#Passeios"].map((tag) => (
+          {community.tags.map((tag) => (
             <button
               className={activeTag === tag ? "is-active" : undefined}
               type="button"
@@ -84,7 +87,7 @@ export function CaramelClubScreen({
             <p>{post}</p>
           </article>
         ))}
-        {(activeTag === "#Caramelos" || activeTag === "#Passeios") && (
+        {(activeTag === community.tags[0] || activeTag === community.tags[2]) && (
           <article>
             <div className="caramel-club-screen__author">
               <span>MF</span>
@@ -94,26 +97,30 @@ export function CaramelClubScreen({
               </div>
               <b>Tutora do Pipoca</b>
             </div>
-            <p>Passeio tranquilo no parque ao pôr do sol.</p>
+            <p>
+              {community.id === "caramelo"
+                ? "Passeio tranquilo no parque ao pôr do sol."
+                : community.post}
+            </p>
           </article>
         )}
-        {(activeTag === "#Caramelos" || activeTag === "#Escovação") && (
+        {(activeTag === community.tags[0] || activeTag === community.tags[1]) && (
           <article>
             <div className="caramel-club-screen__author">
-              <span>SR</span>
+              <span>{community.initials}</span>
               <div>
-                <strong>Salomão Rodrigues</strong>
+                <strong>{community.author}</strong>
                 <small>Há 2 horas</small>
               </div>
-              <b>Tutor do Balu</b>
+              <b>{community.tutorLabel}</b>
             </div>
-            <p>
-              O Balu soltou muito pelo essa semana e a escova de banho ajudou demais. Quem tem pet
-              com pelagem parecida usa escovação diária ou dia sim, dia não?
-            </p>
+            <p>{community.post}</p>
             <div className="caramel-club-screen__picture">
-              <img src="/assets/figma/community/club-hero.svg" alt="Escovação do Balu" />
-              <small>Escovação do Balu</small>
+              <img
+                src="/assets/figma/community/club-hero.svg"
+                alt={`Publicação do ${community.clubTitle}`}
+              />
+              <small>{community.clubTitle}</small>
             </div>
             <div className="caramel-club-screen__metrics">
               <span>12 curtidas</span>

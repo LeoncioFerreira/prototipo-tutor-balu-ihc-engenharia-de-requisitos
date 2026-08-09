@@ -17,7 +17,18 @@
   }
 
   header {
+    display: flex;
     height: 70px;
+    align-items: flex-start;
+    gap: 8px;
+
+    > button {
+      flex: none;
+    }
+
+    > div {
+      min-width: 0;
+    }
 
     h1 {
       margin: 0;
@@ -27,7 +38,8 @@
     }
 
     p {
-      width: 305px;
+      width: 100%;
+      max-width: 305px;
       margin: 4px 0 0;
       color: #4a5568;
       font-size: 14px;
@@ -51,7 +63,7 @@
   }
 
   &__options {
-    height: 146px;
+    min-height: 146px;
     margin-top: 18px;
 
     h2 {
@@ -107,6 +119,15 @@
       font-size: 11px;
       line-height: 14px;
     }
+  }
+
+  &__error {
+    display: block;
+    margin-top: 6px;
+    color: #c53030;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 14px;
   }
 
   &__helper {

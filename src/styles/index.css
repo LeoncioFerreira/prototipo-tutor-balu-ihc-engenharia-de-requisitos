@@ -57,6 +57,22 @@ body {
   margin: 0;
 }
 
+html[data-balu-font-level="1"] #root {
+  zoom: 0.9;
+}
+html[data-balu-font-level="2"] #root {
+  zoom: 0.95;
+}
+html[data-balu-font-level="3"] #root {
+  zoom: 1;
+}
+html[data-balu-font-level="4"] #root {
+  zoom: 1.1;
+}
+html[data-balu-font-level="5"] #root {
+  zoom: 1.2;
+}
+
 .balu-mobile-shell {
   scrollbar-width: none;
 }

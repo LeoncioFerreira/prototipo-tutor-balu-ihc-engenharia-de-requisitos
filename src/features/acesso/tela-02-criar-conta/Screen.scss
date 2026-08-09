@@ -11,11 +11,22 @@
     margin: 0 auto;
     overflow: hidden;
     background: white;
-    padding: 14px 20px 12px;
+    padding: 16px 20px 18px;
   }
 
   header {
-    height: 52px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+
+    > button {
+      flex: none;
+    }
+
+    > div {
+      min-width: 0;
+    }
 
     h1 {
       margin: 0;
@@ -36,7 +47,7 @@
 
   &__logo {
     display: flex;
-    height: 82px;
+    height: 70px;
     align-items: center;
     justify-content: center;
 
@@ -49,11 +60,11 @@
 
   form {
     display: grid;
-    gap: 5px;
+    gap: 8px;
 
     label {
       display: grid;
-      gap: 3px;
+      gap: 4px;
       color: #4a5568;
       font-size: 12px;
       font-weight: 600;
@@ -86,6 +97,13 @@
       font-weight: 800;
     }
 
+    .create-account-screen__error {
+      color: #c53030;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 13px;
+    }
+
     input {
       height: 44px;
       border: 2px solid #c4c6cf;
@@ -104,7 +122,7 @@
 
     > button {
       height: 48px;
-      margin-top: 1px;
+      margin-top: 4px;
       border: 0;
       border-radius: 24px;
       background: #183a78;
@@ -117,7 +135,7 @@
   &__login {
     display: flex;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 12px;
     color: #4a5568;
     font-size: 14px;
 
@@ -131,7 +149,7 @@
 
   &__divider {
     display: flex;
-    height: 28px;
+    height: 32px;
     align-items: center;
     gap: 25px;
 
@@ -154,7 +172,7 @@
     height: 46px;
     align-items: center;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     border: 1.5px solid #b2f5ea;
     border-radius: 18px;
     background: white;

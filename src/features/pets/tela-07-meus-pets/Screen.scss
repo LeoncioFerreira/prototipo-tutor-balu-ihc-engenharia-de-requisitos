@@ -86,8 +86,56 @@
   }
 }
 
+.appointment-modal__choices {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+
+  label {
+    display: grid;
+    gap: 7px;
+    color: #183a78;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  select,
+  input {
+    width: 100%;
+    min-height: 48px;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 14px;
+    background: #fff;
+    padding: 0 13px;
+    color: #24324a;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    outline: none;
+  }
+
+  select:focus,
+  input:focus {
+    border-color: #25aa9b;
+    box-shadow: 0 0 0 3px rgba(37, 170, 155, 0.12);
+  }
+}
+
+.appointment-modal__required-label > span,
+.appointment-modal__section-title > span,
+.appointment-modal__times h3 > span {
+  color: #e53e3e;
+}
+
+.appointment-modal__section-title {
+  margin: 16px 0 8px;
+  color: #183a78;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .appointment-modal__calendar {
-  margin-top: 16px;
+  margin-top: 0;
   border: 1px solid #dce4ec;
   border-radius: 16px;
   padding: 11px 9px 12px;

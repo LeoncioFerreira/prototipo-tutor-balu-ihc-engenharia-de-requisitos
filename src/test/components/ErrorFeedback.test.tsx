@@ -13,6 +13,9 @@ function FeedbackHarness({ onRetry = () => undefined }: { onRetry?: () => void }
       <button type="button" onClick={() => showToast("Erro temporário")}>
         Mostrar toast
       </button>
+      <button type="button" onClick={() => showToast("Instruções enviadas no e-mail.", "success")}>
+        Mostrar sucesso
+      </button>
       <button
         type="button"
         onClick={() =>
@@ -45,6 +48,40 @@ test("remove o toast automaticamente depois de quatro segundos", () => {
 
   fireEvent.click(screen.getByRole("button", { name: /mostrar toast/i }));
   expect(screen.getByRole("alert")).toHaveTextContent("Erro temporário");
+
+  act(() => vi.advanceTimersByTime(4_000));
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  vi.useRealTimers();
+});
+
+test("mostra uma confirmação no padrão de sucesso", () => {
+  render(
+    <ErrorFeedbackProvider>
+      <FeedbackHarness />
+    </ErrorFeedbackProvider>,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: /mostrar sucesso/i }));
+
+  const toast = screen.getByRole("alert");
+  expect(toast).toHaveClass("error-feedback__toast--success");
+  expect(toast).toHaveTextContent("Instruções enviadas no e-mail.");
+  expect(toast.querySelector("[aria-hidden='true']")).toHaveTextContent("✓");
+
+  fireEvent.click(screen.getByRole("button", { name: /fechar aviso/i }));
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+});
+
+test("remove a confirmação de sucesso automaticamente depois de quatro segundos", () => {
+  vi.useFakeTimers();
+  render(
+    <ErrorFeedbackProvider>
+      <FeedbackHarness />
+    </ErrorFeedbackProvider>,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: /mostrar sucesso/i }));
+  expect(screen.getByRole("alert")).toHaveClass("error-feedback__toast--success");
 
   act(() => vi.advanceTimersByTime(4_000));
   expect(screen.queryByRole("alert")).not.toBeInTheDocument();

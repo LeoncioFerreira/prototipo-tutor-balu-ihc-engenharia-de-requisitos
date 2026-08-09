@@ -20,14 +20,19 @@ type ModalOptions = {
 };
 
 type ErrorFeedbackContextValue = {
-  showToast: (message: string) => void;
+  showToast: (message: string, variant?: "error" | "success") => void;
   showModal: (options: ModalOptions) => void;
+};
+
+type ToastState = {
+  message: string;
+  variant: "error" | "success";
 };
 
 const ErrorFeedbackContext = createContext<ErrorFeedbackContextValue | null>(null);
 
 export function ErrorFeedbackProvider({ children }: { children: ReactNode }) {
-  const [toast, setToast] = useState<string | null>(null);
+  const [toast, setToast] = useState<ToastState | null>(null);
   const [modal, setModal] = useState<ModalOptions | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -39,7 +44,10 @@ export function ErrorFeedbackProvider({ children }: { children: ReactNode }) {
     previousFocusRef.current?.focus();
   }, []);
 
-  const showToast = useCallback((message: string) => setToast(message), []);
+  const showToast = useCallback(
+    (message: string, variant: "error" | "success" = "error") => setToast({ message, variant }),
+    [],
+  );
   const showModal = useCallback((options: ModalOptions) => {
     previousFocusRef.current = document.activeElement as HTMLElement | null;
     setModal(options);
@@ -72,11 +80,14 @@ export function ErrorFeedbackProvider({ children }: { children: ReactNode }) {
       {children}
 
       {toast && (
-        <div className="error-feedback__toast" role="alert">
+        <div
+          className={`error-feedback__toast error-feedback__toast--${toast.variant}`}
+          role="alert"
+        >
           <span className="error-feedback__symbol" aria-hidden="true">
-            !
+            {toast.variant === "success" ? "✓" : "!"}
           </span>
-          <p>{toast}</p>
+          <p>{toast.message}</p>
           <button type="button" aria-label="Fechar aviso" onClick={() => setToast(null)}>
             ×
           </button>

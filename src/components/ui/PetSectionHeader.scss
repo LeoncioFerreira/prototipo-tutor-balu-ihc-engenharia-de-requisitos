@@ -1,0 +1,113 @@
+.pet-section-header {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  color: #183a78;
+
+  button {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    padding: 0;
+    color: inherit;
+  }
+
+  h1 {
+    margin: 0;
+    color: #183a78;
+    font-family: "Plus Jakarta Sans", Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 25px;
+  }
+}
+
+.pet-context-card {
+  height: 170px;
+  margin-top: 27px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  background: #fff;
+  padding-top: 15px;
+  color: #183a78;
+  text-align: center;
+  box-shadow: 0 8px 16px rgb(26 54 93 / 4%);
+
+  img {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    margin: 4px 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  > div {
+    display: flex;
+    justify-content: center;
+    gap: 31px;
+  }
+
+  span {
+    min-width: 74px;
+    border-radius: 999px;
+    background: #f2f4f5;
+    padding: 6px 10px;
+    color: #4a5568;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 12px;
+  }
+}
+
+.pet-section-tabs {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 14px;
+
+  button {
+    display: grid;
+    min-height: 44px;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    padding: 0 2px;
+    color: #717e91;
+    font-size: 10px;
+  }
+
+  span {
+    display: grid;
+    height: 30px;
+    place-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: #fff;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+
+  button[aria-current="page"] {
+    color: #183a78;
+    font-weight: 700;
+
+    span {
+      border-color: #b2f5ea;
+      background: #f0fffc;
+    }
+  }
+}

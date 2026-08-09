@@ -7,14 +7,14 @@
     gap: 14px;
 
     > button {
-      width: 18px;
-      height: 30px;
+      width: 44px;
+      height: 44px;
       padding: 0;
       border: 0;
       background: transparent;
       color: #183a78;
       font-size: 24px;
-      line-height: 30px;
+      line-height: 44px;
     }
 
     h1 {
@@ -110,6 +110,120 @@
         font-size: 26px;
         font-weight: 400;
       }
+    }
+  }
+
+  &__group,
+  &__accessibility {
+    margin-top: 24px;
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+  }
+
+  &__group {
+    display: grid;
+    gap: 9px;
+
+    h2 {
+      margin-bottom: 1px;
+    }
+
+    > button {
+      display: grid;
+      width: 100%;
+      min-height: 66px;
+      grid-template-columns: 38px 1fr auto;
+      align-items: center;
+      gap: 11px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background: white;
+      padding: 10px 13px;
+      color: #183a78;
+      text-align: left;
+
+      > span:first-child {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border-radius: 50%;
+        background: #e6fffa;
+        font-weight: 800;
+      }
+      > span:first-child img {
+        width: 18px;
+        height: 18px;
+      }
+      > span:nth-child(2) {
+        display: grid;
+        gap: 3px;
+      }
+      strong {
+        font-size: 12px;
+      }
+      small {
+        color: #4a5568;
+        font-size: 10px;
+      }
+      b {
+        color: #24a995;
+        font-size: 10px;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &__accessibility > div {
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: white;
+    padding: 15px;
+
+    > strong {
+      display: block;
+      font-size: 13px;
+    }
+    > small {
+      display: block;
+      margin-top: 3px;
+      color: #24a995;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    > p {
+      margin: 12px 0 0;
+      color: #4a5568;
+      font-size: 12px;
+    }
+  }
+
+  &__font-control {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+
+    button {
+      width: 44px;
+      height: 44px;
+      border: 1px solid #b2f5ea;
+      border-radius: 50%;
+      background: #e6fffa;
+      color: #183a78;
+      font-weight: 800;
+    }
+    button:disabled {
+      opacity: 0.4;
+    }
+    input {
+      width: 100%;
+      accent-color: #24a995;
     }
   }
 

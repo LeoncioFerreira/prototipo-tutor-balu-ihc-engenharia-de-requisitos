@@ -1,77 +1,40 @@
 import { useState } from "react";
 import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
+import { communities, communityById } from "../community-data";
 
 export function CommunitiesScreen({
   onNavigate = () => undefined,
   onOpenClub,
+  onOpenAll,
 }: {
   onNavigate?: (destination: MainDestination) => void;
-  onOpenClub?: () => void;
+  onOpenClub?: (screen: string) => void;
+  onOpenAll?: () => void;
 }) {
-  const [selectedBreed, setSelectedBreed] = useState("Caramelo");
-  const [toast, setToast] = useState<string | null>(null);
-
-  const showToast = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 2500);
-  };
+  const [selectedId, setSelectedId] = useState("caramelo");
+  const selectedCommunity = communityById[selectedId];
+  const followedCommunities = communities.filter((community) => community.unlocked);
 
   return (
     <MobileShell active="community" onNavigate={onNavigate}>
       <div className="communities-screen" data-figma-node="122:8">
         <h1>Comunidades</h1>
-        {toast && (
-          <div
-            style={{
-              backgroundColor: "#d1fae5",
-              color: "#065f46",
-              padding: "10px 14px",
-              borderRadius: 8,
-              marginBottom: 12,
-              fontWeight: 600,
-              fontSize: "0.9rem",
-            }}
-          >
-            {toast}
-          </div>
-        )}
         <div className="communities-screen__breed-heading">
           <h2>Minhas raças</h2>
-          <button
-            type="button"
-            onClick={() => showToast("Exibindo todas as 12 categorias de raças")}
-          >
+          <button type="button" onClick={onOpenAll}>
             Ver tudo
           </button>
         </div>
         <div className="communities-screen__breeds">
-          <Breed
-            asset="breed-caramelo.svg"
-            label="Caramelo"
-            active={selectedBreed === "Caramelo"}
-            onClick={() => {
-              setSelectedBreed("Caramelo");
-              showToast("Comunidade dos Caramelos selecionada");
-            }}
-          />
-          <Breed
-            asset="breed-mutt.svg"
-            label="Vira-lata"
-            active={selectedBreed === "Vira-lata"}
-            onClick={() => {
-              setSelectedBreed("Vira-lata");
-              showToast("Comunidade dos Vira-latas selecionada");
-            }}
-          />
-          <Breed
-            asset="breed-cat.svg"
-            label="Gateiros"
-            active={selectedBreed === "Gateiros"}
-            onClick={() => {
-              setSelectedBreed("Gateiros");
-              showToast("Comunidade dos Gateiros selecionada");
-            }}
-          />
+          {followedCommunities.map((community) => (
+            <Breed
+              key={community.id}
+              asset={community.asset}
+              label={community.label}
+              active={selectedId === community.id}
+              onClick={() => setSelectedId(community.id)}
+            />
+          ))}
         </div>
 
         <label className="communities-screen__search">
@@ -83,38 +46,39 @@ export function CommunitiesScreen({
           <div className="communities-screen__club-title">
             <img
               className="communities-screen__club-logo"
-              src="/assets/figma/community/breed-caramelo.svg"
-              alt="Logo do Clube dos Caramelos"
+              src={`/assets/figma/community/${selectedCommunity.asset}`}
+              alt={`Logo do ${selectedCommunity.clubTitle}`}
             />
             <div>
-              <h2>Clube dos Caramelos</h2>
-              <p>2,4 mil membros</p>
+              <h2>{selectedCommunity.clubTitle}</h2>
+              <p>{selectedCommunity.members}</p>
             </div>
           </div>
           <div className="communities-screen__hero-copy">
             <div>
-              <h3>Uma comunidade para trocar dicas, rotina e cuidado com caramelos</h3>
+              <h3>{selectedCommunity.headline}</h3>
               <small>Post em destaque</small>
             </div>
             <img src="/assets/figma/community/club-hero.svg" alt="" />
           </div>
           <div className="communities-screen__author">
-            <b>SR</b>
+            <b>{selectedCommunity.initials}</b>
             <span>
-              <strong>Salomão Rodrigues</strong>
+              <strong>{selectedCommunity.author}</strong>
               <small>Há 2 horas</small>
             </span>
-            <i>Tutor do Balu</i>
+            <i>{selectedCommunity.tutorLabel}</i>
           </div>
-          <p className="communities-screen__post">
-            O Balu soltou muito pelo essa semana e a escova de banho ajudou demais. Quem tem pet com
-            pelagem parecida usa escovação diária ou dia sim, dia não?
-          </p>
+          <p className="communities-screen__post">{selectedCommunity.post}</p>
           <div className="communities-screen__metrics">
             <span>♡ 12 curtidas</span>
             <span>◌ 4 comentários</span>
           </div>
-          <button className="communities-screen__join" onClick={onOpenClub} type="button">
+          <button
+            className="communities-screen__join"
+            onClick={() => onOpenClub?.(selectedCommunity.screen)}
+            type="button"
+          >
             Entrar no clube
           </button>
         </article>

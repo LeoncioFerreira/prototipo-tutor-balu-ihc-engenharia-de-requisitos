@@ -1,22 +1,36 @@
 import { useRef, useState } from "react";
 import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 import { OnboardingProgress } from "../../../components/ui/OnboardingProgress";
+import { PetPhotoPicker } from "../../../components/ui/pet-photo-picker/PetPhotoPicker";
+import { BackButton } from "../../../components/ui/ScreenPrimitives";
+import { SharedCareActions, type SharedCareChoice } from "./SharedCareActions";
 
 const initialFields = {
   name: "",
   breed: "",
   sex: "",
-  age: "",
+  birthDate: "",
+  coatColor: "",
+  coatType: "",
 };
 
 type FieldName = keyof typeof initialFields;
-type SharedCareChoice = "invite" | "later" | "code";
+
+const today = () => {
+  const date = new Date();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${date.getFullYear()}-${month}-${day}`;
+};
 
 export function RegisterPetScreen({
   onComplete,
+  onBack,
+  showProgress = true,
 }: {
   onComplete?: () => void;
-  onBack?: () => void;
+  onBack: () => void;
+  showProgress?: boolean;
 }) {
   const { showToast } = useErrorFeedback();
   const [fields, setFields] = useState(initialFields);
@@ -44,11 +58,24 @@ export function RegisterPetScreen({
           if (!fields.name.trim()) nextErrors.name = "Informe o nome do pet.";
           if (!fields.breed.trim()) nextErrors.breed = "Informe a raça do pet.";
           if (!fields.sex.trim()) nextErrors.sex = "Informe o sexo do pet.";
-          if (!fields.age.trim()) nextErrors.age = "Informe a idade do pet.";
+          if (!fields.birthDate) {
+            nextErrors.birthDate = "Informe a data de nascimento aproximada.";
+          } else if (fields.birthDate > today()) {
+            nextErrors.birthDate = "A data de nascimento não pode estar no futuro.";
+          }
+          if (!fields.coatColor.trim()) {
+            nextErrors.coatColor = "Informe a cor da pelagem.";
+          }
+          if (!fields.coatType.trim()) {
+            nextErrors.coatType = "Informe o tipo da pelagem.";
+          }
           setErrors(nextErrors);
           if (Object.keys(nextErrors).length) {
             showToast("Preencha os campos obrigatórios para continuar.");
-            formRef.current?.querySelector<HTMLInputElement>("input")?.focus();
+            const firstInvalidField = Object.keys(nextErrors)[0] as FieldName;
+            formRef.current
+              ?.querySelector<HTMLElement>(`#register-pet-${firstInvalidField}`)
+              ?.focus();
             return;
           }
 
@@ -61,14 +88,15 @@ export function RegisterPetScreen({
           onComplete?.();
         }}
       >
-        <OnboardingProgress currentStep={2} label="Cadastrar seu pet" />
+        {showProgress && <OnboardingProgress currentStep={2} label="Cadastrar seu pet" />}
         <header>
-          <h1>Cadastrar pet</h1>
-          <p>Agora vamos registrar as informações iniciais do seu pet</p>
+          <BackButton onClick={onBack} />
+          <div>
+            <h1>Cadastrar pet</h1>
+            <p>Agora vamos registrar as informações iniciais do seu pet</p>
+          </div>
         </header>
-        <div className="register-pet-screen__logo">
-          <img src="/assets/figma/logo-balu.png" alt="Balu" />
-        </div>
+        <PetPhotoPicker className="register-pet-screen__photo" />
         <section className="register-pet-screen__fields">
           <h2>Dados do pet</h2>
           <p className="required-note">* indica campo obrigatório</p>
@@ -88,72 +116,47 @@ export function RegisterPetScreen({
             error={errors.breed}
             name="breed"
           />
-          <Field
+          <SelectField
             label="Sexo"
-            placeholder="Macho ou fêmea"
             value={fields.sex}
             onChange={(value) => updateField("sex", value)}
             error={errors.sex}
             name="sex"
           />
           <Field
-            label="Idade"
-            placeholder="Ex: 2 anos"
-            value={fields.age}
-            onChange={(value) => updateField("age", value)}
-            error={errors.age}
-            name="age"
+            label="Data de nascimento aproximada"
+            type="date"
+            max={today()}
+            value={fields.birthDate}
+            onChange={(value) => updateField("birthDate", value)}
+            error={errors.birthDate}
+            name="birthDate"
+          />
+          <Field
+            label="Cor da pelagem"
+            placeholder="Ex: Branca, preta ou caramelo"
+            value={fields.coatColor}
+            onChange={(value) => updateField("coatColor", value)}
+            error={errors.coatColor}
+            name="coatColor"
+          />
+          <Field
+            label="Tipo da pelagem"
+            placeholder="Ex: Curta, longa ou cacheada"
+            value={fields.coatType}
+            onChange={(value) => updateField("coatType", value)}
+            error={errors.coatType}
+            name="coatType"
           />
         </section>
         <section className="register-pet-screen__shared">
           <h2>Cuidado compartilhado</h2>
           <div>
-            <div className="register-pet-screen__shared-intro">
-              <img src="/assets/figma/access/shared-care.svg" alt="" />
-              <div>
-                <strong>Vincular outros tutores</strong>
-                <p>
-                  Convide outra pessoa responsável para acompanhar lembretes, rotinas e histórico do
-                  pet.
-                </p>
-              </div>
-            </div>
-            <div
-              className="register-pet-screen__shared-actions"
-              role="group"
-              aria-label="Ações de cuidado compartilhado"
-            >
-              <button
-                ref={inviteButtonRef}
-                type="button"
-                className={`is-primary ${sharedCareChoice === "invite" ? "is-selected" : ""}`}
-                aria-pressed={sharedCareChoice === "invite"}
-                onClick={() => setSharedCareChoice("invite")}
-              >
-                Convidar tutor
-              </button>
-              <button
-                type="button"
-                className={sharedCareChoice === "later" ? "is-selected" : ""}
-                aria-pressed={sharedCareChoice === "later"}
-                onClick={() => setSharedCareChoice("later")}
-              >
-                Adicionar depois
-              </button>
-            </div>
-            {sharedCareChoice === "later" && (
-              <p role="status" className="register-pet-screen__saved-note">
-                Os dados preenchidos do pet serão mantidos. Você poderá convidar outro tutor depois.
-              </p>
-            )}
-            <button
-              type="button"
-              className={`is-code ${sharedCareChoice === "code" ? "is-selected" : ""}`}
-              aria-pressed={sharedCareChoice === "code"}
-              onClick={() => setSharedCareChoice("code")}
-            >
-              Entrar com código da família
-            </button>
+            <SharedCareActions
+              value={sharedCareChoice}
+              onChange={setSharedCareChoice}
+              inviteButtonRef={inviteButtonRef}
+            />
           </div>
         </section>
         <button className="register-pet-screen__submit" type="submit">
@@ -171,13 +174,19 @@ function Field({
   onChange,
   error,
   name,
+  type = "text",
+  list,
+  max,
 }: {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   value: string;
   onChange: (value: string) => void;
   error?: string;
   name: FieldName;
+  type?: "text" | "date";
+  list?: string;
+  max?: string;
 }) {
   return (
     <label>
@@ -187,6 +196,9 @@ function Field({
       <input
         id={`register-pet-${name}`}
         required
+        type={type}
+        list={list}
+        max={max}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
@@ -199,5 +211,54 @@ function Field({
         </small>
       )}
     </label>
+  );
+}
+
+function SelectField({
+  label,
+  value,
+  onChange,
+  error,
+  name,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+  name: FieldName;
+}) {
+  return (
+    <label>
+      <RequiredLabel>{label}</RequiredLabel>
+      <select
+        id={`register-pet-${name}`}
+        required
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `register-pet-${name}-error` : undefined}
+      >
+        <option value="">Selecione</option>
+        <option value="Macho">Macho</option>
+        <option value="Fêmea">Fêmea</option>
+      </select>
+      {error && <FieldError name={name}>{error}</FieldError>}
+    </label>
+  );
+}
+
+function RequiredLabel({ children }: { children: string }) {
+  return (
+    <span className="field-label">
+      {children} <span className="required-mark">*</span>
+    </span>
+  );
+}
+
+function FieldError({ name, children }: { name: FieldName; children: string }) {
+  return (
+    <small id={`register-pet-${name}-error`} className="field-error">
+      {children}
+    </small>
   );
 }

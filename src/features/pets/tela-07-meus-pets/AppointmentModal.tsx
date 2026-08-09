@@ -16,6 +16,26 @@ const dateLabelFormatter = new Intl.DateTimeFormat("pt-BR", {
   year: "numeric",
 });
 
+const appointmentTypeLabels = {
+  consulta: "Consulta",
+  retorno: "Retorno",
+  exame: "Exame",
+} as const;
+
+const veterinarianLabels = {
+  mariana: "Dra. Mariana — Veterinária do Balu",
+  rafael: "Dr. Rafael",
+  qualquer: "Sem preferência",
+} as const;
+
+const examTypeLabels = {
+  hemograma: "Hemograma",
+  ultrassom: "Ultrassom",
+  raio_x: "Raio-X",
+  dermatologico: "Exame dermatológico",
+  outro: "Outro",
+} as const;
+
 export function AppointmentModal({
   petName,
   onClose,
@@ -29,12 +49,19 @@ export function AppointmentModal({
 }) {
   const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12);
   const [visibleMonth, setVisibleMonth] = useState(() => startOfMonth(normalizedToday));
+  const [appointmentType, setAppointmentType] = useState<"" | keyof typeof appointmentTypeLabels>(
+    "",
+  );
+  const [veterinarian, setVeterinarian] = useState<"" | keyof typeof veterinarianLabels>("");
+  const [examType, setExamType] = useState<"" | keyof typeof examTypeLabels>("");
+  const [otherExam, setOtherExam] = useState("");
   const [reason, setReason] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const { showToast } = useErrorFeedback();
   const titleId = useId();
+  const appointmentTypeRef = useRef<HTMLSelectElement>(null);
   const reasonRef = useRef<HTMLTextAreaElement>(null);
   const currentMonth = startOfMonth(normalizedToday);
   const canGoPrevious = visibleMonth.getTime() > currentMonth.getTime();
@@ -45,7 +72,7 @@ export function AppointmentModal({
   }, [onClose, returnFocusRef]);
 
   useEffect(() => {
-    reasonRef.current?.focus();
+    appointmentTypeRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -57,8 +84,32 @@ export function AppointmentModal({
   }, [close]);
 
   const confirmAppointment = () => {
-    if (!reason.trim() || !selectedDate || !selectedTime) {
-      showToast("Preencha o motivo, escolha uma data e um horário para continuar.");
+    if (!appointmentType) {
+      showToast("Selecione o tipo de atendimento para continuar.");
+      return;
+    }
+    if (!veterinarian) {
+      showToast("Selecione o veterinário para continuar.");
+      return;
+    }
+    if (appointmentType === "exame" && !examType) {
+      showToast("Selecione o tipo de exame para continuar.");
+      return;
+    }
+    if (appointmentType === "exame" && examType === "outro" && !otherExam.trim()) {
+      showToast("Informe o nome do exame para continuar.");
+      return;
+    }
+    if (!reason.trim()) {
+      showToast("Informe o motivo da consulta para continuar.");
+      return;
+    }
+    if (!selectedDate) {
+      showToast("Selecione a data da consulta para continuar.");
+      return;
+    }
+    if (!selectedTime) {
+      showToast("Selecione o horário da consulta para continuar.");
       return;
     }
     setConfirmed(true);
@@ -97,6 +148,20 @@ export function AppointmentModal({
                 <dd>{petName}</dd>
               </div>
               <div>
+                <dt>Atendimento</dt>
+                <dd>{appointmentType ? appointmentTypeLabels[appointmentType] : ""}</dd>
+              </div>
+              <div>
+                <dt>Veterinário</dt>
+                <dd>{veterinarian ? veterinarianLabels[veterinarian] : ""}</dd>
+              </div>
+              {appointmentType === "exame" && examType && (
+                <div>
+                  <dt>Exame</dt>
+                  <dd>{examType === "outro" ? otherExam.trim() : examTypeLabels[examType]}</dd>
+                </div>
+              )}
+              <div>
                 <dt>Data</dt>
                 <dd>{dateLabelFormatter.format(selectedDate)}</dd>
               </div>
@@ -119,6 +184,98 @@ export function AppointmentModal({
           </div>
         ) : (
           <>
+            <div className="appointment-modal__choices">
+              <label>
+                <span className="appointment-modal__required-label">
+                  Tipo de atendimento <span aria-hidden="true">*</span>
+                </span>
+                <select
+                  ref={appointmentTypeRef}
+                  required
+                  value={appointmentType}
+                  onChange={(event) => {
+                    const nextType = event.target.value as "" | keyof typeof appointmentTypeLabels;
+                    setAppointmentType(nextType);
+                    if (nextType !== "exame") {
+                      setExamType("");
+                      setOtherExam("");
+                    }
+                  }}
+                >
+                  <option value="" disabled>
+                    Selecione o atendimento
+                  </option>
+                  {Object.entries(appointmentTypeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                <span className="appointment-modal__required-label">
+                  Veterinário <span aria-hidden="true">*</span>
+                </span>
+                <select
+                  required
+                  value={veterinarian}
+                  onChange={(event) =>
+                    setVeterinarian(event.target.value as "" | keyof typeof veterinarianLabels)
+                  }
+                >
+                  <option value="" disabled>
+                    Selecione o veterinário
+                  </option>
+                  {Object.entries(veterinarianLabels).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {appointmentType === "exame" && (
+                <label>
+                  <span className="appointment-modal__required-label">
+                    Tipo de exame <span aria-hidden="true">*</span>
+                  </span>
+                  <select
+                    required
+                    value={examType}
+                    onChange={(event) => {
+                      const nextExam = event.target.value as "" | keyof typeof examTypeLabels;
+                      setExamType(nextExam);
+                      if (nextExam !== "outro") setOtherExam("");
+                    }}
+                  >
+                    <option value="" disabled>
+                      Selecione o exame
+                    </option>
+                    {Object.entries(examTypeLabels).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+
+              {appointmentType === "exame" && examType === "outro" && (
+                <label>
+                  <span className="appointment-modal__required-label">
+                    Nome do exame <span aria-hidden="true">*</span>
+                  </span>
+                  <input
+                    required
+                    value={otherExam}
+                    placeholder="Digite o nome do exame"
+                    onChange={(event) => setOtherExam(event.target.value)}
+                  />
+                </label>
+              )}
+            </div>
+
             <label className="appointment-modal__reason">
               <span className="appointment-modal__reason-label">
                 Motivo da consulta <span aria-hidden="true">*</span>
@@ -134,6 +291,9 @@ export function AppointmentModal({
               />
             </label>
 
+            <h3 className="appointment-modal__section-title">
+              Data da consulta <span aria-hidden="true">*</span>
+            </h3>
             <section className="appointment-modal__calendar" aria-label="Calendário da consulta">
               <div className="appointment-modal__month-navigation">
                 <button
@@ -199,7 +359,9 @@ export function AppointmentModal({
 
             {selectedDate && (
               <section className="appointment-modal__times" aria-labelledby={`${titleId}-times`}>
-                <h3 id={`${titleId}-times`}>Horários disponíveis</h3>
+                <h3 id={`${titleId}-times`}>
+                  Horário da consulta <span aria-hidden="true">*</span>
+                </h3>
                 <p>{dateLabelFormatter.format(selectedDate)}</p>
                 <div>
                   {availableTimesFor(selectedDate).map((time) => (

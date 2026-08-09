@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { MobileShell } from "../../../components/ui/MobileShell";
 
 const notifications = [
@@ -8,6 +9,7 @@ const notifications = [
     "Novo",
     "/assets/figma/inicio/notification-clinic.svg",
     true,
+    "6b",
   ],
   [
     "orange",
@@ -16,6 +18,7 @@ const notifications = [
     "Agora",
     "/assets/figma/inicio/notification-medicine.svg",
     false,
+    "10",
   ],
   [
     "blue",
@@ -24,6 +27,7 @@ const notifications = [
     "Novo",
     "/assets/figma/inicio/notification-care.svg",
     false,
+    "12",
   ],
   [
     "blue",
@@ -32,6 +36,7 @@ const notifications = [
     "Hoje",
     "/assets/figma/inicio/notification-care.svg",
     false,
+    "9",
   ],
   [
     "community",
@@ -40,6 +45,7 @@ const notifications = [
     "Clube",
     "/assets/figma/inicio/notification-community.svg",
     false,
+    "16",
   ],
   [
     "green",
@@ -48,16 +54,21 @@ const notifications = [
     "Feito",
     "/assets/figma/inicio/notification-food.svg",
     true,
+    "9",
   ],
 ] as const;
 
 export function NotificationsScreen({
   onBack,
-  onOpenClinicLink,
+  onOpenNotification,
 }: {
   onBack: () => void;
-  onOpenClinicLink: () => void;
+  onOpenNotification: (screen: string) => void;
 }) {
+  const [visibleNotifications, setVisibleNotifications] = useState(() =>
+    notifications.map((_, index) => index),
+  );
+
   return (
     <MobileShell active="home" onNavigate={() => undefined}>
       <div className="notifications-screen" data-figma-node="293:2">
@@ -69,27 +80,36 @@ export function NotificationsScreen({
         </header>
         <p className="notifications-screen__subtitle">Acompanhe alertas do Balu e da sua família</p>
         <section>
-          {notifications.map(([tone, title, body, badge, asset, compact], index) => (
-            <article key={title} className={`is-${tone}${compact ? " is-compact" : ""}`}>
-              {index === 0 && (
+          {visibleNotifications.map((index) => {
+            const [tone, title, body, badge, asset, compact, target] = notifications[index];
+            return (
+              <article key={title} className={`is-${tone}${compact ? " is-compact" : ""}`}>
                 <button
-                  className="notifications-screen__open"
+                  className="notifications-screen__card-link"
                   type="button"
-                  aria-label="Abrir solicitação de vínculo da Unipet"
-                  onClick={onOpenClinicLink}
+                  aria-label={
+                    index === 0 ? "Abrir solicitação de vínculo da Unipet" : `Abrir ${title}`
+                  }
+                  onClick={() => onOpenNotification(target)}
                 />
-              )}
-              <img className="notifications-screen__icon" src={asset} alt="" />
-              <div>
-                <strong>{title}</strong>
-                <p>{body}</p>
-              </div>
-              <span>{badge}</span>
-              <button type="button" aria-label={`Dispensar ${title}`}>
-                ×
-              </button>
-            </article>
-          ))}
+                <img className="notifications-screen__icon" src={asset} alt="" />
+                <div>
+                  <strong>{title}</strong>
+                  <p>{body}</p>
+                </div>
+                <span>{badge}</span>
+                <button
+                  type="button"
+                  aria-label={`Dispensar ${title}`}
+                  onClick={() =>
+                    setVisibleNotifications((current) => current.filter((item) => item !== index))
+                  }
+                >
+                  ×
+                </button>
+              </article>
+            );
+          })}
         </section>
       </div>
     </MobileShell>
