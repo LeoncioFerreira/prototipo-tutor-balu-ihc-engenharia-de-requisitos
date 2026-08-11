@@ -6,7 +6,7 @@ import { isValid24HourTime } from "../../../components/ui/time";
 import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 
 type MedicineErrors = Partial<
-  Record<"medicine" | "name" | "dose" | "form" | "route" | "start" | "frequency" | "time", string>
+  Record<"medicine" | "name" | "dose" | "form" | "route" | "start" | "frequency" | "time" | "days", string>
 >;
 
 export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
@@ -19,6 +19,7 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [frequency, setFrequency] = useState("");
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [times, setTimes] = useState([""]);
   const [guidance, setGuidance] = useState("");
   const [errors, setErrors] = useState<MedicineErrors>({});
@@ -35,6 +36,31 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
   const clearError = (field: keyof MedicineErrors) =>
     setErrors((current) => ({ ...current, [field]: undefined }));
 
+  const getAvailableDays = (startStr: string, endStr: string): number[] => {
+    if (!startStr) return [0, 1, 2, 3, 4, 5, 6];
+    const [sy, sm, sd] = startStr.split("-").map(Number);
+    const start = new Date(sy, sm - 1, sd);
+    if (isNaN(start.getTime())) return [0, 1, 2, 3, 4, 5, 6];
+
+    if (!endStr) return [0, 1, 2, 3, 4, 5, 6];
+    const [ey, em, ed] = endStr.split("-").map(Number);
+    const end = new Date(ey, em - 1, ed);
+    if (isNaN(end.getTime())) return [0, 1, 2, 3, 4, 5, 6];
+
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays < 0) return [];
+    if (diffDays >= 6) return [0, 1, 2, 3, 4, 5, 6];
+
+    const available = new Set<number>();
+    const current = new Date(start);
+    while (current <= end) {
+      available.add(current.getDay());
+      current.setDate(current.getDate() + 1);
+    }
+    return Array.from(available);
+  };
+
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const nextErrors: MedicineErrors = {};
@@ -45,6 +71,7 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
     if (!route) nextErrors.route = "Selecione a via de administração.";
     if (!startDate) nextErrors.start = "Informe a data de início.";
     if (!frequency) nextErrors.frequency = "Selecione a frequência.";
+    if (frequency === "semanal" && selectedDays.length === 0) nextErrors.days = "Selecione pelo menos um dia da semana.";
     if (times.some((time) => !isValid24HourTime(time)))
       nextErrors.time = "Informe todos os horários no formato 24 horas.";
     setErrors(nextErrors);
@@ -220,10 +247,52 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
               <option value="">Selecione</option>
               <option value="diaria">Todos os dias</option>
               <option value="semanal">Dias da semana</option>
-              <option value="unica">Uma única vez</option>
             </select>
             {errors.frequency && <small className="field-error">{errors.frequency}</small>}
           </label>
+
+          {frequency === "semanal" && (
+            <fieldset className="routine-weekdays">
+              <legend>
+                Dias da semana <b className="required-mark">*</b>
+              </legend>
+              <div>
+                {[
+                  { value: 0, label: "D" },
+                  { value: 1, label: "S" },
+                  { value: 2, label: "T" },
+                  { value: 3, label: "Q" },
+                  { value: 4, label: "Q" },
+                  { value: 5, label: "S" },
+                  { value: 6, label: "S" },
+                ].map((day) => {
+                  const availableDays = getAvailableDays(startDate, endDate);
+                  const isAvailable = availableDays.includes(day.value);
+                  const isSelected = selectedDays.includes(day.value);
+
+                  return (
+                    <label key={day.value} style={{ opacity: isAvailable ? 1 : 0.4, cursor: isAvailable ? "pointer" : "not-allowed" }}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        disabled={!isAvailable}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedDays((prev) => [...prev, day.value]);
+                          } else {
+                            setSelectedDays((prev) => prev.filter((d) => d !== day.value));
+                          }
+                          clearError("days");
+                        }}
+                      />
+                      {day.label}
+                    </label>
+                  );
+                })}
+              </div>
+              {errors.days && <small className="field-error">{errors.days}</small>}
+            </fieldset>
+          )}
 
           <MultiTimeField
             times={times}
