@@ -6,7 +6,10 @@ import { isValid24HourTime } from "../../../components/ui/time";
 import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 
 type MedicineErrors = Partial<
-  Record<"medicine" | "name" | "dose" | "form" | "route" | "start" | "frequency" | "time" | "days", string>
+  Record<
+    "medicine" | "name" | "dose" | "form" | "route" | "start" | "frequency" | "time" | "days",
+    string
+  >
 >;
 
 export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
@@ -71,7 +74,8 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
     if (!route) nextErrors.route = "Selecione a via de administração.";
     if (!startDate) nextErrors.start = "Informe a data de início.";
     if (!frequency) nextErrors.frequency = "Selecione a frequência.";
-    if (frequency === "semanal" && selectedDays.length === 0) nextErrors.days = "Selecione pelo menos um dia da semana.";
+    if (frequency === "semanal" && selectedDays.length === 0)
+      nextErrors.days = "Selecione pelo menos um dia da semana.";
     if (times.some((time) => !isValid24HourTime(time)))
       nextErrors.time = "Informe todos os horários no formato 24 horas.";
     setErrors(nextErrors);
@@ -271,7 +275,13 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
                   const isSelected = selectedDays.includes(day.value);
 
                   return (
-                    <label key={day.value} style={{ opacity: isAvailable ? 1 : 0.4, cursor: isAvailable ? "pointer" : "not-allowed" }}>
+                    <label
+                      key={day.value}
+                      style={{
+                        opacity: isAvailable ? 1 : 0.4,
+                        cursor: isAvailable ? "pointer" : "not-allowed",
+                      }}
+                    >
                       <input
                         type="checkbox"
                         checked={isSelected}
