@@ -1,0 +1,22 @@
+.pet-details-button {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid #d7dfeb;
+  border-radius: 10px;
+  background: #fff;
+  padding: 5px 10px;
+  color: #718096;
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid rgb(45 212 191 / 35%);
+    outline-offset: 2px;
+  }
+}

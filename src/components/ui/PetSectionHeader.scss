@@ -53,7 +53,7 @@
     line-height: 24px;
   }
 
-  > div {
+  > .pet-context-card__facts {
     display: flex;
     justify-content: center;
     gap: 31px;
@@ -68,6 +68,35 @@
     font-size: 11px;
     font-weight: 600;
     line-height: 12px;
+  }
+}
+
+.pet-context-card__photo {
+  display: flex;
+  justify-content: center;
+
+  .pet-photo-picker {
+    height: 80px;
+    width: 80px;
+  }
+
+  .pet-photo-picker__preview,
+  .pet-photo-picker__placeholder {
+    height: 80px;
+    width: 80px;
+  }
+
+  .pet-photo-picker__button {
+    right: -2px;
+    bottom: -1px;
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
   }
 }
 

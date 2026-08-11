@@ -48,6 +48,7 @@
 
   &__tags {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     margin-top: 16px;
 
@@ -144,10 +145,205 @@
 
   &__metrics {
     display: flex;
-    gap: 24px;
+    flex-wrap: wrap;
+    gap: 4px 12px;
     margin-top: 12px;
     color: #4a5568;
+
+    button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 6px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      padding: 0 8px;
+      color: inherit;
+      font-size: 10px;
+      font-weight: 600;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid #183a78;
+        outline-offset: 2px;
+      }
+    }
+
+    .is-liked {
+      background: #fff1f2;
+      color: #be123c;
+      font-weight: 800;
+    }
+  }
+
+  &__comments {
+    margin-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
+
+    ul {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      border-radius: 10px;
+      background: #f7fafc;
+      padding: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 76px;
+      resize: vertical;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: white;
+      padding: 10px;
+      color: #183a78;
+      font: inherit;
+      font-size: 11px;
+
+      &:focus {
+        border-color: #183a78;
+        outline: 2px solid rgba(24, 58, 120, 0.16);
+      }
+    }
+
+    > button {
+      display: block;
+      min-height: 44px;
+      margin: 8px 0 0 auto;
+      border: 0;
+      border-radius: 10px;
+      background: #183a78;
+      padding: 0 14px;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+    }
+  }
+
+  &__comment-avatar {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    place-items: center;
+    border-radius: 50%;
+    background: #e6f7f4;
+    color: #183a78;
     font-size: 9px;
+    font-weight: 700;
+  }
+
+  &__comment-content {
+    min-width: 0;
+    flex: 1;
+
+    strong {
+      font-size: 10px;
+    }
+
+    p {
+      margin: 4px 0 2px;
+      color: #4a5568;
+      font-size: 10px;
+      line-height: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    button {
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      gap: 5px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      padding: 0 6px;
+      color: #4a5568;
+      font-size: 9px;
+      font-weight: 600;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .is-liked {
+      background: #fff1f2;
+      color: #be123c;
+      font-weight: 800;
+    }
+  }
+
+  &__comment-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  &__reply-form {
+    margin-top: 6px;
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    textarea {
+      min-height: 62px;
+    }
+
+    > button {
+      display: flex;
+      min-height: 38px;
+      margin: 6px 0 0 auto;
+      background: #183a78;
+      color: white;
+    }
+  }
+
+  &__comment-reply {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: 6px;
+    border-left: 2px solid #b2f5ea;
+    padding: 8px 0 2px 8px;
+
+    .caramel-club-screen__comment-avatar {
+      width: 28px;
+      height: 28px;
+      flex-basis: 28px;
+    }
+
+    .caramel-club-screen__comment-content {
+      min-width: 0;
+    }
   }
 
   aside {
@@ -190,9 +386,23 @@
     border: 0;
     border-radius: 50%;
     background: #b2f5ea;
+    padding: 0;
     box-shadow: 0 5px 14px rgba(24, 58, 120, 0.15);
     color: #183a78;
     font-size: 28px;
+  }
+
+  &__add-symbol {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 2;
+    }
   }
 
   &__confirmation {
@@ -207,7 +417,7 @@
 
   &__backdrop {
     position: fixed;
-    z-index: 20;
+    z-index: 30;
     inset: 0;
     display: grid;
     place-items: center;
@@ -217,6 +427,8 @@
 
   &__dialog {
     width: min(100%, 353px);
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
     border-radius: 18px;
     background: white;
     padding: 20px;
@@ -238,7 +450,7 @@
       border-radius: 12px;
       padding: 10px;
     }
-    > div {
+    &-actions {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
@@ -251,9 +463,190 @@
       padding: 0 16px;
       font-weight: 700;
     }
-    button:last-child {
+    &-actions button:last-child {
       background: #183a78;
       color: white;
+    }
+  }
+
+  &__required {
+    margin-left: 3px;
+    color: #e53e3e;
+  }
+
+  &__post-image {
+    margin-top: 14px;
+
+    h3 {
+      margin: 0 0 6px;
+      font-size: 11px;
+    }
+
+    &-add {
+      display: flex;
+      width: 100%;
+      min-height: 72px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px dashed #94a3b8 !important;
+      background: #f8fafc;
+      color: #183a78;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &-preview {
+      img {
+        display: block;
+        width: 100%;
+        height: 150px;
+        border-radius: 12px;
+        object-fit: cover;
+      }
+
+      button {
+        display: flex;
+        min-height: 40px;
+        align-items: center;
+        gap: 6px;
+        margin: 6px 0 0 auto;
+        background: #fff5f5;
+        color: #b91c1c;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    &-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  &__image-menu-backdrop {
+    position: fixed;
+    z-index: 40;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(10, 24, 48, 0.45);
+  }
+
+  &__image-menu {
+    width: min(393px, 100%);
+    border-radius: 24px 24px 0 0;
+    background: white;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    button {
+      display: flex;
+      width: 100%;
+      min-height: 48px;
+      align-items: center;
+      gap: 12px;
+      border: 0;
+      border-radius: 14px;
+      background: white;
+      padding: 0 14px;
+      color: #183a78;
+      font-size: 14px;
+      font-weight: 700;
+
+      &:last-child {
+        justify-content: center;
+        margin-top: 8px;
+        border-top: 1px solid #e2e8f0;
+        color: #4a5568;
+      }
+    }
+  }
+
+  &__composer-tags {
+    margin: 14px 0 0;
+    border: 0;
+    padding: 0;
+
+    legend {
+      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    button {
+      min-height: 34px;
+      border: 1px solid #e2e8f0;
+      border-radius: 17px;
+      background: white;
+      padding: 0 12px;
+      color: #4a5568;
+      font-size: 10px;
+    }
+
+    .is-selected {
+      border-color: #b2f5ea;
+      background: #e6fffa;
+      color: #183a78;
+    }
+  }
+
+  &__new-tag {
+    margin-top: 14px;
+
+    > div {
+      display: flex;
+      gap: 6px;
+    }
+
+    input {
+      min-width: 0;
+      height: 42px;
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 0 10px;
+      color: #183a78;
+      font: inherit;
+      font-size: 11px;
+
+      &:focus {
+        border-color: #183a78;
+        outline: 2px solid rgba(24, 58, 120, 0.16);
+      }
+    }
+
+    button {
+      min-height: 42px;
+      border: 1px solid #183a78;
+      border-radius: 10px;
+      background: white;
+      padding: 0 10px;
+      color: #183a78;
+      font-size: 10px;
+      font-weight: 700;
     }
   }
 

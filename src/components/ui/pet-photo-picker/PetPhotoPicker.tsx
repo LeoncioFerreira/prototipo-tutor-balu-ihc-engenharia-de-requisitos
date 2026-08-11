@@ -10,7 +10,19 @@ import {
 import { Camera, ImagePlus, Plus } from "lucide-react";
 import { useErrorFeedback } from "../error-feedback/ErrorFeedback";
 
-export function PetPhotoPicker({ className = "" }: { className?: string }) {
+export function PetPhotoPicker({
+  className = "",
+  imageUrl,
+  onImageChange,
+  inputPrefix = "pet-photo",
+  imageAlt,
+}: {
+  className?: string;
+  imageUrl?: string;
+  onImageChange?: (url: string) => void;
+  inputPrefix?: string;
+  imageAlt?: string;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const addButtonRef = useRef<HTMLButtonElement>(null);
@@ -46,6 +58,7 @@ export function PetPhotoPicker({ className = "" }: { className?: string }) {
     const nextUrl = URL.createObjectURL(file);
     previewUrlRef.current = nextUrl;
     setPreviewUrl(nextUrl);
+    onImageChange?.(nextUrl);
   };
 
   useEffect(() => {
@@ -87,9 +100,11 @@ export function PetPhotoPicker({ className = "" }: { className?: string }) {
     <div className={className}>
       <div className="pet-photo-picker">
         <img
-          src={previewUrl ?? "/assets/figma/home/11.svg"}
-          alt={previewUrl ? "Foto selecionada do pet" : ""}
-          className={previewUrl ? "pet-photo-picker__preview" : "pet-photo-picker__placeholder"}
+          src={imageUrl ?? previewUrl ?? "/assets/figma/home/11.svg"}
+          alt={imageAlt ?? (previewUrl ? "Foto selecionada do pet" : "")}
+          className={
+            imageUrl || previewUrl ? "pet-photo-picker__preview" : "pet-photo-picker__placeholder"
+          }
         />
         <button
           ref={addButtonRef}
@@ -102,7 +117,7 @@ export function PetPhotoPicker({ className = "" }: { className?: string }) {
         </button>
         <input
           ref={galleryInputRef}
-          data-testid="pet-photo-gallery-input"
+          data-testid={`${inputPrefix}-gallery-input`}
           className="pet-photo-picker__input"
           type="file"
           accept="image/*"
@@ -110,7 +125,7 @@ export function PetPhotoPicker({ className = "" }: { className?: string }) {
         />
         <input
           ref={cameraInputRef}
-          data-testid="pet-photo-camera-input"
+          data-testid={`${inputPrefix}-camera-input`}
           className="pet-photo-picker__input"
           type="file"
           accept="image/*"

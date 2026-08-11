@@ -28,7 +28,10 @@ import { RoutineScreen } from "../features/pets/tela-09-ver-rotina/Screen";
 import { WeeklyRoutineScreen } from "../features/pets/tela-09a-rotina-semanal/Screen";
 import { BathRoutineScreen } from "../features/pets/tela-09b-rotina-banho/Screen";
 import { RoutineHistoryScreen } from "../features/pets/tela-09c-rotina-historico/Screen";
-import { RoutineHistoryDetailsScreen } from "../features/pets/tela-09d-detalhes-historico/Screen";
+import {
+  RoutineHistoryDetailsScreen,
+  type RoutineHistoryKey,
+} from "../features/pets/tela-09d-detalhes-historico/Screen";
 import { AddRoutineScreen } from "../features/pets/tela-09e-adicionar-rotina/Screen";
 import { MedicinesScreen } from "../features/pets/tela-10-ver-remedios/Screen";
 import { UpcomingMedicinesScreen } from "../features/pets/tela-10a-remedios-proximos/Screen";
@@ -52,6 +55,7 @@ import {
   ErrorFeedbackProvider,
   useErrorFeedback,
 } from "../components/ui/error-feedback/ErrorFeedback";
+import { PetProfileProvider } from "../components/ui/pet-profile/PetProfileContext";
 import { pathForScreen, pathForView, screenForPath, viewForPath, type AppView } from "./routes";
 
 type View = AppView;
@@ -59,7 +63,9 @@ type View = AppView;
 export default function App() {
   return (
     <ErrorFeedbackProvider>
-      <AppContent />
+      <PetProfileProvider>
+        <AppContent />
+      </PetProfileProvider>
     </ErrorFeedbackProvider>
   );
 }
@@ -70,7 +76,9 @@ function AppContent() {
   const [screen, setScreen] = useState<string | undefined>(routeScreen);
   const [view, setView] = useState<View>(() => viewForPath(window.location.pathname));
   const [addPetReturn, setAddPetReturn] = useState<View>("pets");
+  const [editingPet, setEditingPet] = useState(false);
   const [medicineDetailReturn, setMedicineDetailReturn] = useState("10c");
+  const [routineHistoryRecord, setRoutineHistoryRecord] = useState<RoutineHistoryKey>("yesterday");
   const [notificationReturn, setNotificationReturn] = useState(false);
   const [experience, setExperience] = useState<ExperienceMode>(() => {
     const savedExperience = localStorage.getItem("balu-experience");
@@ -111,6 +119,7 @@ function AppContent() {
     openScreen(fallback);
   };
   const openAddPet = (returnTo: View) => {
+    setEditingPet(false);
     setAddPetReturn(returnTo);
     openScreen("7a");
   };
@@ -209,11 +218,21 @@ function AppContent() {
       <AddPetScreen
         onBack={() => openView(addPetReturn)}
         onComplete={() => openView(addPetReturn)}
+        editing={editingPet}
       />
     );
   if (screen === "7")
     return (
-      <MyPetsScreen onNavigate={navigate} onOpen={openScreen} onAddPet={() => openAddPet("pets")} />
+      <MyPetsScreen
+        onNavigate={navigate}
+        onOpen={openScreen}
+        onAddPet={() => openAddPet("pets")}
+        onEditPet={() => {
+          setEditingPet(true);
+          setAddPetReturn("pets");
+          openScreen("7a");
+        }}
+      />
     );
   if (screen === "7b")
     return withMainNavigation(<ConsultationsScreen onBack={() => openView("pets")} />);
@@ -235,10 +254,22 @@ function AppContent() {
     );
   if (screen === "9c")
     return withMainNavigation(
-      <RoutineHistoryScreen onBack={() => openScreen("8")} onOpen={openScreen} />,
+      <RoutineHistoryScreen
+        onBack={() => openScreen("8")}
+        onOpen={openScreen}
+        onOpenHistoryDetail={(record) => {
+          setRoutineHistoryRecord(record);
+          openScreen("9d");
+        }}
+      />,
     );
   if (screen === "9d")
-    return withMainNavigation(<RoutineHistoryDetailsScreen onBack={() => openScreen("9c")} />);
+    return withMainNavigation(
+      <RoutineHistoryDetailsScreen
+        recordKey={routineHistoryRecord}
+        onBack={() => openScreen("9c")}
+      />,
+    );
   if (screen === "9e") return <AddRoutineScreen onBack={() => openScreen("9")} />;
   if (screen === "10")
     return withMainNavigation(
@@ -396,7 +427,16 @@ function AppContent() {
     );
   if (view === "pets")
     return (
-      <MyPetsScreen onNavigate={navigate} onOpen={openScreen} onAddPet={() => openAddPet("pets")} />
+      <MyPetsScreen
+        onNavigate={navigate}
+        onOpen={openScreen}
+        onAddPet={() => openAddPet("pets")}
+        onEditPet={() => {
+          setEditingPet(true);
+          setAddPetReturn("pets");
+          openScreen("7a");
+        }}
+      />
     );
   if (view === "community")
     return (

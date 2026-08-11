@@ -41,21 +41,27 @@ export function AppointmentModal({
   onClose,
   returnFocusRef,
   today = new Date(),
+  mode = "create",
+  onConfirmed,
 }: {
   petName: string;
   onClose: () => void;
   returnFocusRef: RefObject<HTMLButtonElement | null>;
   today?: Date;
+  mode?: "create" | "reschedule";
+  onConfirmed?: (appointment: { date: Date; time: string }) => void;
 }) {
   const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12);
   const [visibleMonth, setVisibleMonth] = useState(() => startOfMonth(normalizedToday));
   const [appointmentType, setAppointmentType] = useState<"" | keyof typeof appointmentTypeLabels>(
-    "",
+    mode === "reschedule" ? "retorno" : "",
   );
-  const [veterinarian, setVeterinarian] = useState<"" | keyof typeof veterinarianLabels>("");
+  const [veterinarian, setVeterinarian] = useState<"" | keyof typeof veterinarianLabels>(
+    mode === "reschedule" ? "mariana" : "",
+  );
   const [examType, setExamType] = useState<"" | keyof typeof examTypeLabels>("");
   const [otherExam, setOtherExam] = useState("");
-  const [reason, setReason] = useState("");
+  const [reason, setReason] = useState(mode === "reschedule" ? "Retorno dermatológico" : "");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
@@ -128,7 +134,15 @@ export function AppointmentModal({
       >
         <header>
           <div>
-            <h2 id={titleId}>{confirmed ? "Consulta solicitada" : "Marcar consulta"}</h2>
+            <h2 id={titleId}>
+              {confirmed
+                ? mode === "reschedule"
+                  ? "Consulta reagendada"
+                  : "Consulta solicitada"
+                : mode === "reschedule"
+                  ? "Reagendar consulta"
+                  : "Marcar consulta"}
+            </h2>
             <p>{confirmed ? "Confira os dados do agendamento" : `Agendamento para ${petName}`}</p>
           </div>
           <button type="button" aria-label="Fechar agendamento" onClick={close}>
@@ -141,7 +155,11 @@ export function AppointmentModal({
             <span className="appointment-modal__success-icon">
               <CalendarCheck aria-hidden="true" />
             </span>
-            <p>Sua solicitação de consulta foi registrada.</p>
+            <p>
+              {mode === "reschedule"
+                ? "O novo horário da consulta foi registrado."
+                : "Sua solicitação de consulta foi registrada."}
+            </p>
             <dl>
               <div>
                 <dt>Pet</dt>
@@ -177,7 +195,10 @@ export function AppointmentModal({
             <button
               type="button"
               className="is-primary appointment-modal__conclude"
-              onClick={close}
+              onClick={() => {
+                onConfirmed?.({ date: selectedDate, time: selectedTime });
+                close();
+              }}
             >
               Concluir
             </button>

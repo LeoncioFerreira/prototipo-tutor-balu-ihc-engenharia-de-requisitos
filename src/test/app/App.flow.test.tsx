@@ -18,12 +18,32 @@ const consultationStyles = readFileSync(
   join(process.cwd(), "src/features/pets/tela-07b-consultas/Screen.scss"),
   "utf8",
 );
+const walletStyles = readFileSync(
+  join(process.cwd(), "src/features/pets/tela-11-ver-carteira/Screen.scss"),
+  "utf8",
+);
+const medicineStyles = readFileSync(
+  join(process.cwd(), "src/features/pets/tela-10-ver-remedios/Screen.scss"),
+  "utf8",
+);
+const routineStyles = readFileSync(
+  join(process.cwd(), "src/features/pets/tela-09-ver-rotina/Screen.scss"),
+  "utf8",
+);
+const sharedCareStyles = readFileSync(
+  join(process.cwd(), "src/features/pets/tela-12-cuidado-compartilhado/Screen.scss"),
+  "utf8",
+);
 const petSectionHeaderStyles = readFileSync(
   join(process.cwd(), "src/components/ui/PetSectionHeader.scss"),
   "utf8",
 );
 const homeFrameStyles = readFileSync(
   join(process.cwd(), "src/features/inicio/HomeFrame.scss"),
+  "utf8",
+);
+const caramelClubStyles = readFileSync(
+  join(process.cwd(), "src/features/comunidade/tela-16-clube-caramelos/Screen.scss"),
   "utf8",
 );
 const appleIcon = readFileSync(join(process.cwd(), "public/assets/figma/access/apple.svg"), "utf8");
@@ -39,12 +59,21 @@ const accountSettingsStyles = readFileSync(
   join(process.cwd(), "src/features/inicio/tela-06c-configuracoes-conta/Screen.scss"),
   "utf8",
 );
+const mobileShellSource = readFileSync(
+  join(process.cwd(), "src/components/ui/MobileShell.tsx"),
+  "utf8",
+);
 
 function goToScreen(screen: string) {
   const path = pathForScreen(screen);
   if (!path) throw new Error("Rota não mapeada: " + screen);
   window.history.pushState({}, "", path);
 }
+
+test("mantém o espaço superior original nas telas do shell", () => {
+  expect(mobileShellSource).toContain('padded ? "px-5 pt-11"');
+  expect(mobileShellSource).not.toContain('padded ? "px-5 pt-9"');
+});
 
 test("mantém o ícone da Apple visível no mesmo padrão cromático do Google", () => {
   expect(appleIcon).toContain('fill="#4285F4"');
@@ -635,11 +664,374 @@ test("filtra o clube por hashtag e cria uma publicação", async () => {
     within(dialog).getByLabelText("Conteúdo da publicação"),
     "Passeio no parque hoje.",
   );
+  await user.click(within(dialog).getByRole("button", { name: "#Passeios" }));
   await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
 
   expect(screen.queryByRole("dialog", { name: "Criar publicação" })).not.toBeInTheDocument();
   expect(screen.getByText("Passeio no parque hoje.")).toBeInTheDocument();
   expect(screen.getByRole("status")).toHaveTextContent("Publicação criada com sucesso");
+});
+
+test("abre o clube sem filtro e permite desmarcar a tag ativa", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  const caramelos = screen.getByRole("button", { name: "#Caramelos" });
+  const escovacao = screen.getByRole("button", { name: "#Escovação" });
+  const passeios = screen.getByRole("button", { name: "#Passeios" });
+  expect(caramelos).toHaveAttribute("aria-pressed", "false");
+  expect(escovacao).toHaveAttribute("aria-pressed", "false");
+  expect(passeios).toHaveAttribute("aria-pressed", "false");
+  expect(screen.getByText(/escova de banho ajudou demais/i)).toBeInTheDocument();
+  expect(screen.getByText("Passeio tranquilo no parque ao pôr do sol.")).toBeInTheDocument();
+
+  await user.click(escovacao);
+  expect(escovacao).toHaveAttribute("aria-pressed", "true");
+  expect(screen.queryByText("Passeio tranquilo no parque ao pôr do sol.")).not.toBeInTheDocument();
+
+  await user.click(escovacao);
+  expect(escovacao).toHaveAttribute("aria-pressed", "false");
+  expect(screen.getByText("Passeio tranquilo no parque ao pôr do sol.")).toBeInTheDocument();
+});
+
+test("curte e descurte uma publicação existente", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  const post = screen.getByText(/escova de banho ajudou demais/i).closest("article");
+  expect(post).not.toBeNull();
+  const likeButton = within(post as HTMLElement).getByRole("button", {
+    name: "Curtir publicação",
+  });
+
+  expect(likeButton).toHaveAttribute("aria-pressed", "false");
+  expect(within(post as HTMLElement).getByText("12 curtidas")).toBeInTheDocument();
+
+  await user.click(likeButton);
+  expect(likeButton).toHaveAttribute("aria-pressed", "true");
+  expect(within(post as HTMLElement).getByText("13 curtidas")).toBeInTheDocument();
+
+  await user.click(likeButton);
+  expect(likeButton).toHaveAttribute("aria-pressed", "false");
+  expect(within(post as HTMLElement).getByText("12 curtidas")).toBeInTheDocument();
+});
+
+test("abre a área e publica comentário identificado em uma publicação", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  const post = screen.getByText(/escova de banho ajudou demais/i).closest("article");
+  expect(post).not.toBeNull();
+  const commentsButton = within(post as HTMLElement).getByRole("button", {
+    name: "Comentários da publicação",
+  });
+
+  expect(commentsButton).toHaveAttribute("aria-expanded", "false");
+  await user.click(commentsButton);
+  expect(commentsButton).toHaveAttribute("aria-expanded", "true");
+
+  const publishedComments = within(post as HTMLElement).getByRole("list", {
+    name: "Comentários publicados",
+  });
+  const commentField = within(post as HTMLElement).getByLabelText("Escrever comentário");
+  expect(commentField).toHaveFocus();
+  expect(within(publishedComments).getAllByRole("listitem")).toHaveLength(4);
+  expect(within(publishedComments).getByText("Marina Freitas")).toBeInTheDocument();
+  expect(within(publishedComments).getByText("MF")).toBeInTheDocument();
+  expect(within(publishedComments).getByText(/escovo o pipoca todos os dias/i)).toBeInTheDocument();
+  const reply = within(publishedComments).getByRole("group", {
+    name: "Resposta de Salomão Rodrigues",
+  });
+  expect(within(reply).getByText("SR")).toBeInTheDocument();
+  expect(within(reply).getByText(/obrigado pela dica/i)).toBeInTheDocument();
+  const marinaLikeButton = within(publishedComments).getByRole("button", {
+    name: "Curtir comentário de Marina Freitas",
+  });
+  expect(marinaLikeButton).toHaveAttribute("aria-pressed", "false");
+  expect(marinaLikeButton).toHaveTextContent("3 curtidas");
+  await user.click(marinaLikeButton);
+  expect(marinaLikeButton).toHaveAttribute("aria-pressed", "true");
+  expect(marinaLikeButton).toHaveTextContent("4 curtidas");
+  await user.click(marinaLikeButton);
+  expect(marinaLikeButton).toHaveTextContent("3 curtidas");
+
+  await user.click(
+    within(post as HTMLElement).getByRole("button", { name: "Publicar comentário" }),
+  );
+  expect(screen.getByRole("alert")).toHaveTextContent("Escreva um comentário antes de publicar.");
+  expect(commentField).toHaveFocus();
+
+  await user.type(commentField, "A escovação diária funcionou aqui.");
+  await user.click(
+    within(post as HTMLElement).getByRole("button", { name: "Publicar comentário" }),
+  );
+
+  expect(within(post as HTMLElement).getByText("Leôncio Ferreira")).toBeInTheDocument();
+  expect(
+    within(post as HTMLElement).getByText("A escovação diária funcionou aqui."),
+  ).toBeInTheDocument();
+  const leoncioLikeButton = within(post as HTMLElement).getByRole("button", {
+    name: "Curtir comentário de Leôncio Ferreira",
+  });
+  expect(within(post as HTMLElement).getByText("LF")).toBeInTheDocument();
+  expect(leoncioLikeButton).toHaveTextContent("0 curtidas");
+  await user.click(leoncioLikeButton);
+  expect(leoncioLikeButton).toHaveTextContent("1 curtida");
+  expect(commentField).toHaveValue("");
+  expect(within(post as HTMLElement).getByText("5 comentários")).toBeInTheDocument();
+});
+
+test("exibe os comentários demonstrativos nos demais clubes", async () => {
+  const user = userEvent.setup();
+  goToScreen("16a");
+  render(<App />);
+
+  const post = screen.getAllByText(/a mel aprendeu um novo comando/i)[1].closest("article");
+  expect(post).not.toBeNull();
+
+  await user.click(
+    within(post as HTMLElement).getByRole("button", {
+      name: "Comentários da publicação",
+    }),
+  );
+
+  const comments = within(post as HTMLElement).getByRole("list", {
+    name: "Comentários publicados",
+  });
+  expect(within(comments).getAllByRole("listitem")).toHaveLength(4);
+  expect(within(comments).getByText("Marina Freitas")).toBeInTheDocument();
+  expect(
+    within(comments).getByRole("group", { name: "Resposta de Salomão Rodrigues" }),
+  ).toBeInTheDocument();
+});
+
+test("responde comentários em vários níveis e curte a resposta", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  const post = screen.getByText(/escova de banho ajudou demais/i).closest("article");
+  expect(post).not.toBeNull();
+  const postQueries = within(post as HTMLElement);
+  await user.click(postQueries.getByRole("button", { name: "Comentários da publicação" }));
+
+  await user.click(
+    postQueries.getByRole("button", { name: "Responder comentário de Marina Freitas" }),
+  );
+  const marinaReply = postQueries.getByLabelText("Resposta para Marina Freitas");
+  expect(marinaReply).toHaveFocus();
+  await user.click(
+    postQueries.getByRole("button", { name: "Publicar resposta para Marina Freitas" }),
+  );
+  expect(screen.getByRole("alert")).toHaveTextContent("Escreva uma resposta antes de publicar.");
+  expect(marinaReply).toHaveFocus();
+  await user.type(marinaReply, "Também vou testar essa rotina.");
+  await user.click(
+    postQueries.getByRole("button", { name: "Publicar resposta para Marina Freitas" }),
+  );
+
+  const newReply = postQueries
+    .getByText("Também vou testar essa rotina.")
+    .closest("[role='group']");
+  expect(newReply).not.toBeNull();
+  const newReplyQueries = within(newReply as HTMLElement);
+  const likeReply = newReplyQueries.getByRole("button", {
+    name: "Curtir comentário de Leôncio Ferreira",
+  });
+  await user.click(likeReply);
+  expect(likeReply).toHaveTextContent("1 curtida");
+
+  await user.click(
+    newReplyQueries.getByRole("button", {
+      name: "Responder comentário de Leôncio Ferreira",
+    }),
+  );
+  await user.type(
+    newReplyQueries.getByLabelText("Resposta para Leôncio Ferreira"),
+    "Esta é uma resposta em outro nível.",
+  );
+  await user.click(
+    newReplyQueries.getByRole("button", {
+      name: "Publicar resposta para Leôncio Ferreira",
+    }),
+  );
+  expect(newReplyQueries.getByText("Esta é uma resposta em outro nível.")).toBeInTheDocument();
+});
+
+test("seleciona várias tags ao criar uma publicação", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Criar publicação" }));
+  const dialog = screen.getByRole("dialog", { name: "Criar publicação" });
+  const escovacao = within(dialog).getByRole("button", { name: "#Escovação" });
+  const passeios = within(dialog).getByRole("button", { name: "#Passeios" });
+  await user.click(escovacao);
+  await user.click(passeios);
+  expect(escovacao).toHaveAttribute("aria-pressed", "true");
+  expect(passeios).toHaveAttribute("aria-pressed", "true");
+
+  await user.type(
+    within(dialog).getByLabelText("Conteúdo da publicação"),
+    "Escovação depois do passeio.",
+  );
+  await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
+
+  await user.click(screen.getByRole("button", { name: "#Escovação" }));
+  expect(screen.getByText("Escovação depois do passeio.")).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "#Passeios" }));
+  expect(screen.getByText("Escovação depois do passeio.")).toBeInTheDocument();
+});
+
+test("cria uma tag e a disponibiliza como filtro do clube", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Criar publicação" }));
+  const dialog = screen.getByRole("dialog", { name: "Criar publicação" });
+  const tagField = within(dialog).getByLabelText("Criar nova tag");
+  const addTag = within(dialog).getByRole("button", { name: "Adicionar tag" });
+
+  await user.click(addTag);
+  expect(screen.getByRole("alert")).toHaveTextContent("Escreva um nome para a tag.");
+  expect(tagField).toHaveFocus();
+
+  await user.type(tagField, "Banho");
+  await user.click(addTag);
+  expect(within(dialog).getByRole("button", { name: "#Banho" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+
+  await user.type(tagField, "#banho");
+  await user.click(addTag);
+  expect(screen.getByRole("alert")).toHaveTextContent("Essa tag já existe no clube.");
+
+  await user.type(
+    within(dialog).getByLabelText("Conteúdo da publicação"),
+    "Hoje foi dia de banho.",
+  );
+  await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
+
+  const newFilter = screen.getByRole("button", { name: "#Banho" });
+  await user.click(newFilter);
+  expect(newFilter).toHaveAttribute("aria-pressed", "true");
+  expect(screen.getByText("Hoje foi dia de banho.")).toBeInTheDocument();
+});
+
+test("permite criar uma publicação sem selecionar tags", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Criar publicação" }));
+  const dialog = screen.getByRole("dialog", { name: "Criar publicação" });
+  const mainTag = within(dialog).getByRole("button", { name: "#Caramelos" });
+  expect(mainTag).toHaveAttribute("aria-pressed", "false");
+
+  await user.type(
+    within(dialog).getByLabelText("Conteúdo da publicação"),
+    "Publicação sem nenhuma tag.",
+  );
+  await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
+
+  expect(screen.getByText("Publicação sem nenhuma tag.")).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Sem tag" })).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "#Escovação" }));
+  expect(screen.queryByText("Publicação sem nenhuma tag.")).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "#Escovação" }));
+  expect(screen.getByText("Publicação sem nenhuma tag.")).toBeInTheDocument();
+});
+
+test("adiciona opcionalmente uma imagem à publicação", async () => {
+  const user = userEvent.setup();
+  Object.defineProperty(URL, "createObjectURL", {
+    configurable: true,
+    value: vi.fn(() => "blob:imagem-da-publicacao"),
+  });
+  Object.defineProperty(URL, "revokeObjectURL", {
+    configurable: true,
+    value: vi.fn(),
+  });
+  goToScreen("16");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Criar publicação" }));
+  const dialog = screen.getByRole("dialog", { name: "Criar publicação" });
+  const contentLabel = within(dialog).getByText("Conteúdo da publicação").closest("label");
+  expect(contentLabel?.querySelector(".caramel-club-screen__required")).toHaveTextContent("*");
+  expect(within(dialog).getByText("Imagem da publicação")).toBeInTheDocument();
+
+  await user.upload(
+    within(dialog).getByTestId("post-image-gallery-input"),
+    new File(["imagem"], "passeio.png", { type: "image/png" }),
+  );
+  expect(
+    within(dialog).getByRole("img", { name: "Prévia da imagem da publicação" }),
+  ).toHaveAttribute("src", "blob:imagem-da-publicacao");
+
+  await user.type(within(dialog).getByLabelText("Conteúdo da publicação"), "Passeio com uma foto.");
+  await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
+
+  const post = screen.getByText("Passeio com uma foto.").closest("article");
+  expect(post).not.toBeNull();
+  expect(
+    within(post as HTMLElement).getByRole("img", {
+      name: "Imagem da publicação de Leôncio Ferreira",
+    }),
+  ).toHaveAttribute("src", "blob:imagem-da-publicacao");
+});
+
+test("mantém o seletor de imagem acima da navegação inferior", () => {
+  expect(caramelClubStyles).toMatch(/&__backdrop\s*\{[\s\S]*?z-index:\s*30;[\s\S]*?\}/);
+  expect(caramelClubStyles).toMatch(/&__image-menu-backdrop\s*\{[\s\S]*?z-index:\s*40;/);
+});
+
+test("mantém o botão de criar publicação no canto e centraliza o símbolo", () => {
+  goToScreen("16");
+  render(<App />);
+
+  const addButton = screen.getByRole("button", { name: "Criar publicação" });
+  expect(addButton).toHaveClass("is-cornered");
+  expect(addButton.querySelector(".caramel-club-screen__add-symbol svg")).toBeInTheDocument();
+});
+
+test("permite curtir e comentar uma publicação criada na sessão", async () => {
+  const user = userEvent.setup();
+  goToScreen("16");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Criar publicação" }));
+  const dialog = screen.getByRole("dialog", { name: "Criar publicação" });
+  await user.type(
+    within(dialog).getByLabelText("Conteúdo da publicação"),
+    "Passeio no parque hoje.",
+  );
+  await user.click(within(dialog).getByRole("button", { name: "Publicar" }));
+
+  const post = screen.getByText("Passeio no parque hoje.").closest("article");
+  expect(post).not.toBeNull();
+  const postQueries = within(post as HTMLElement);
+
+  await user.click(postQueries.getByRole("button", { name: "Curtir publicação" }));
+  expect(postQueries.getByText("1 curtida")).toBeInTheDocument();
+
+  await user.click(postQueries.getByRole("button", { name: "Comentários da publicação" }));
+  await user.type(
+    postQueries.getByLabelText("Escrever comentário"),
+    "Adorei compartilhar esse passeio.",
+  );
+  await user.click(postQueries.getByRole("button", { name: "Publicar comentário" }));
+
+  const comments = postQueries.getByRole("region", { name: "Comentários" });
+  expect(within(comments).getByText("Leôncio Ferreira")).toBeInTheDocument();
+  expect(within(comments).getByText("Adorei compartilhar esse passeio.")).toBeInTheDocument();
+  expect(postQueries.getByText("1 comentário")).toBeInTheDocument();
 });
 
 test("confirma o salvamento do remédio antes de voltar", async () => {
@@ -858,6 +1250,22 @@ test("confirma a presença na próxima consulta do pet", async () => {
   expect(screen.queryByRole("dialog", { name: /detalhes da consulta/i })).not.toBeInTheDocument();
   expect(screen.getByText("Presença confirmada")).toBeInTheDocument();
   expect(screen.getByRole("alert")).toHaveTextContent("Presença do Balu confirmada.");
+});
+
+test("reagenda a próxima consulta do pet", async () => {
+  const user = userEvent.setup();
+  goToScreen("7b");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Reagendar consulta" }));
+  const dialog = screen.getByRole("dialog", { name: "Reagendar consulta" });
+  await user.click(within(dialog).getByRole("button", { name: "20 de agosto de 2026" }));
+  await user.click(within(dialog).getByRole("button", { name: "09:30" }));
+  await user.click(within(dialog).getByRole("button", { name: "Confirmar consulta" }));
+  await user.click(within(dialog).getByRole("button", { name: "Concluir" }));
+
+  expect(screen.getByText("20 de agosto, às 09:30")).toBeInTheDocument();
+  expect(screen.getByRole("alert")).toHaveTextContent("Consulta do Balu reagendada.");
 });
 
 test("exige um motivo para cancelar a próxima consulta do pet", async () => {
@@ -1529,6 +1937,96 @@ test("exibe os registros exatos dos frames de remédios e carteira", () => {
   expect(screen.queryByText(/vacinação em dia/i)).not.toBeInTheDocument();
 });
 
+test("remove Docs da carteira e permite consultar o laudo de um exame", async () => {
+  const user = userEvent.setup();
+  goToScreen("11");
+  render(<App />);
+
+  expect(screen.queryByRole("button", { name: "Docs" })).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Exames" }));
+  await user.click(screen.getByRole("button", { name: "Abrir exame Hemograma Completo" }));
+
+  const details = screen.getByRole("dialog", { name: "Detalhes do exame" });
+  expect(details).toHaveTextContent("Resultados dentro dos padrões de normalidade.");
+  await user.click(within(details).getByRole("button", { name: "Visualizar laudo" }));
+  expect(screen.getByRole("dialog", { name: "Laudo do Hemograma Completo" })).toHaveTextContent(
+    "Laudo demonstrativo",
+  );
+});
+
+test("abre detalhes de todos os registros da carteira", async () => {
+  const user = userEvent.setup();
+  goToScreen("11");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Ver detalhes de Antirrábica" }));
+  expect(screen.getByRole("dialog", { name: "Detalhes da vacina Antirrábica" })).toHaveTextContent(
+    "não substitui o registro oficial",
+  );
+  await user.click(screen.getByRole("button", { name: "Fechar" }));
+
+  await user.click(screen.getByRole("button", { name: "Ver detalhes de V10 múltipla" }));
+  expect(screen.getByRole("dialog", { name: "Detalhes da vacina V10 múltipla" })).toHaveTextContent(
+    "25/07/2026",
+  );
+  await user.click(screen.getByRole("button", { name: "Fechar" }));
+
+  await user.click(screen.getByRole("button", { name: "Consultas" }));
+  await user.click(
+    screen.getByRole("button", { name: "Ver detalhes da Consulta Preventiva Anual" }),
+  );
+  expect(screen.getByRole("dialog", { name: "Detalhes da consulta" })).toHaveTextContent(
+    "Dra. Mariana",
+  );
+});
+
+test("atualiza a foto do Balu e mantém a imagem entre telas", async () => {
+  const user = userEvent.setup();
+  Object.defineProperty(URL, "createObjectURL", {
+    configurable: true,
+    value: vi.fn(() => "blob:nova-foto-balu"),
+  });
+  Object.defineProperty(URL, "revokeObjectURL", { configurable: true, value: vi.fn() });
+  goToScreen("11");
+  render(<App />);
+
+  await user.upload(
+    screen.getByTestId("shared-pet-photo-gallery-input"),
+    new File(["foto"], "balu.png", { type: "image/png" }),
+  );
+  expect(screen.getByRole("img", { name: "Foto do Balu" })).toHaveAttribute(
+    "src",
+    "blob:nova-foto-balu",
+  );
+  await user.click(screen.getByRole("button", { name: "Visão geral" }));
+  expect(screen.getByRole("img", { name: "Foto do Balu" })).toHaveAttribute(
+    "src",
+    "blob:nova-foto-balu",
+  );
+});
+
+test("edita e remove o pet da lista preservando o prontuário", async () => {
+  const user = userEvent.setup();
+  goToScreen("7");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Editar pet Balu" }));
+  expect(screen.getByRole("heading", { name: "Editar pet" })).toBeInTheDocument();
+  const name = screen.getByLabelText("Nome do pet");
+  expect(name).toHaveValue("Balu");
+  await user.clear(name);
+  await user.type(name, "Balu Flores");
+  await user.click(screen.getByRole("button", { name: "Salvar alterações" }));
+  expect(screen.getByText("Balu Flores")).toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Excluir pet Balu Flores" }));
+  const dialog = screen.getByRole("dialog", { name: "Remover pet da lista" });
+  expect(dialog).toHaveTextContent("prontuário clínico será preservado");
+  await user.click(within(dialog).getByRole("button", { name: "Confirmar remoção" }));
+  expect(screen.queryByText("Balu Flores")).not.toBeInTheDocument();
+  expect(screen.getByText("Nenhum pet na sua lista.")).toBeInTheDocument();
+});
+
 test("navega pelas telas 10A, 10B e 10C e conclui medicamentos pelas caixas", async () => {
   const user = userEvent.setup();
   goToScreen("10");
@@ -1570,6 +2068,85 @@ test("navega pelas telas 10A, 10B e 10C e conclui medicamentos pelas caixas", as
   expectCurrentScreen("10");
   await user.click(screen.getByRole("checkbox", { name: /confirmar 14:00 • vermífugo chemital/i }));
   expect(screen.getAllByText("Concluído")).toHaveLength(2);
+});
+
+test("identifica a origem dos remédios e protege o cadastro da clínica", () => {
+  goToScreen("10");
+  render(<App />);
+
+  const prednisolone = screen.getByText("18:30 • Prednisolona").closest("article");
+  expect(prednisolone).not.toBeNull();
+  const clinicMedicine = within(prednisolone as HTMLElement);
+  expect(clinicMedicine.getByText("Cadastrado pela clínica")).toBeInTheDocument();
+  expect(clinicMedicine.queryByRole("button", { name: /editar remédio/i })).not.toBeInTheDocument();
+  expect(
+    clinicMedicine.queryByRole("button", { name: /remover remédio/i }),
+  ).not.toBeInTheDocument();
+
+  const omega = screen.getByText("08:00 • Ômega 3").closest("article");
+  expect(omega).not.toBeNull();
+  expect(within(omega as HTMLElement).getByText("Cadastrado por você")).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      "Por segurança, medicamentos cadastrados pela clínica não podem ser editados nem removidos.",
+    ),
+  ).toBeInTheDocument();
+});
+
+test("edita e remove remédios cadastrados pelo tutor", async () => {
+  const user = userEvent.setup();
+  goToScreen("10");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Editar remédio Ômega 3" }));
+  const editDialog = screen.getByRole("dialog", { name: "Editar remédio" });
+  const name = within(editDialog).getByLabelText("Nome do medicamento");
+  expect(name).toHaveValue("Ômega 3");
+  await user.clear(name);
+  await user.type(name, "Ômega 3 Premium");
+  await user.click(within(editDialog).getByRole("button", { name: "Salvar alterações" }));
+  expect(screen.getByText("08:00 • Ômega 3 Premium")).toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Remover remédio Vermífugo Chemital" }));
+  const removeDialog = screen.getByRole("dialog", { name: "Remover remédio" });
+  await user.click(within(removeDialog).getByRole("button", { name: "Confirmar remoção" }));
+  expect(screen.queryByText("14:00 • Vermífugo Chemital")).not.toBeInTheDocument();
+});
+
+test("organiza e centraliza o conteúdo do card de remédio", () => {
+  goToScreen("10");
+  render(<App />);
+
+  const omega = screen.getByText("08:00 • Ômega 3").closest("article");
+  expect(omega).not.toBeNull();
+  const header = (omega as HTMLElement).querySelector(".medicine-card-header");
+  const footer = (omega as HTMLElement).querySelector(".medicine-card-footer");
+  expect(
+    (omega as HTMLElement).querySelector('img[src$="medicine-icon.svg"]'),
+  ).not.toBeInTheDocument();
+  expect(header).toContainElement(within(omega as HTMLElement).getByText("Concluído"));
+  expect(footer).toContainElement(
+    within(omega as HTMLElement).getByRole("button", { name: "Ver detalhes" }),
+  );
+  expect(footer).toContainElement(
+    within(omega as HTMLElement).getByRole("button", { name: "Editar remédio Ômega 3" }),
+  );
+  expect(footer).toContainElement(
+    within(omega as HTMLElement).getByRole("button", { name: "Remover remédio Ômega 3" }),
+  );
+  expect(medicineStyles).toMatch(/\.medicine-card-footer\s*\{[^}]*justify-content:\s*flex-start;/s);
+});
+
+test("mantém compacto o card de remédio cadastrado pela clínica", () => {
+  goToScreen("10");
+  render(<App />);
+
+  const prednisolone = screen.getByText("18:30 • Prednisolona").closest("article");
+  expect(prednisolone).toHaveClass("is-clinic");
+  expect(medicineStyles).toMatch(/\.medicine-card\.is-clinic\s*\{[^}]*min-height:\s*118px;/s);
+  expect(medicineStyles).toMatch(
+    /\.medicine-card\.is-clinic \.medicine-card-footer\s*\{[^}]*justify-content:\s*flex-start;/s,
+  );
 });
 
 test("mantém a navegação inferior funcional nas telas fiéis ao figma", async () => {
@@ -1628,6 +2205,23 @@ test("cabeçalho compartilhado fixa a tipografia do Balu nos dois títulos", () 
   expect(petSectionHeaderStyles).toMatch(/h1\s*\{[^}]*line-height:\s*25px/s);
 });
 
+test("padroniza cor e tipografia dos títulos internos de pets", () => {
+  [routineStyles, medicineStyles, sharedCareStyles].forEach((styles) => {
+    expect(styles).toMatch(/\.figma-pet-header h1\s*\{[^}]*color:\s*#183a78/s);
+    expect(styles).toMatch(/\.figma-pet-header h1\s*\{[^}]*font-family:\s*"Plus Jakarta Sans"/s);
+    expect(styles).toMatch(/\.figma-pet-header h1\s*\{[^}]*font-size:\s*20px/s);
+    expect(styles).toMatch(/\.figma-pet-header h1\s*\{[^}]*font-weight:\s*700/s);
+    expect(styles).toMatch(/\.figma-pet-header h1\s*\{[^}]*line-height:\s*25px/s);
+  });
+});
+
+test("mantém o título alinhado à esquerda depois da seta de voltar", () => {
+  expect(petSectionHeaderStyles).toMatch(
+    /\.pet-section-header\s*\{[^}]*display:\s*flex[^}]*gap:\s*12px/s,
+  );
+  expect(petSectionHeaderStyles).not.toMatch(/h1\s*\{[^}]*position:\s*absolute/s);
+});
+
 test("ações da próxima consulta seguem a geometria visual do Balu", () => {
   expect(consultationStyles).toMatch(
     /&__decision-actions\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,[^;]+;[\s\S]*?button\s*\{[^}]*min-height:\s*44px[^}]*border:\s*1\.5px[^}]*font-size:\s*11px[^}]*font-weight:\s*700/s,
@@ -1643,8 +2237,11 @@ test("ações da próxima consulta seguem a geometria visual do Balu", () => {
   );
 });
 
-test("mantém o agendamento fixo com folga acima da navegação inferior", () => {
-  expect(consultationStyles).toMatch(/&__schedule\s*\{[^}]*position:\s*fixed[^}]*bottom:\s*98px/s);
+test("mantém o agendamento no final do conteúdo sem seguir a rolagem", () => {
+  expect(consultationStyles).toMatch(
+    /&__schedule\s*\{[^}]*position:\s*static[^}]*margin-top:\s*28px/s,
+  );
+  expect(consultationStyles).not.toMatch(/&__schedule\s*\{[^}]*position:\s*fixed/s);
 });
 
 test("navega entre visão geral, rotina, remédios e carteira pelas abas do pet", async () => {
@@ -1699,6 +2296,91 @@ test("navega pelas telas numeradas 9, 9A, 9B e 9C da rotina", async () => {
   await user.click(screen.getByRole("button", { name: "Hoje" }));
   expectCurrentScreen("9");
   expect(screen.getByText("08:00 • Alimentação")).toBeInTheDocument();
+});
+
+test("abre os dados correspondentes a cada registro do histórico da rotina", async () => {
+  const user = userEvent.setup();
+  goToScreen("9c");
+  render(<App />);
+
+  await user.click(screen.getAllByRole("button", { name: "Ver detalhes" })[1]);
+  expect(screen.getByText("13 de julho")).toBeInTheDocument();
+  expect(screen.getByText("2 cuidados realizados na rotina do Balu.")).toBeInTheDocument();
+  expect(screen.queryByText("Vermífugo Chemital")).not.toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: "Voltar" }));
+  await user.click(screen.getAllByRole("button", { name: "Ver detalhes" })[2]);
+  expect(screen.getByText("12 de julho")).toBeInTheDocument();
+  expect(screen.getByText("Escovação")).toBeInTheDocument();
+});
+
+test("usa o mesmo padrão visual nos botões Ver detalhes das telas de pets", () => {
+  goToScreen("9c");
+  const history = render(<App />);
+  screen
+    .getAllByRole("button", { name: "Ver detalhes" })
+    .forEach((button) => expect(button).toHaveClass("pet-details-button"));
+  history.unmount();
+
+  goToScreen("11");
+  render(<App />);
+  screen
+    .getAllByRole("button", { name: /Ver detalhes de/ })
+    .forEach((button) => expect(button).toHaveClass("pet-details-button"));
+});
+
+test("abre os detalhes das rotinas semanal e de banho", async () => {
+  const user = userEvent.setup();
+  goToScreen("9a");
+  const weekly = render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Ver detalhes de Segunda-feira" }));
+  const weeklyDetails = screen.getByRole("dialog", { name: "Detalhes de Segunda-feira" });
+  expect(weeklyDetails).toHaveTextContent("Alimentação às 08:00");
+  expect(weeklyDetails).toHaveTextContent("Vermífugo às 14:00");
+  weekly.unmount();
+
+  goToScreen("9b");
+  render(<App />);
+  await user.click(screen.getByRole("button", { name: "Ver detalhes do próximo banho" }));
+  const bathDetails = screen.getByRole("dialog", { name: "Detalhes do próximo banho" });
+  expect(bathDetails).toHaveTextContent("20 de julho");
+  expect(bathDetails).toHaveTextContent("Banho completo com hidratação e escovação");
+  expect(bathDetails).toHaveTextContent("Responsável: Leôncio");
+});
+
+test("centraliza a barra secundária da carteira", () => {
+  expect(walletStyles).toMatch(/\.wallet-tabs\s*\{[^}]*justify-content:\s*center;/s);
+});
+
+test("edita uma rotina cadastrada pelo tutor", async () => {
+  const user = userEvent.setup();
+  goToScreen("9");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Editar rotina Alimentação" }));
+  const dialog = screen.getByRole("dialog", { name: "Editar rotina" });
+  const name = within(dialog).getByLabelText("Nome da rotina");
+  expect(name).toHaveValue("Alimentação");
+  await user.clear(name);
+  await user.type(name, "Café da manhã");
+  await user.click(within(dialog).getByRole("button", { name: "Salvar alterações" }));
+
+  expect(screen.queryByRole("dialog", { name: "Editar rotina" })).not.toBeInTheDocument();
+  expect(screen.getByText("08:00 • Café da manhã")).toBeInTheDocument();
+});
+
+test("remove uma rotina cadastrada pelo tutor após confirmação", async () => {
+  const user = userEvent.setup();
+  goToScreen("9");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: "Remover rotina Passeio diário" }));
+  const dialog = screen.getByRole("dialog", { name: "Remover rotina" });
+  expect(dialog).toHaveTextContent("Passeio diário");
+  await user.click(within(dialog).getByRole("button", { name: "Confirmar remoção" }));
+
+  expect(screen.queryByText("18:00 • Passeio diário")).not.toBeInTheDocument();
 });
 
 test("marca um cuidado sem depender de uma imagem de tela", async () => {

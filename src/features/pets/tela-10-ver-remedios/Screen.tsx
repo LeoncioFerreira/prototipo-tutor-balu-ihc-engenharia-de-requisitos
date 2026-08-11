@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Pencil, Trash2, X } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
+import { PetDetailsButton } from "../../../components/ui/pet-details-button/PetDetailsButton";
 
 export type MedicineView = "now" | "upcoming" | "today" | "history";
 
@@ -10,6 +11,7 @@ type Medicine = {
   done: boolean;
   detailsScreen?: string;
   confirmation?: string;
+  origin?: "tutor" | "clinic";
 };
 
 const medicinesByView: Record<MedicineView, Medicine[]> = {
@@ -123,9 +125,14 @@ export function MedicinesScreen({
   onOpenDetail?: (screen: string) => void;
   view?: MedicineView;
 }) {
-  const [medicines, setMedicines] = useState(() =>
-    medicinesByView[view].map((item) => ({ ...item })),
+  const [medicines, setMedicines] = useState<Medicine[]>(() =>
+    medicinesByView[view].map((item) => ({
+      ...item,
+      origin: medicineName(item) === "Prednisolona" ? "clinic" : "tutor",
+    })),
   );
+  const [editingMedicine, setEditingMedicine] = useState<Medicine | null>(null);
+  const [removingMedicine, setRemovingMedicine] = useState<Medicine | null>(null);
 
   const completeMedicine = (title: string) => {
     setMedicines((items) =>
@@ -171,40 +178,71 @@ export function MedicinesScreen({
             </button>
           ))}
         </nav>
+        <p className="medicine-safety-note">
+          Por segurança, medicamentos cadastrados pela clínica não podem ser editados nem removidos.
+        </p>
         <div className="medicine-list">
           {medicines.map((medicine) => (
-            <article className="medicine-card" key={medicine.title}>
-              <img className="medicine-icon" src="/assets/figma/pets/medicine-icon.svg" alt="" />
-              <div className="medicine-copy">
-                <h3>{medicine.title}</h3>
-                <p>{medicine.description}</p>
-                {medicine.confirmation && <small>{medicine.confirmation}</small>}
-                {medicine.detailsScreen ? (
+            <article
+              className={`medicine-card ${medicine.origin === "clinic" ? "is-clinic" : ""}`}
+              key={medicine.title}
+            >
+              <div className="medicine-card-header">
+                <div className="medicine-copy">
+                  <h3>{medicine.title}</h3>
+                  <p>{medicine.description}</p>
+                </div>
+                {medicine.done ? (
+                  <span className="done-pill">Concluído</span>
+                ) : (
                   <button
-                    className="details-pill"
-                    onClick={() => onOpenDetail?.(medicine.detailsScreen!)}
+                    aria-checked="false"
+                    aria-label={`Confirmar ${medicine.title}`}
+                    className="figma-checkbox"
+                    onClick={() => completeMedicine(medicine.title)}
+                    role="checkbox"
                     type="button"
                   >
-                    Ver detalhes
+                    <img src="/assets/figma/pets/routine-check.svg" alt="" />
                   </button>
-                ) : (
-                  <span className="details-pill">Ver detalhes</span>
                 )}
               </div>
-              {medicine.done ? (
-                <span className="done-pill">Concluído</span>
-              ) : (
-                <button
-                  aria-checked="false"
-                  aria-label={`Confirmar ${medicine.title}`}
-                  className="figma-checkbox"
-                  onClick={() => completeMedicine(medicine.title)}
-                  role="checkbox"
-                  type="button"
-                >
-                  <img src="/assets/figma/pets/routine-check.svg" alt="" />
-                </button>
-              )}
+              <div className="medicine-card-meta">
+                <span className={`medicine-origin is-${medicine.origin}`}>
+                  {medicine.origin === "clinic" ? "Cadastrado pela clínica" : "Cadastrado por você"}
+                </span>
+                {medicine.confirmation && <small>{medicine.confirmation}</small>}
+              </div>
+              <div className="medicine-card-footer">
+                {medicine.detailsScreen ? (
+                  <PetDetailsButton
+                    className="details-pill"
+                    onClick={() => onOpenDetail?.(medicine.detailsScreen!)}
+                  />
+                ) : (
+                  <PetDetailsButton asSpan className="details-pill" />
+                )}
+                {medicine.origin === "tutor" && (
+                  <>
+                    <button
+                      aria-label={`Editar remédio ${medicineName(medicine)}`}
+                      type="button"
+                      onClick={() => setEditingMedicine(medicine)}
+                    >
+                      <Pencil aria-hidden="true" size={14} />
+                      Editar
+                    </button>
+                    <button
+                      aria-label={`Remover remédio ${medicineName(medicine)}`}
+                      type="button"
+                      onClick={() => setRemovingMedicine(medicine)}
+                    >
+                      <Trash2 aria-hidden="true" size={14} />
+                      Remover
+                    </button>
+                  </>
+                )}
+              </div>
             </article>
           ))}
         </div>
@@ -212,7 +250,121 @@ export function MedicinesScreen({
           <img src="/assets/figma/pets/medicine-add.svg" alt="" />
           Adicionar remédio
         </button>
+        {editingMedicine && (
+          <MedicineEditDialog
+            medicine={editingMedicine}
+            onClose={() => setEditingMedicine(null)}
+            onSave={(updated) => {
+              setMedicines((items) =>
+                items.map((item) => (item === editingMedicine ? updated : item)),
+              );
+              setEditingMedicine(null);
+            }}
+          />
+        )}
+        {removingMedicine && (
+          <div className="medicine-dialog-backdrop">
+            <section aria-label="Remover remédio" aria-modal="true" role="dialog">
+              <button aria-label="Fechar" type="button" onClick={() => setRemovingMedicine(null)}>
+                <X aria-hidden="true" size={18} />
+              </button>
+              <h2>Remover remédio</h2>
+              <p>Deseja remover {medicineName(removingMedicine)}?</p>
+              <div className="medicine-dialog-actions">
+                <button type="button" onClick={() => setRemovingMedicine(null)}>
+                  Cancelar
+                </button>
+                <button
+                  className="is-danger"
+                  type="button"
+                  onClick={() => {
+                    setMedicines((items) => items.filter((item) => item !== removingMedicine));
+                    setRemovingMedicine(null);
+                  }}
+                >
+                  Confirmar remoção
+                </button>
+              </div>
+            </section>
+          </div>
+        )}
       </div>
     </MobileShell>
+  );
+}
+
+function medicineName(medicine: Medicine) {
+  if (
+    medicine.title.includes(" • ") &&
+    !medicine.title.startsWith("Amanhã") &&
+    !medicine.title.startsWith("Hoje")
+  ) {
+    const trailing = medicine.title.split(" • ").slice(1).join(" • ");
+    if (/\d{2}:\d{2}/.test(trailing)) return medicine.description;
+    return trailing;
+  }
+  return medicine.description;
+}
+
+function MedicineEditDialog({
+  medicine,
+  onClose,
+  onSave,
+}: {
+  medicine: Medicine;
+  onClose: () => void;
+  onSave: (medicine: Medicine) => void;
+}) {
+  const currentName = medicineName(medicine);
+  const [name, setName] = useState(currentName);
+  const [dose, setDose] = useState(
+    medicine.title.endsWith(currentName) ? medicine.description : (medicine.confirmation ?? ""),
+  );
+
+  const save = () => {
+    const title = medicine.title.endsWith(currentName)
+      ? `${medicine.title.slice(0, -currentName.length)}${name.trim()}`
+      : medicine.title;
+    onSave({
+      ...medicine,
+      title,
+      description: medicine.title.endsWith(currentName) ? dose.trim() : name.trim(),
+      confirmation: medicine.title.endsWith(currentName) ? medicine.confirmation : dose.trim(),
+    });
+  };
+
+  return (
+    <div className="medicine-dialog-backdrop">
+      <section aria-label="Editar remédio" aria-modal="true" role="dialog">
+        <button aria-label="Fechar" type="button" onClick={onClose}>
+          <X aria-hidden="true" size={18} />
+        </button>
+        <h2>Editar remédio</h2>
+        <label>
+          Nome do medicamento
+          <input
+            aria-label="Nome do medicamento"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </label>
+        <label>
+          Dose e orientação
+          <input
+            aria-label="Dose e orientação"
+            value={dose}
+            onChange={(event) => setDose(event.target.value)}
+          />
+        </label>
+        <div className="medicine-dialog-actions">
+          <button type="button" onClick={onClose}>
+            Cancelar
+          </button>
+          <button type="button" onClick={save}>
+            Salvar alterações
+          </button>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import { PetPhotoPicker } from "../../../components/ui/pet-photo-picker/PetPhoto
 import { BackButton } from "../../../components/ui/ScreenPrimitives";
 import { SharedCareActions, type SharedCareChoice } from "./SharedCareActions";
 
-const initialFields = {
+export const initialPetFields = {
   name: "",
   breed: "",
   sex: "",
@@ -14,7 +14,8 @@ const initialFields = {
   coatType: "",
 };
 
-type FieldName = keyof typeof initialFields;
+export type PetFormFields = typeof initialPetFields;
+type FieldName = keyof PetFormFields;
 
 const today = () => {
   const date = new Date();
@@ -27,15 +28,27 @@ export function RegisterPetScreen({
   onComplete,
   onBack,
   showProgress = true,
+  editing = false,
+  initialValues,
+  onSave,
+  photoUrl,
+  onPhotoChange,
 }: {
   onComplete?: () => void;
   onBack: () => void;
   showProgress?: boolean;
+  editing?: boolean;
+  initialValues?: Partial<PetFormFields>;
+  onSave?: (fields: PetFormFields) => void;
+  photoUrl?: string;
+  onPhotoChange?: (url: string) => void;
 }) {
   const { showToast } = useErrorFeedback();
-  const [fields, setFields] = useState(initialFields);
+  const [fields, setFields] = useState({ ...initialPetFields, ...initialValues });
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
-  const [sharedCareChoice, setSharedCareChoice] = useState<SharedCareChoice | null>(null);
+  const [sharedCareChoice, setSharedCareChoice] = useState<SharedCareChoice | null>(
+    editing ? "later" : null,
+  );
   const formRef = useRef<HTMLFormElement>(null);
   const inviteButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -85,6 +98,7 @@ export function RegisterPetScreen({
             return;
           }
 
+          onSave?.(fields);
           onComplete?.();
         }}
       >
@@ -92,11 +106,20 @@ export function RegisterPetScreen({
         <header>
           <BackButton onClick={onBack} />
           <div>
-            <h1>Cadastrar pet</h1>
-            <p>Agora vamos registrar as informações iniciais do seu pet</p>
+            <h1>{editing ? "Editar pet" : "Cadastrar pet"}</h1>
+            <p>
+              {editing
+                ? "Atualize as informações do seu pet"
+                : "Agora vamos registrar as informações iniciais do seu pet"}
+            </p>
           </div>
         </header>
-        <PetPhotoPicker className="register-pet-screen__photo" />
+        <PetPhotoPicker
+          className="register-pet-screen__photo"
+          imageUrl={photoUrl}
+          imageAlt={photoUrl ? `Foto do ${fields.name || "pet"}` : undefined}
+          onImageChange={onPhotoChange}
+        />
         <section className="register-pet-screen__fields">
           <h2>Dados do pet</h2>
           <p className="required-note">* indica campo obrigatório</p>
@@ -149,18 +172,20 @@ export function RegisterPetScreen({
             name="coatType"
           />
         </section>
-        <section className="register-pet-screen__shared">
-          <h2>Cuidado compartilhado</h2>
-          <div>
-            <SharedCareActions
-              value={sharedCareChoice}
-              onChange={setSharedCareChoice}
-              inviteButtonRef={inviteButtonRef}
-            />
-          </div>
-        </section>
+        {!editing && (
+          <section className="register-pet-screen__shared">
+            <h2>Cuidado compartilhado</h2>
+            <div>
+              <SharedCareActions
+                value={sharedCareChoice}
+                onChange={setSharedCareChoice}
+                inviteButtonRef={inviteButtonRef}
+              />
+            </div>
+          </section>
+        )}
         <button className="register-pet-screen__submit" type="submit">
-          Continuar
+          {editing ? "Salvar alterações" : "Continuar"}
         </button>
       </form>
     </main>
@@ -194,6 +219,7 @@ function Field({
         {label} <span className="required-mark">*</span>
       </span>
       <input
+        aria-label={label}
         id={`register-pet-${name}`}
         required
         type={type}
@@ -231,6 +257,7 @@ function SelectField({
     <label>
       <RequiredLabel>{label}</RequiredLabel>
       <select
+        aria-label={label}
         id={`register-pet-${name}`}
         required
         value={value}

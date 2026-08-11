@@ -3,6 +3,7 @@
   color: #002045;
   .wallet-tabs {
     display: flex;
+    justify-content: center;
     gap: 10px;
   }
   .wallet-tabs button {
@@ -40,6 +41,13 @@
     border-radius: 16px;
     background: #fff;
   }
+  .wallet-record-button {
+    display: block;
+    width: 100%;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+  }
   .wallet-tabs + .wallet-record {
     margin-top: 26px;
   }
@@ -76,4 +84,96 @@
   .wallet-record .orange-text {
     color: #ed8936;
   }
+  .wallet-dialog-backdrop {
+    position: fixed;
+    z-index: 30;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(10, 24, 48, 0.48);
+    padding: 20px;
+  }
+  .wallet-dialog-backdrop > section {
+    position: relative;
+    width: min(100%, 353px);
+    border-radius: 18px;
+    background: #fff;
+    padding: 20px;
+  }
+  .wallet-dialog-backdrop > section > button:first-child {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #183a78;
+  }
+  .wallet-dialog-backdrop h2 {
+    margin: 0 42px 16px 0;
+    font-size: 18px;
+  }
+  .wallet-dialog-backdrop dl {
+    display: grid;
+    gap: 9px;
+    margin: 0;
+  }
+  .wallet-dialog-backdrop dl div {
+    display: grid;
+    grid-template-columns: 82px 1fr;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .wallet-dialog-backdrop dt {
+    color: #718096;
+  }
+  .wallet-dialog-backdrop dd {
+    margin: 0;
+    font-weight: 700;
+  }
+  .wallet-dialog-backdrop p {
+    color: #4a5568;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .wallet-dialog-backdrop small {
+    display: block;
+    color: #718096;
+    font-size: 10px;
+  }
+  .wallet-dialog-icon {
+    margin-bottom: 10px;
+    color: #24b09c;
+  }
+  .wallet-dialog-backdrop .wallet-dialog-primary {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    border: 0;
+    border-radius: 22px;
+    background: #183a78;
+    color: #fff;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+  }
+}
+
+.wallet-record-detail {
+  margin-top: 12px;
+}
+.wallet-dialog-warning {
+  margin-top: 14px;
+  border-radius: 10px;
+  background: #fff7e6;
+  padding: 10px;
+  color: #7a5310;
+  font-size: 12px;
 }

@@ -16,6 +16,8 @@
   }
   .figma-pet-header h1 {
     margin: 0;
+    color: #183a78;
+    font-family: "Plus Jakarta Sans", Arial, sans-serif;
     font-size: 20px;
     line-height: 25px;
     font-weight: 700;
@@ -98,28 +100,35 @@
     color: #183a78;
     font-weight: 700;
   }
+  .medicine-safety-note {
+    margin: 12px 0 -14px;
+    border-radius: 10px;
+    background: #eef2ff;
+    padding: 9px 10px;
+    color: #4a5568;
+    font-size: 10px;
+    line-height: 15px;
+  }
   .medicine-list {
     display: grid;
     gap: 10px;
     margin-top: 26px;
   }
   .medicine-card {
-    display: flex;
-    align-items: start;
-    min-height: 82px;
+    min-height: 154px;
     padding: 12px;
     border: 1.5px solid #e2e8f0;
     border-radius: 16px;
     background: #fff;
   }
-  .medicine-icon {
-    width: 36px;
-    height: 36px;
+  .medicine-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
   }
   .medicine-copy {
     min-width: 0;
     flex: 1;
-    margin-left: 12px;
   }
   .medicine-copy h3 {
     margin: 0;
@@ -132,26 +141,61 @@
     line-height: 15px;
     color: #4a5568;
   }
-  .medicine-copy small {
+  .medicine-card-meta {
+    margin-left: 0;
+  }
+  .medicine-card-meta small {
     display: block;
     margin: 1px 0 3px;
     color: #718096;
     font-size: 10px;
     line-height: 13px;
   }
+  .medicine-origin {
+    display: inline-flex;
+    min-height: 22px;
+    align-items: center;
+    margin: 4px 0;
+    border-radius: 999px;
+    background: #e6f7f4;
+    padding: 3px 9px;
+    color: #147d70;
+    font-size: 9px;
+    font-weight: 700;
+  }
+  .medicine-origin.is-clinic {
+    background: #eef2ff;
+    color: #183a78;
+  }
   .details-pill {
-    display: inline-block;
-    padding: 3px 8px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
+    flex: none;
+  }
+  .medicine-card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .medicine-card-footer button:not(.details-pill) {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #cbd5e1;
+    border-radius: 15px;
     background: #fff;
-    color: #718096;
-    font-size: 10px;
+    padding: 0 9px;
+    color: #183a78;
+    font: inherit;
+    font-size: 9px;
+    font-weight: 700;
   }
   .medicine-card .figma-checkbox {
+    flex: none;
     width: 28px;
     height: 28px;
-    margin: 15px 0 0;
+    margin: 4px 0 0;
     border: 1px solid #99f6e4;
     border-radius: 8px;
     background: #e6fffa;
@@ -162,7 +206,9 @@
     height: 16px;
   }
   .done-pill {
-    align-self: center;
+    flex: none;
+    align-self: flex-start;
+    margin-top: 4px;
     padding: 5px 10px;
     border-radius: 11px;
     background: #dcfce7;
@@ -191,6 +237,91 @@
     transform: translateY(-1px);
   }
   .medicine-card:last-child {
-    min-height: 75px;
+    min-height: 154px;
+  }
+  .medicine-card.is-clinic {
+    min-height: 118px;
+  }
+  .medicine-card.is-clinic .medicine-card-footer {
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+  .medicine-dialog-backdrop {
+    position: fixed;
+    z-index: 30;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(10, 24, 48, 0.48);
+    padding: 20px;
+  }
+  .medicine-dialog-backdrop > section {
+    position: relative;
+    width: min(100%, 353px);
+    border-radius: 18px;
+    background: #fff;
+    padding: 20px;
+  }
+  .medicine-dialog-backdrop > section > button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #183a78;
+  }
+  .medicine-dialog-backdrop h2 {
+    margin: 0 42px 16px 0;
+    font-size: 18px;
+  }
+  .medicine-dialog-backdrop p {
+    color: #4a5568;
+    font-size: 13px;
+  }
+  .medicine-dialog-backdrop label {
+    display: grid;
+    gap: 5px;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .medicine-dialog-backdrop input {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 0 10px;
+    color: #183a78;
+    font: inherit;
+    font-size: 12px;
+  }
+  .medicine-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .medicine-dialog-actions button {
+    min-height: 42px;
+    border: 1px solid #183a78;
+    border-radius: 21px;
+    background: #fff;
+    padding: 0 14px;
+    color: #183a78;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .medicine-dialog-actions button:last-child {
+    background: #183a78;
+    color: #fff;
+  }
+  .medicine-dialog-actions .is-danger {
+    border-color: #b42318;
+    background: #b42318;
   }
 }

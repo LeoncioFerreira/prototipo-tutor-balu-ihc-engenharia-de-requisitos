@@ -3,6 +3,7 @@ import { ArrowLeft, CalendarClock, ChevronRight, X } from "lucide-react";
 import { MobileShell } from "../../../components/ui/MobileShell";
 import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
 import { AppointmentModal } from "../tela-07-meus-pets/AppointmentModal";
+import { PetDetailsButton } from "../../../components/ui/pet-details-button/PetDetailsButton";
 
 type ConsultationStatus = "complete" | "cancelled";
 type ConsultationFilter = "all" | ConsultationStatus;
@@ -26,6 +27,7 @@ const consultationHistory = [
 
 export function ConsultationsScreen({ onBack }: { onBack: () => void }) {
   const [appointmentOpen, setAppointmentOpen] = useState(false);
+  const [rescheduleOpen, setRescheduleOpen] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [cancellationOpen, setCancellationOpen] = useState(false);
   const [filter, setFilter] = useState<ConsultationFilter>("all");
@@ -33,10 +35,12 @@ export function ConsultationsScreen({ onBack }: { onBack: () => void }) {
     "scheduled",
   );
   const [cancellationReason, setCancellationReason] = useState("");
+  const [scheduledDate, setScheduledDate] = useState("18 de agosto, às 14:30");
   const { showToast } = useErrorFeedback();
   const appointmentButtonRef = useRef<HTMLButtonElement>(null);
   const detailsButtonRef = useRef<HTMLAnchorElement>(null);
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
+  const rescheduleButtonRef = useRef<HTMLButtonElement>(null);
   const currentHistory = cancellationReason
     ? [
         ...consultationHistory,
@@ -113,13 +117,13 @@ export function ConsultationsScreen({ onBack }: { onBack: () => void }) {
             <div>
               <p>Próxima consulta</p>
               <h2 id="next-consultation-title">Retorno dermatológico</h2>
-              <strong>18 de agosto, às 14:30</strong>
+              <strong>{scheduledDate}</strong>
               <small>Clínica VetCare · Dra. Mariana</small>
               {attendanceStatus === "confirmed" && (
                 <span className="consultations-screen__confirmed">Presença confirmada</span>
               )}
-              <a
-                ref={detailsButtonRef}
+              <PetDetailsButton
+                anchorRef={detailsButtonRef}
                 href="#detalhes-consulta"
                 className="consultations-screen__details-link"
                 onClick={(event) => {
@@ -129,8 +133,16 @@ export function ConsultationsScreen({ onBack }: { onBack: () => void }) {
               >
                 Ver detalhes
                 <ChevronRight aria-hidden="true" size={15} strokeWidth={2.5} />
-              </a>
+              </PetDetailsButton>
               <div className="consultations-screen__decision-actions">
+                <button
+                  ref={rescheduleButtonRef}
+                  type="button"
+                  className="is-reschedule"
+                  onClick={() => setRescheduleOpen(true)}
+                >
+                  Reagendar consulta
+                </button>
                 <button
                   type="button"
                   className="is-confirm"
@@ -188,6 +200,23 @@ export function ConsultationsScreen({ onBack }: { onBack: () => void }) {
             petName="Balu"
             onClose={() => setAppointmentOpen(false)}
             returnFocusRef={appointmentButtonRef}
+          />
+        )}
+        {rescheduleOpen && (
+          <AppointmentModal
+            mode="reschedule"
+            petName="Balu"
+            onClose={() => setRescheduleOpen(false)}
+            returnFocusRef={rescheduleButtonRef}
+            onConfirmed={({ date, time }) => {
+              const dateLabel = new Intl.DateTimeFormat("pt-BR", {
+                day: "numeric",
+                month: "long",
+              }).format(date);
+              setScheduledDate(`${dateLabel}, às ${time}`);
+              setAttendanceStatus("scheduled");
+              showToast("Consulta do Balu reagendada.", "success");
+            }}
           />
         )}
         {detailsOpen && (

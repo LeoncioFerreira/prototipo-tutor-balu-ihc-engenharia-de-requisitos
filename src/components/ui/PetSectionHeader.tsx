@@ -1,4 +1,6 @@
 import { ArrowLeft } from "lucide-react";
+import { PetPhotoPicker } from "./pet-photo-picker/PetPhotoPicker";
+import { usePetProfile } from "./pet-profile/PetProfileContext";
 
 type PetSection = "overview" | "routine" | "medicines" | "wallet";
 
@@ -20,6 +22,9 @@ export function PetSectionHeader({
   onBack: () => void;
   onOpen?: (screen: string) => void;
 }) {
+  const { pet, updatePet } = usePetProfile();
+  if (!pet) return null;
+
   return (
     <>
       <header className="pet-section-header">
@@ -30,12 +35,18 @@ export function PetSectionHeader({
       </header>
 
       <section className="pet-context-card" aria-labelledby="pet-context-name">
-        <img src="/assets/figma/pets/pet-avatar.svg" alt="" />
-        <h2 id="pet-context-name">Balu</h2>
-        <div>
-          <span>Samoieda</span>
-          <span>2 anos</span>
-          <span>22 kg</span>
+        <PetPhotoPicker
+          className="pet-context-card__photo"
+          imageUrl={pet.photoUrl}
+          imageAlt={`Foto do ${pet.name}`}
+          inputPrefix="shared-pet-photo"
+          onImageChange={(photoUrl) => updatePet({ photoUrl })}
+        />
+        <h2 id="pet-context-name">{pet.name}</h2>
+        <div className="pet-context-card__facts">
+          <span>{pet.breed}</span>
+          <span>{pet.age}</span>
+          <span>{pet.weight}</span>
         </div>
       </section>
 
