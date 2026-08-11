@@ -455,16 +455,16 @@
       align-items: center;
       gap: 8px;
       margin-top: 16px;
+      border: 1px solid #fed7d7;
       border-radius: 10px;
-      background: #f1f5f9;
+      background: #fff5f5;
       padding: 10px 12px;
-      color: #475569;
+      color: #e53e3e;
       font-size: 10px;
       line-height: 1.4;
 
       svg {
         flex-shrink: 0;
-        color: #64748b;
       }
     }
     &-actions {
