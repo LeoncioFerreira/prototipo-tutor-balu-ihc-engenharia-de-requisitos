@@ -18,6 +18,10 @@ const consultationStyles = readFileSync(
   join(process.cwd(), "src/features/pets/tela-07b-consultas/Screen.scss"),
   "utf8",
 );
+const chatbotStyles = readFileSync(
+  join(process.cwd(), "src/features/comunicacao/tela-14-chatbot-balu/Screen.scss"),
+  "utf8",
+);
 const walletStyles = readFileSync(
   join(process.cwd(), "src/features/pets/tela-11-ver-carteira/Screen.scss"),
   "utf8",
@@ -159,6 +163,11 @@ test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () 
   expect(screen.queryByRole("button", { name: "Remédios" })).not.toBeInTheDocument();
   expect(controls).toContainElement(screen.getByLabelText("Mensagem"));
   expect(screen.getByLabelText("Mensagem").tagName).toBe("TEXTAREA");
+});
+
+test("mantém os controles logo abaixo de uma conversa curta", () => {
+  expect(chatbotStyles).toMatch(/&__messages\s*\{[^}]*flex:\s*0 1 auto;[^}]*max-height:\s*240px;/s);
+  expect(chatbotStyles).not.toMatch(/&__messages\s*\{[^}]*flex:\s*1;/s);
 });
 
 test("envia com Enter e cria nova linha com Control Enter", async () => {
