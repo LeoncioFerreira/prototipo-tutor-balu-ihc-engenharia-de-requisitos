@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Info } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
 import { useErrorFeedback } from "../../../components/ui/error-feedback/ErrorFeedback";
@@ -415,6 +415,10 @@ export function CaramelClubScreen({
                     Adicionar tag
                   </button>
                 </div>
+              </div>
+              <div className="caramel-club-screen__dialog-warning">
+                <Info size={14} />
+                <span>Uma vez publicada, esta postagem não poderá ser apagada.</span>
               </div>
               <div className="caramel-club-screen__dialog-actions">
                 <button type="button" onClick={cancelComposer}>
