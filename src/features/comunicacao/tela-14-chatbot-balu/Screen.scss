@@ -46,14 +46,13 @@
   &__messages {
     display: flex;
     min-height: 0;
-    flex: 0 1 auto;
-    max-height: 240px;
+    flex: 1;
     flex-direction: column;
     gap: 8px;
     margin-top: 16px;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-right: 3px;
+    padding: 0 3px 190px 0;
     scroll-behavior: smooth;
     scrollbar-color: #b2f5ea transparent;
     scrollbar-width: thin;
@@ -238,14 +237,21 @@
   }
 
   &__controls {
+    position: fixed;
+    z-index: 10;
+    bottom: 98px;
+    left: 50%;
     display: grid;
+    width: calc(100% - 40px);
+    max-width: 353px;
     min-height: 0;
     max-height: 46%;
     flex: 0 1 auto;
     gap: 10px;
-    margin-top: 12px;
+    transform: translateX(-50%);
     overflow-x: hidden;
     overflow-y: auto;
+    background: #f7fafc;
     padding-right: 2px;
   }
 }

@@ -165,9 +165,11 @@ test("mantém alerta, atalhos e envio juntos no bloco de controles do chat", () 
   expect(screen.getByLabelText("Mensagem").tagName).toBe("TEXTAREA");
 });
 
-test("mantém os controles logo abaixo de uma conversa curta", () => {
-  expect(chatbotStyles).toMatch(/&__messages\s*\{[^}]*flex:\s*0 1 auto;[^}]*max-height:\s*240px;/s);
-  expect(chatbotStyles).not.toMatch(/&__messages\s*\{[^}]*flex:\s*1;/s);
+test("mantém os controles fixos acima da navegação inferior", () => {
+  expect(chatbotStyles).toMatch(
+    /&__controls\s*\{[^}]*position:\s*fixed;[^}]*bottom:\s*98px;[^}]*left:\s*50%;/s,
+  );
+  expect(chatbotStyles).toMatch(/&__messages\s*\{[^}]*flex:\s*1;/s);
 });
 
 test("envia com Enter e cria nova linha com Control Enter", async () => {
