@@ -16,12 +16,16 @@ const weekDays = [
 ] as const;
 
 type RoutineErrors = Partial<
-  Record<"type" | "medicine" | "name" | "frequency" | "days" | "date" | "time", string>
+  Record<
+    "type" | "otherType" | "medicine" | "name" | "frequency" | "days" | "date" | "time",
+    string
+  >
 >;
 
 export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
   const { showToast } = useErrorFeedback();
   const [type, setType] = useState("");
+  const [otherType, setOtherType] = useState("");
   const [medicine, setMedicine] = useState("");
   const [name, setName] = useState("");
   const [frequency, setFrequency] = useState("");
@@ -32,6 +36,7 @@ export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
   const [instructions, setInstructions] = useState("");
   const [errors, setErrors] = useState<RoutineErrors>({});
   const typeRef = useRef<HTMLSelectElement>(null);
+  const otherTypeRef = useRef<HTMLInputElement>(null);
   const medicineRef = useRef<HTMLSelectElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const frequencyRef = useRef<HTMLSelectElement>(null);
@@ -46,6 +51,7 @@ export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
     event.preventDefault();
     const nextErrors: RoutineErrors = {};
     if (!type) nextErrors.type = "Selecione o tipo de cuidado.";
+    if (type === "outro" && !otherType.trim()) nextErrors.otherType = "Informe o tipo de cuidado.";
     if (type === "medicamento" && !medicine)
       nextErrors.medicine = "Selecione o medicamento cadastrado.";
     if (!name.trim()) nextErrors.name = "Informe o nome da rotina.";
@@ -62,6 +68,7 @@ export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
       showToast("Preencha os campos obrigatórios da rotina.");
       ({
         type: typeRef,
+        otherType: otherTypeRef,
         medicine: medicineRef,
         name: nameRef,
         frequency: frequencyRef,
@@ -104,6 +111,7 @@ export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
               onChange={(event) => {
                 setType(event.target.value);
                 clearError("type");
+                clearError("otherType");
                 clearError("medicine");
               }}
             >
@@ -120,6 +128,31 @@ export function AddRoutineScreen({ onBack }: { onBack: () => void }) {
               </small>
             )}
           </label>
+
+          {type === "outro" && (
+            <label>
+              <span>
+                Qual cuidado? <b className="required-mark">*</b>
+              </span>
+              <input
+                ref={otherTypeRef}
+                aria-label="Qual cuidado?"
+                value={otherType}
+                placeholder="Ex: Fisioterapia"
+                aria-invalid={Boolean(errors.otherType)}
+                aria-describedby={errors.otherType ? "routine-othertype-error" : undefined}
+                onChange={(event) => {
+                  setOtherType(event.target.value);
+                  clearError("otherType");
+                }}
+              />
+              {errors.otherType && (
+                <small id="routine-othertype-error" className="field-error">
+                  {errors.otherType}
+                </small>
+              )}
+            </label>
+          )}
 
           {type === "medicamento" && (
             <label>
