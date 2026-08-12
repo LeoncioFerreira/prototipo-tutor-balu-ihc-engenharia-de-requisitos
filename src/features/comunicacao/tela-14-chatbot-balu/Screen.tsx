@@ -67,6 +67,9 @@ export function ChatbotBaluScreen({
     if (messageInputRef.current) messageInputRef.current.style.height = "56px";
   };
 
+  const lastMessage = messages[messages.length - 1];
+  const showEmergencyModal = lastMessage?.kind === "emergency-confirmation";
+
   return (
     <MobileShell active="chat" onNavigate={onNavigate}>
       <div className="chatbot-screen" data-figma-node="66:2">
@@ -192,6 +195,28 @@ export function ChatbotBaluScreen({
             </button>
           </form>
         </section>
+
+        {showEmergencyModal && (
+          <div className="emergency-modal-overlay">
+            <div className="emergency-modal">
+              <h3>
+                <TriangleAlert size={20} strokeWidth={2.25} style={{ marginRight: 8 }} />
+                Aviso de Emergência
+              </h3>
+              <p>
+                Deseja acionar a clínica vinculada para registrar os passos iniciais da emergência?
+              </p>
+              <div className="emergency-modal-actions">
+                <button type="button" className="btn-cancel" onClick={() => sendMessage("não")}>
+                  Não
+                </button>
+                <button type="button" className="btn-confirm" onClick={() => sendMessage("sim")}>
+                  Sim, acionar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </MobileShell>
   );
