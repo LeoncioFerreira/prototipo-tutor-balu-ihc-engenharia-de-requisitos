@@ -1,11 +1,8 @@
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, Plus, X } from "lucide-react";
+import { useState } from "react";
 import { MobileShell } from "../../../components/ui/MobileShell";
 const controlFont = { fontFamily: '"Plus Jakarta Sans", Arial, sans-serif' };
-const people = [
-  ["L", "Leôncio"],
-  ["P", "Paulo"],
-  ["A", "André"],
-] as const;
+
 const activities = [
   {
     asset: "activity-pill.svg",
@@ -33,6 +30,29 @@ export function SharedCareScreen({
   onBack: () => void;
   onInvite: () => void;
 }) {
+  const [caregivers, setCaregivers] = useState([
+    { initial: "L", name: "Leôncio", isMain: true },
+    { initial: "P", name: "Paulo", isMain: false },
+    { initial: "A", name: "André", isMain: false },
+  ]);
+
+  const [caregiverToRemove, setCaregiverToRemove] = useState<string | null>(null);
+
+  const confirmRemoveCaregiver = (nameToRemove: string) => {
+    setCaregiverToRemove(nameToRemove);
+  };
+
+  const executeRemove = () => {
+    if (caregiverToRemove) {
+      setCaregivers((current) => current.filter((c) => c.name !== caregiverToRemove));
+      setCaregiverToRemove(null);
+    }
+  };
+
+  const cancelRemove = () => {
+    setCaregiverToRemove(null);
+  };
+
   return (
     <MobileShell active="pets" onNavigate={() => undefined}>
       <div className="shared-care-screen">
@@ -45,9 +65,21 @@ export function SharedCareScreen({
         <section className="caregivers-section">
           <h2>Cuidadores de Balu</h2>
           <ul className="caregivers">
-            {people.map(([initial, name], index) => (
+            {caregivers.map(({ initial, name, isMain }) => (
               <li key={name}>
-                <span className={index === 0 ? "primary" : ""}>{initial}</span>
+                <div className="avatar-wrapper">
+                  <span className={isMain ? "primary" : ""}>{initial}</span>
+                  {!isMain && (
+                    <button
+                      type="button"
+                      aria-label={`Remover ${name}`}
+                      className="remove-caregiver"
+                      onClick={() => confirmRemoveCaregiver(name)}
+                    >
+                      <X size={12} strokeWidth={3} />
+                    </button>
+                  )}
+                </div>
                 <b>{name}</b>
               </li>
             ))}
@@ -90,6 +122,25 @@ export function SharedCareScreen({
             ))}
           </ul>
         </section>
+
+        {caregiverToRemove && (
+          <div className="remove-modal-overlay">
+            <div className="remove-modal">
+              <h3>Remover cuidador</h3>
+              <p>
+                Tem certeza que deseja remover <b>{caregiverToRemove}</b> do cuidado compartilhado?
+              </p>
+              <div className="remove-modal-actions">
+                <button type="button" className="btn-cancel" onClick={cancelRemove}>
+                  Cancelar
+                </button>
+                <button type="button" className="btn-confirm" onClick={executeRemove}>
+                  Remover
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </MobileShell>
   );
