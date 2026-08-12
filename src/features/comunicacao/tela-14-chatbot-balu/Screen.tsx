@@ -70,6 +70,22 @@ export function ChatbotBaluScreen({
   const lastMessage = messages[messages.length - 1];
   const showEmergencyModal = lastMessage?.kind === "emergency-confirmation";
 
+  const [emergencyStep, setEmergencyStep] = useState(1);
+  const [selectedEmergency, setSelectedEmergency] = useState("");
+  const [otherEmergencyDetails, setOtherEmergencyDetails] = useState("");
+
+  const emergencyReasons = [
+    "Dificuldade respiratória",
+    "Intoxicação / Envenenamento",
+    "Trauma ou acidente (ex: atropelamento)",
+    "Obstrução urinária",
+    "Ingestão de corpo estranho",
+    "Convulsões",
+    "Picada de animal peçonhento",
+    "Vômito ou diarreia grave",
+    "Outro",
+  ];
+
   return (
     <MobileShell active="chat" onNavigate={onNavigate}>
       <div className="chatbot-screen" data-figma-node="66:2">
@@ -203,17 +219,105 @@ export function ChatbotBaluScreen({
                 <TriangleAlert size={20} strokeWidth={2.25} style={{ marginRight: 8 }} />
                 Aviso de Emergência
               </h3>
-              <p>
-                Deseja acionar a clínica vinculada para registrar os passos iniciais da emergência?
-              </p>
-              <div className="emergency-modal-actions">
-                <button type="button" className="btn-cancel" onClick={() => sendMessage("não")}>
-                  Não
-                </button>
-                <button type="button" className="btn-confirm" onClick={() => sendMessage("sim")}>
-                  Sim, acionar
-                </button>
-              </div>
+
+              {emergencyStep === 1 ? (
+                <>
+                  <p>
+                    Deseja acionar a clínica vinculada para registrar os passos iniciais da
+                    emergência?
+                  </p>
+                  <div className="emergency-modal-actions">
+                    <button
+                      type="button"
+                      className="btn-cancel"
+                      onClick={() => {
+                        setEmergencyStep(1);
+                        setSelectedEmergency("");
+                        setOtherEmergencyDetails("");
+                        sendMessage("não");
+                      }}
+                    >
+                      Não
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-confirm"
+                      onClick={() => setEmergencyStep(2)}
+                    >
+                      Sim, acionar
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p style={{ marginBottom: 16 }}>Qual o principal motivo da emergência?</p>
+                  <div className="emergency-reasons-list">
+                    {emergencyReasons.map((reason) => (
+                      <label key={reason} className="emergency-reason-label">
+                        <input
+                          type="radio"
+                          name="emergency-reason"
+                          value={reason}
+                          checked={selectedEmergency === reason}
+                          onChange={() => setSelectedEmergency(reason)}
+                        />
+                        <span>{reason}</span>
+                      </label>
+                    ))}
+                    {selectedEmergency === "Outro" && (
+                      <input
+                        type="text"
+                        className="emergency-other-input"
+                        placeholder="Especifique a emergência..."
+                        value={otherEmergencyDetails}
+                        onChange={(e) => setOtherEmergencyDetails(e.target.value)}
+                        autoFocus
+                      />
+                    )}
+                  </div>
+                  <div className="emergency-modal-actions" style={{ marginTop: 24 }}>
+                    <button
+                      type="button"
+                      className="btn-cancel"
+                      onClick={() => {
+                        setEmergencyStep(1);
+                        setSelectedEmergency("");
+                        setOtherEmergencyDetails("");
+                        sendMessage("não");
+                      }}
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-confirm"
+                      disabled={
+                        !selectedEmergency ||
+                        (selectedEmergency === "Outro" && !otherEmergencyDetails.trim())
+                      }
+                      style={{
+                        opacity:
+                          selectedEmergency &&
+                          (selectedEmergency !== "Outro" || otherEmergencyDetails.trim())
+                            ? 1
+                            : 0.5,
+                      }}
+                      onClick={() => {
+                        const reasonText =
+                          selectedEmergency === "Outro"
+                            ? `Outro (${otherEmergencyDetails.trim()})`
+                            : selectedEmergency;
+                        setEmergencyStep(1);
+                        setSelectedEmergency("");
+                        setOtherEmergencyDetails("");
+                        sendMessage(`sim, motivo: ${reasonText}`);
+                      }}
+                    >
+                      Confirmar
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}
