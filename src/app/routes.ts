@@ -71,15 +71,7 @@ export function screenForPath(path: string) {
 }
 
 export type AppView =
-  | "login"
-  | "account"
-  | "home"
-  | "pets"
-  | "community"
-  | "chat"
-  | "forgot"
-  | "not-found"
-  | "profile";
+  "login" | "account" | "home" | "pets" | "community" | "chat" | "forgot" | "not-found" | "profile";
 
 const viewPaths: Record<Exclude<AppView, "not-found">, string> = {
   login: "/login",
