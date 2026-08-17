@@ -175,7 +175,15 @@ export function HomeFrame({
         <section className="balu-home__routine">
           <h2>
             Rotina de hoje
-            <span style={{ display: "block", fontSize: "12px", color: "#718096", fontWeight: 500, marginTop: "4px" }}>
+            <span
+              style={{
+                display: "block",
+                fontSize: "12px",
+                color: "#718096",
+                fontWeight: 500,
+                marginTop: "4px",
+              }}
+            >
               Conclua as atividades abaixo para cuidar do pet e ganhar pontos
             </span>
           </h2>
