@@ -118,7 +118,7 @@ export function SharedCareActions({
         />
         <ActionButton
           icon={<Clock3 aria-hidden="true" size={20} />}
-          title="Adicionar depois"
+          title="Pular etapa"
           description="Continue agora e convide alguém quando quiser."
           selected={value === "later"}
           onClick={() => {

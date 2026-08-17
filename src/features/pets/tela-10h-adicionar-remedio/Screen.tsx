@@ -249,8 +249,10 @@ export function AddMedicineScreen({ onBack }: { onBack: () => void }) {
               }}
             >
               <option value="">Selecione</option>
+              <option value="unica">Dose única</option>
               <option value="diaria">Todos os dias</option>
               <option value="semanal">Dias da semana</option>
+              <option value="mensal">Mensal (a cada 30 dias)</option>
             </select>
             {errors.frequency && <small className="field-error">{errors.frequency}</small>}
           </label>

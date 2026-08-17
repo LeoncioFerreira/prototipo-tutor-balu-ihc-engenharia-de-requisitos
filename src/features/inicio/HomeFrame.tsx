@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TriangleAlert } from "lucide-react";
 import { MobileShell, type MainDestination } from "../../components/ui/MobileShell";
 
 export type HomeVariant = "5" | "5a" | "5b" | "5t" | "5ta" | "5tb";
@@ -78,27 +79,48 @@ export function HomeFrame({
               <h1>Olá, Leôncio!</h1>
             </div>
           </div>
-          <button
-            className="balu-home__bell"
-            type="button"
-            aria-label="Notificações"
-            onClick={onOpenNotifications}
-          >
-            <img
-              className="balu-home__bell-background"
-              src="/assets/figma/home/notification-bell-background.svg"
-              alt=""
-            />
-            <span className="balu-home__bell-dome" />
-            <span className="balu-home__bell-base" />
-            <span className="balu-home__bell-split" />
-            <img
-              className="balu-home__bell-clapper"
-              src="/assets/figma/home/notification-bell-clapper.svg"
-              alt=""
-            />
-            <b>1</b>
-          </button>
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <button
+              className="balu-home__emergency"
+              type="button"
+              aria-label="Emergência"
+              onClick={() => onNavigate?.("chat")}
+              style={{
+                display: "grid",
+                placeItems: "center",
+                width: "48px",
+                height: "48px",
+                border: "1px solid #fed7d7",
+                borderRadius: "50%",
+                background: "#fff5f5",
+                color: "#e53e3e",
+                cursor: "pointer",
+              }}
+            >
+              <TriangleAlert size={20} />
+            </button>
+            <button
+              className="balu-home__bell"
+              type="button"
+              aria-label="Notificações"
+              onClick={onOpenNotifications}
+            >
+              <img
+                className="balu-home__bell-background"
+                src="/assets/figma/home/notification-bell-background.svg"
+                alt=""
+              />
+              <span className="balu-home__bell-dome" />
+              <span className="balu-home__bell-base" />
+              <span className="balu-home__bell-split" />
+              <img
+                className="balu-home__bell-clapper"
+                src="/assets/figma/home/notification-bell-clapper.svg"
+                alt=""
+              />
+              <b>1</b>
+            </button>
+          </div>
         </header>
 
         <section className="balu-home__pets" aria-label="Seletor de pets">
@@ -151,7 +173,12 @@ export function HomeFrame({
         )}
 
         <section className="balu-home__routine">
-          <h2>Rotina de Hoje</h2>
+          <h2>
+            Rotina de hoje
+            <span style={{ display: "block", fontSize: "12px", color: "#718096", fontWeight: 500, marginTop: "4px" }}>
+              Conclua as atividades abaixo para cuidar do pet e ganhar pontos
+            </span>
+          </h2>
           {lastCompleted && (
             <div role="status" className="balu-home__undo">
               Cuidado concluído.

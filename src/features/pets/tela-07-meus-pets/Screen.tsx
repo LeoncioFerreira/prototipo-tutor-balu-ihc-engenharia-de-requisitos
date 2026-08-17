@@ -55,22 +55,30 @@ export function MyPetsScreen({
                   </div>
                 </div>
               </div>
-              <div className="mt-3 flex gap-2">
-                {["Carteira atualizada", "Cuidado compartilhado"].map((badge) => (
-                  <span
-                    key={badge}
-                    className="whitespace-nowrap rounded-full bg-[#e6fffa] px-2.5 py-[6px] text-[12px] font-semibold leading-3 text-[#183a78]"
-                  >
-                    {badge}
-                  </span>
-                ))}
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => onOpen?.("11")}
+                  className="flex items-center gap-1 whitespace-nowrap rounded-md border border-[#e2e8f0] bg-[#f8fafc] px-2 py-1 text-[11px] font-semibold text-[#4a5568] transition-colors hover:bg-[#f1f5f9]"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#24a995]" aria-hidden="true" />
+                  Carteira atualizada
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onOpen?.("12")}
+                  className="flex items-center gap-1 whitespace-nowrap rounded-md border border-[#e2e8f0] bg-[#f8fafc] px-2 py-1 text-[11px] font-semibold text-[#4a5568] transition-colors hover:bg-[#f1f5f9]"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#3182ce]" aria-hidden="true" />
+                  Cuidado compartilhado
+                </button>
               </div>
               <div className="mt-5 grid grid-cols-2 gap-2">
                 <button
                   onClick={() => onOpen?.("8")}
                   className="rounded-full bg-[#183a78] px-3 py-2 text-[13px] font-semibold text-white"
                 >
-                  Ver perfil
+                  Abrir funcionalidades
                 </button>
                 <button
                   type="button"

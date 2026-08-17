@@ -1127,7 +1127,7 @@ test("explica que os dados permanecem salvos ao adicionar tutor depois", async (
   goToScreen("3");
   render(<App />);
 
-  await user.click(screen.getByRole("button", { name: /adicionar depois/i }));
+  await user.click(screen.getByRole("button", { name: /pular etapa/i }));
   expect(screen.getByRole("status")).toHaveTextContent("Os dados do pet serão salvos");
 });
 
@@ -1170,7 +1170,7 @@ test("exibe apenas o Balu na lista de pets", () => {
   expect(screen.getByText("Balu")).toBeInTheDocument();
   expect(screen.queryByText("Pipoca")).not.toBeInTheDocument();
   expect(screen.queryByText("Pretinha")).not.toBeInTheDocument();
-  expect(screen.getAllByRole("button", { name: /ver perfil/i })).toHaveLength(1);
+  expect(screen.getAllByRole("button", { name: /abrir funcionalidades/i })).toHaveLength(1);
   expect(screen.getAllByRole("button", { name: /^consultas$/i })).toHaveLength(1);
   expect(screen.getByRole("button", { name: /adicionar novo pet/i })).toBeInTheDocument();
 });
@@ -1364,7 +1364,7 @@ test("mantém as ações de cuidado compartilhado juntas no cadastro do pet", ()
 
   const actions = screen.getByRole("group", { name: /ações de cuidado compartilhado/i });
   expect(actions).toContainElement(screen.getByRole("button", { name: /convidar tutor/i }));
-  expect(actions).toContainElement(screen.getByRole("button", { name: /adicionar depois/i }));
+  expect(actions).toContainElement(screen.getByRole("button", { name: /pular etapa/i }));
   expect(registerPetStyles).toMatch(
     /&-actions\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/,
   );
@@ -1493,7 +1493,7 @@ test("cadastro do pet aceita a data local atual", async () => {
   fireEvent.change(birthDate, { target: { value: birthDate.getAttribute("max") } });
   await user.type(screen.getByRole("textbox", { name: /^cor da pelagem/i }), "Branca");
   await user.type(screen.getByRole("textbox", { name: /^tipo da pelagem/i }), "Curta");
-  await user.click(screen.getByRole("button", { name: /adicionar depois/i }));
+  await user.click(screen.getByRole("button", { name: /pular etapa/i }));
   await user.click(screen.getByRole("button", { name: /^continuar$/i }));
 
   expectCurrentScreen("4");
@@ -1526,12 +1526,12 @@ test("cadastro do pet exige uma escolha de cuidado compartilhado", async () => {
   expectCurrentScreen("3");
 });
 
-test("cadastro do pet permite selecionar adicionar depois e continuar", async () => {
+test("cadastro do pet permite selecionar pular etapa e continuar", async () => {
   const user = userEvent.setup();
   goToScreen("3");
   render(<App />);
 
-  const addLater = screen.getByRole("button", { name: /adicionar depois/i });
+  const addLater = screen.getByRole("button", { name: /pular etapa/i });
   await user.click(addLater);
   expect(addLater).toHaveAttribute("aria-pressed", "true");
 
@@ -1542,13 +1542,13 @@ test("cadastro do pet permite selecionar adicionar depois e continuar", async ()
   expectCurrentScreen("4");
 });
 
-test("cadastro do pet apresenta ações claras e seleciona adicionar depois", async () => {
+test("cadastro do pet apresenta ações claras e seleciona pular etapa", async () => {
   const user = userEvent.setup();
   goToScreen("3");
   render(<App />);
 
   const invite = screen.getByRole("button", { name: /convidar tutor/i });
-  const addLater = screen.getByRole("button", { name: /adicionar depois/i });
+  const addLater = screen.getByRole("button", { name: /pular etapa/i });
   const familyCode = screen.getByRole("button", { name: /entrar com código/i });
   expect(invite).toHaveTextContent(/gere um código para compartilhar/i);
   expect(addLater).toHaveTextContent(/continue agora e convide alguém/i);
@@ -1564,7 +1564,7 @@ test("cadastro do pet valida e conclui a entrada com código da família", async
   goToScreen("3");
   render(<App />);
 
-  const addLater = screen.getByRole("button", { name: /adicionar depois/i });
+  const addLater = screen.getByRole("button", { name: /pular etapa/i });
   const familyCode = screen.getByRole("button", { name: /entrar com código/i });
   await user.click(addLater);
   await user.click(familyCode);
@@ -1684,7 +1684,7 @@ test("cadastro do pet fecha convite e código sem substituir a escolha anterior"
   goToScreen("3");
   render(<App />);
 
-  const addLater = screen.getByRole("button", { name: /adicionar depois/i });
+  const addLater = screen.getByRole("button", { name: /pular etapa/i });
   const invite = screen.getByRole("button", { name: /convidar tutor/i });
   const familyCode = screen.getByRole("button", { name: /entrar com código/i });
   await user.click(addLater);
@@ -2177,7 +2177,7 @@ test("abre o perfil do pet pelo frame 8 do figma", async () => {
   render(<App />);
   await enterAsAdmin(user);
   await user.click(screen.getByRole("button", { name: "Pets" }));
-  await user.click(screen.getAllByRole("button", { name: /ver perfil/i })[0]);
+  await user.click(screen.getAllByRole("button", { name: /abrir funcionalidades/i })[0]);
   expect(screen.getByRole("heading", { name: /perfil do pet/i })).toBeInTheDocument();
   expect(screen.getByText(/rotina do pet/i)).toBeInTheDocument();
 });
@@ -2443,7 +2443,7 @@ test("avança pelo fluxo de cadastro até escolher a experiência", async () => 
   await user.click(screen.getByRole("button", { name: /^criar conta$/i }));
   expect(screen.getByRole("heading", { name: /cadastrar pet/i })).toBeInTheDocument();
   await fillRequiredPetFields(user);
-  await user.click(screen.getByRole("button", { name: /adicionar depois/i }));
+  await user.click(screen.getByRole("button", { name: /pular etapa/i }));
   await user.click(screen.getByRole("button", { name: /continuar/i }));
   expect(screen.getByText(/^gamificada$/i)).toBeInTheDocument();
 });

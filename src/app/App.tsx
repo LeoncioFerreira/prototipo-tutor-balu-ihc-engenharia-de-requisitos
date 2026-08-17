@@ -446,6 +446,14 @@ function AppContent() {
         onOpenAll={() => openScreen("15a")}
       />
     );
+  if (view === "profile")
+    return (
+      <TutorProfileScreen
+        onNavigate={navigate}
+        onBack={() => openView("home")}
+        onOpenSettings={() => openScreen("6c")}
+      />
+    );
   return <ChatbotBaluScreen onBack={() => openView("home")} onNavigate={navigate} />;
 }
 

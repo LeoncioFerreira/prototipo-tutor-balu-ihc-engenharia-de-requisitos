@@ -69,6 +69,21 @@ export function AccountSettingsScreen({
           </div>
         </section>
 
+        <section className="account-settings-screen__experience-card">
+          <header>
+            <strong>Modo de Uso Atual</strong>
+            <span>{experience === "traditional" ? "Tradicional" : "Gamificada"}</span>
+          </header>
+          <p>
+            {experience === "traditional"
+              ? "Você está usando a versão simplificada, com foco em listas e alertas diretos."
+              : "Você está ganhando pontos, completando conquistas e subindo de nível enquanto cuida do seu pet."}
+          </p>
+          <button type="button" aria-label="Alterar experiência" onClick={onChooseExperience}>
+            Alternar experiência
+          </button>
+        </section>
+
         <section className="account-settings-screen__group">
           <h2>Segurança e acesso</h2>
           <button type="button" aria-label="Alterar e-mail" onClick={onChangeEmail}>
@@ -120,20 +135,6 @@ export function AccountSettingsScreen({
               <small>{appleLinked ? "Vinculada" : "Não vinculada"}</small>
             </span>
             <b>{appleLinked ? "Desvincular" : "Vincular"}</b>
-          </button>
-        </section>
-
-        <section className="account-settings-screen__preferences">
-          <h2>Preferências</h2>
-          <button type="button" aria-label="Alterar experiência" onClick={onChooseExperience}>
-            <span className="account-settings-screen__preference-icon">
-              <img src="/assets/figma/inicio/settings-icon.svg" alt="" />
-            </span>
-            <span>
-              <strong>Experiência do aplicativo</strong>
-              <small>{experience === "traditional" ? "Tradicional" : "Gamificada"}</small>
-            </span>
-            <b>›</b>
           </button>
         </section>
 

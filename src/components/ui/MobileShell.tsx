@@ -1,7 +1,7 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { MessageCircle } from "lucide-react";
 
-export type MainDestination = "home" | "pets" | "community" | "chat";
+export type MainDestination = "home" | "pets" | "community" | "chat" | "profile";
 
 type Props = {
   children: ReactNode;
@@ -15,6 +15,7 @@ const items = [
   { destination: "pets", label: "Pets", asset: "/assets/figma/home/03.svg" },
   { destination: "community", label: "Comunidade", asset: "/assets/figma/home/04.svg" },
   { destination: "chat", label: "Chat", asset: "/assets/figma/home/16.svg" },
+  { destination: "profile", label: "Perfil", asset: "/assets/figma/home/05.svg" },
 ] as const;
 
 const MainNavigationContext = createContext<Props["onNavigate"]>(undefined);
@@ -59,7 +60,7 @@ export function BottomNavigation({
           type="button"
           aria-label={label}
           onClick={() => onNavigate(destination)}
-          className={`flex shrink-0 flex-col items-center justify-center gap-[3px] rounded-2xl ${destination === "community" ? "w-[94px]" : "w-[70px]"} ${active === destination ? "h-[46px] border border-[#b2f5ea] bg-[#e6fffa] text-[10px] font-bold text-[#002045]" : `h-[50px] font-normal text-[#4a5568] ${destination === "home" || destination === "chat" ? "text-[10px]" : "text-[13px]"}`}`}
+          className={`flex shrink-0 flex-col items-center justify-center gap-[3px] rounded-2xl ${destination === "community" ? "w-[80px]" : "w-[62px]"} ${active === destination ? "h-[46px] border border-[#b2f5ea] bg-[#e6fffa] text-[10px] font-bold text-[#002045]" : "h-[50px] font-normal text-[#4a5568] text-[10px]"}`}
         >
           {destination === "chat" ? (
             <MessageCircle aria-hidden="true" size={20} strokeWidth={2.2} />

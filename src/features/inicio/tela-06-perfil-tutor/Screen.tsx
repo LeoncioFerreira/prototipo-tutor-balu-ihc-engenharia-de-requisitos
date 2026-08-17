@@ -1,14 +1,16 @@
-import { MobileShell } from "../../../components/ui/MobileShell";
+import { MobileShell, type MainDestination } from "../../../components/ui/MobileShell";
 
 export function TutorProfileScreen({
   onBack,
   onOpenSettings,
+  onNavigate = () => undefined,
 }: {
   onBack: () => void;
   onOpenSettings: () => void;
+  onNavigate?: (destination: MainDestination) => void;
 }) {
   return (
-    <MobileShell active="home" onNavigate={() => undefined}>
+    <MobileShell active="profile" onNavigate={onNavigate}>
       <div className="tutor-profile-screen" data-figma-node="143:2">
         <header>
           <button type="button" aria-label="Voltar" onClick={onBack}>

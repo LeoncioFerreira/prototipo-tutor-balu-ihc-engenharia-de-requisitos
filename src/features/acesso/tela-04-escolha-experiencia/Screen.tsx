@@ -63,6 +63,16 @@ export function ExperienceScreen({
             >
               <strong>Tradicional</strong>
               <p>Acompanhamento direto com listas, alertas e histórico organizado.</p>
+              {choice === "traditional" && (
+                <div className="experience-screen__expanded-content">
+                  <img src="/assets/figma/home/08.svg" alt="" aria-hidden="true" />
+                  <ul>
+                    <li>&bull; Foco em agilidade</li>
+                    <li>&bull; Listas simples</li>
+                    <li>&bull; Sem níveis ou pontuação</li>
+                  </ul>
+                </div>
+              )}
             </button>
             <button
               type="button"
@@ -75,6 +85,16 @@ export function ExperienceScreen({
                 <b>XP</b>
               </span>
               <p>Ganhe pontos, acompanhe níveis e transforme a rotina em progresso.</p>
+              {choice === "gamified" && (
+                <div className="experience-screen__expanded-content">
+                  <img src="/assets/figma/home/xp-level-badge.png" alt="" aria-hidden="true" />
+                  <ul>
+                    <li>&bull; Desafios diários</li>
+                    <li>&bull; Ganhe experiência (XP)</li>
+                    <li>&bull; Suba de nível cuidando do pet</li>
+                  </ul>
+                </div>
+              )}
             </button>
           </div>
           {hasError && (
