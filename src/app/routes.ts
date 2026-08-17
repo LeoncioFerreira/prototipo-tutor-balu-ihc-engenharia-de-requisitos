@@ -71,7 +71,15 @@ export function screenForPath(path: string) {
 }
 
 export type AppView =
-  "login" | "account" | "home" | "pets" | "community" | "chat" | "forgot" | "not-found";
+  | "login"
+  | "account"
+  | "home"
+  | "pets"
+  | "community"
+  | "chat"
+  | "forgot"
+  | "not-found"
+  | "profile";
 
 const viewPaths: Record<Exclude<AppView, "not-found">, string> = {
   login: "/login",
@@ -81,6 +89,7 @@ const viewPaths: Record<Exclude<AppView, "not-found">, string> = {
   community: screenPaths["15"],
   chat: screenPaths["14"],
   forgot: "/recuperar-senha",
+  profile: screenPaths["6"],
 };
 
 export function pathForView(view: AppView) {
