@@ -16,12 +16,16 @@ export function CreateAccountScreen({
   onEnter,
   onLogin,
   onBack,
+  onGoogleUnavailable,
+  onAppleUnavailable,
 }: {
   onEnter: () => void;
   onLogin?: () => void;
   onBack: () => void;
+  onGoogleUnavailable?: () => void;
+  onAppleUnavailable?: () => void;
 }) {
-  const { showToast } = useErrorFeedback();
+  const { showToast, showModal } = useErrorFeedback();
   const [values, setValues] = useState(initialFields);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const formRef = useRef<HTMLFormElement>(null);
@@ -126,11 +130,34 @@ export function CreateAccountScreen({
           <b>OU</b>
           <i />
         </div>
-        <button className="create-account-screen__social" type="button" onClick={onEnter}>
+        <button
+          className="create-account-screen__social"
+          type="button"
+          onClick={
+            onGoogleUnavailable ??
+            (() =>
+              showModal({
+                title: "Login indisponível",
+                message: "O login com Google ainda não está disponível.",
+                singleLineMessage: true,
+              }))
+          }
+        >
           <span className="is-google">G</span>
           Continuar com Google
         </button>
-        <button className="create-account-screen__social" type="button" onClick={onEnter}>
+        <button
+          className="create-account-screen__social"
+          type="button"
+          onClick={
+            onAppleUnavailable ??
+            (() =>
+              showModal({
+                title: "Login indisponível",
+                message: "O login com Apple ainda não está disponível.",
+              }))
+          }
+        >
           <span className="is-apple">
             <img src="/assets/figma/access/apple.svg" alt="" />
           </span>

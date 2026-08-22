@@ -305,6 +305,35 @@ test("mostra a indisponibilidade da Apple em um modal equivalente", async () => 
   expect(screen.getByRole("button", { name: /entendi/i })).toBeInTheDocument();
 });
 
+test("mostra a indisponibilidade do Google em um modal na tela de criar conta", async () => {
+  const user = userEvent.setup();
+  goToScreen("2");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /continuar com google/i }));
+
+  const dialog = screen.getByRole("dialog", { name: /login indisponível/i });
+  expect(dialog).toHaveAttribute("aria-modal", "true");
+  expect(screen.getByText(/login com google ainda não está disponível/i)).toHaveClass(
+    "error-feedback__message--single-line",
+  );
+  expect(screen.getByRole("button", { name: /entendi/i })).toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: /cadastrar pet/i })).not.toBeInTheDocument();
+});
+
+test("mostra a indisponibilidade da Apple em um modal equivalente na tela de criar conta", async () => {
+  const user = userEvent.setup();
+  goToScreen("2");
+  render(<App />);
+
+  await user.click(screen.getByRole("button", { name: /continuar com apple/i }));
+
+  const dialog = screen.getByRole("dialog", { name: /login indisponível/i });
+  expect(dialog).toHaveTextContent(/login com apple ainda não está disponível/i);
+  expect(screen.getByRole("button", { name: /entendi/i })).toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: /cadastrar pet/i })).not.toBeInTheDocument();
+});
+
 test("abre as notificações ao clicar no sino da home", async () => {
   const user = userEvent.setup();
   window.history.pushState({}, "", "/");

@@ -142,6 +142,19 @@ function AppContent() {
         onBack={() => openView("login")}
         onEnter={() => openScreen("3")}
         onLogin={() => openView("login")}
+        onGoogleUnavailable={() =>
+          showModal({
+            title: "Login indisponível",
+            message: "O login com Google ainda não está disponível.",
+            singleLineMessage: true,
+          })
+        }
+        onAppleUnavailable={() =>
+          showModal({
+            title: "Login indisponível",
+            message: "O login com Apple ainda não está disponível.",
+          })
+        }
       />
     );
   if (screen === "3")
@@ -407,6 +420,19 @@ function AppContent() {
         onBack={() => openView("login")}
         onEnter={() => openScreen("3")}
         onLogin={() => openView("login")}
+        onGoogleUnavailable={() =>
+          showModal({
+            title: "Login indisponível",
+            message: "O login com Google ainda não está disponível.",
+            singleLineMessage: true,
+          })
+        }
+        onAppleUnavailable={() =>
+          showModal({
+            title: "Login indisponível",
+            message: "O login com Apple ainda não está disponível.",
+          })
+        }
       />
     );
   if (view === "home")

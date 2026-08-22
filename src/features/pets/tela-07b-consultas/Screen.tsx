@@ -198,6 +198,7 @@ export function ConsultationsScreen({ onBack }: { onBack: () => void }) {
         {appointmentOpen && (
           <AppointmentModal
             petName="Balu"
+            today={new Date(2026, 7, 1, 12)}
             onClose={() => setAppointmentOpen(false)}
             returnFocusRef={appointmentButtonRef}
           />
@@ -206,6 +207,7 @@ export function ConsultationsScreen({ onBack }: { onBack: () => void }) {
           <AppointmentModal
             mode="reschedule"
             petName="Balu"
+            today={new Date(2026, 7, 1, 12)}
             onClose={() => setRescheduleOpen(false)}
             returnFocusRef={rescheduleButtonRef}
             onConfirmed={({ date, time }) => {
